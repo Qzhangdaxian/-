@@ -1,4 +1,24 @@
-# Natural_ying foreground
+# ziranyueding
 
-自然约定盈平台 - 前台开发项目 （Foreground）
-开发框架：UVE 3
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
