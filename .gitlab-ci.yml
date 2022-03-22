@@ -1,0 +1,11 @@
+stages: 
+  - build
+
+steps-build: 
+  stage: build
+  script:
+    - yarn && yarn build
+    - scp -r dist/* 192.168.10.22:/hsh_production/Natural_Ying_Web
+    - echo "Complete!"	
+  only:
+    - dev
