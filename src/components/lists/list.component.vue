@@ -37,7 +37,7 @@
                   <!---->
                   <van-button v-if="btnType==='record'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
                   <van-button v-if="btnType==='performance'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="入库" @click="onClick('performance')" />
-                  <van-button v-if="btnType==='refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('refund')" />
+                  <van-button v-if="btnType==='refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('addRefund')" />
                 </template>
               </van-swipe-cell>
             </van-cell>
@@ -70,7 +70,7 @@ export default defineComponent({
   props: {
     list: [] as any,
     data: [] as any,
-    onLoad: Function,
+    onLoad: Function as any,
     finished: {
       type: Boolean,
     },
@@ -99,7 +99,7 @@ export default defineComponent({
       // console.log(isLoding.value)
     };
     const onClick = (uerRouter: string) => {
-      isLoding.value = true;
+      // isLoding.value = true;
       router.push({
         path: "/" + uerRouter,
       });

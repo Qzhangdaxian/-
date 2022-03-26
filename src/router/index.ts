@@ -41,6 +41,11 @@ const routes: Array<RouteRecordRaw> = [
     path:'/refund',
     name:'Refund',
     component: () =>import('../views/refund/refund.vue'),
+  },
+  {
+    path:'/addRefund',
+    name:'AddRefund',
+    component: () =>import('../views/addRefund/add_refund.vue'),
   }
 ]
 
