@@ -35,6 +35,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/demo',
     name: 'Demo',
     component: () => import('../views/demo.vue')
+  },
+  // 退款管理
+  {
+    path:'/refund',
+    name:'Refund',
+    component: () =>import('../views/refund/refund.vue'),
   }
 ]
 

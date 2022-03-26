@@ -52,6 +52,7 @@
 import { defineComponent, ref } from "vue";
 import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider,Toast } from "vant";
 import router from "@/router";
+import { number, string } from "vue-types";
 
 export default defineComponent({
   name: "h-list",
