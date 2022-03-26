@@ -3,7 +3,13 @@
     <form action="/">
       <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @search="onSearch(value)" @clear="onClear" />
     </form>
-    <ListArr ref="child" :data="data" :list="list" @click="onLoad"></ListArr>
+    <ListArr ref="child"
+    :data="data"
+    :list="list"
+    :btnType="'record'"
+    :finished='finished'
+    :onLoad="onLoadData">
+    </ListArr>
     <div class="add_btn">
       <van-button color="#919A74" @click="addOrder">
         <van-icon name="plus" />
@@ -76,23 +82,36 @@ export default defineComponent({
         userName: "张飒",
         productIdent: '123546'
       }],
+      // loading: false,
+      finished: false
     });
+
     const child = ref()
+    const refreshing = ref(false);
     const onSearch = (val: string) => Toast(val);
     const onClear = (val: string) => Toast("搜索清除");
     const onLoad = ref()
-    const onLoading = (num:number) => {
-      // console.log('childToParent',"传递消息")
-      console.log(child.value)
-      // setTimeout(() => {
-      //   if (refreshing.value) {
-      //     // props.list = [];
-      //     refreshing.value = false;
-      //   }
-      //   current ++
-      //   ctx.emit('current')
-      //   loading.value = false;
-      // }, 1000);
+    const onLoadData = (num:number) => {
+        if (refreshing.value) {
+          datas.list = [];
+          refreshing.value = false;
+        }
+        for (let i = 0; i < 10; i++) {
+          datas.list.push(
+            {
+              state: 1,
+              storeName: "和合苑理发店",
+              userName: "张飒" +i,
+              productIdent: '123546'
+            }
+          );
+        }
+        // datas.loading= false;
+
+        if (datas.list.length >= 40) {
+          datas.finished = true;
+        }
+        console.log(1)
     };
     function addOrder() {
       console.log((child.value.loading))
@@ -106,7 +125,7 @@ export default defineComponent({
       onSearch,
       onClear,
       addOrder,
-      onLoading,
+      onLoadData,
       onLoad,
       child
     };

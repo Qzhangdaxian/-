@@ -4,7 +4,7 @@
       <van-tab v-for="index in data" :key="index.value" :title="index.name">
         <p class="tips" v-if="active === 2">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
         <van-pull-refresh v-model="loading" @refresh="onRefresh">
-          <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <van-list :finished="finished" finished-text="没有更多了" @load="onLoadIng">
             <van-cell v-for="item in list" :key="item.state">
               <van-swipe-cell>
                 <div>
@@ -35,20 +35,22 @@
                 </div>
                 <template #right>
                   <!---->
-                  <van-button square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
+                  <van-button v-if="btnType==='record'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
+                  <van-button v-if="btnType==='performance'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="入库" @click="onClick('performance')" />
+                  <van-button v-if="btnType==='refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('refund')" />
                 </template>
               </van-swipe-cell>
             </van-cell>
           </van-list>
-        </van-pull-refresh>
+       </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
-<script lang="ts" >
+<script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider } from "vant";
+import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider,Toast } from "vant";
 import router from "@/router";
 
 export default defineComponent({
@@ -65,40 +67,35 @@ export default defineComponent({
     "van-divider": Divider,
   },
   props: {
-    list: ([] as any),
-    data: ([] as any),
-    // loading: false,
-
+    list: [] as any,
+    data: [] as any,
+    onLoad: Function,
+    finished: {
+      type: Boolean,
+    },
+    // routerName: String,
+    btnType: String
   },
-  setup(props, ctx) {
-    // const ctx.emit = defineEmits(['childToParent']);
+  setup(props, context) {
+    const loading = ref(false);
     const active = ref(0);
-    const loading = ref(true);
-    const finished = ref(false);
-    const refreshing = ref(false);
+
     const isLoding = ref(false);
-    let current = 1;
     const onClickTab = (name: number) => {
       console.log(name);
     };
     const onRefresh = () => {
-      setTimeout(() => {
-        // Toast("刷新成功");
-        loading.value = true;
+      // props.onLoad();
+       setTimeout(() => {
+        Toast('刷新成功');
+        loading.value = false;
       }, 1000);
     };
-    const onLoad = () => {
-      setTimeout(() => {
-        if (refreshing.value) {
-          // props.list = [];
-          refreshing.value = false;
-        }
-        current ++
-        ctx.emit('current')
-        loading.value = true;
-        console.log(current)
-        return current;
-      }, 1000);
+    //
+    const onLoadIng = () => {
+      props.onLoad();
+      // Toast('加载中');
+      // console.log(isLoding.value)
     };
     const onClick = (uerRouter: string) => {
       isLoding.value = true;
@@ -112,17 +109,18 @@ export default defineComponent({
     }
     return {
       active,
+      // loadings,
       loading,
-      finished,
-      refreshing,
+      // finished,
+      // refreshing,
       isLoding,
       // onSearch,
       // onClear,
       onRefresh,
-      onLoad,
       onClick,
       CheckStatePipe,
       onClickTab,
+      onLoadIng,
       // addOrder,
     };
   },
