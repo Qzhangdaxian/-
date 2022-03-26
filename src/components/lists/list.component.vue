@@ -35,7 +35,7 @@
                 </div>
                 <template #right>
                   <!---->
-                  <van-button square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
+                  <van-button square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" :text='typeWhat' @click="onClick('record')" />
                 </template>
               </van-swipe-cell>
             </van-cell>
@@ -50,6 +50,7 @@
 import { defineComponent, ref } from "vue";
 import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider } from "vant";
 import router from "@/router";
+import { number, string } from "vue-types";
 
 export default defineComponent({
   name: "h-list",
@@ -67,6 +68,7 @@ export default defineComponent({
   props: {
     list: ([] as any),
     data: ([] as any),
+    typeWhat: String,
     // loading: false,
 
   },
@@ -77,6 +79,7 @@ export default defineComponent({
     const finished = ref(false);
     const refreshing = ref(false);
     const isLoding = ref(false);
+
     let current = 1;
     const onClickTab = (name: number) => {
       console.log(name);

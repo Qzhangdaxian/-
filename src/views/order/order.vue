@@ -3,7 +3,7 @@
     <form action="/">
       <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @search="onSearch(value)" @clear="onClear" />
     </form>
-    <ListArr ref="child" :data="data" :list="list" @click="onLoad"></ListArr>
+    <ListArr ref="child" :data="data" :list="list" :typeWhat="typeWhat" @click="onLoad"></ListArr>
     <div class="add_btn">
       <van-button color="#919A74" @click="addOrder">
         <van-icon name="plus" />
@@ -76,6 +76,7 @@ export default defineComponent({
         userName: "张飒",
         productIdent: '123546'
       }],
+      typeWhat:"补录",
     });
     const child = ref()
     const onSearch = (val: string) => Toast(val);
