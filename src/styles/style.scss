@@ -177,3 +177,9 @@ input::-webkit-input-placeholder {
   color: #ddd;
   opacity: 1;
 }
+.required::after,
+.ARequired::before {
+  content: '*';
+  color: red;
+}
+

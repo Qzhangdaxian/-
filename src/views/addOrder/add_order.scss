@@ -1,0 +1,215 @@
+@import '../../styles/function.scss';
+@import '../../styles/style.scss';
+
+// body{
+//   background-color: #F9F9F9;
+// }
+.add_order {
+  padding: vw(20) vw(25);
+  background-color: #FFFFFF;
+  height: 100vh;
+  .add_order-tip {
+    color: #999999;
+    font-size: vw(16);
+    line-height: vw(26);
+    text-align: justify;
+  }
+
+  .van-steps--horizontal {
+    padding: 0;
+
+    .van-steps__items {
+      width: 100%;
+      height: vw(50);
+      background-color: #EAEAEA;
+      border-radius: vw(25);
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      .van-step__circle-container,
+      .van-step__line {
+        display: none;
+      }
+
+      .van-hairline,
+      .van-step {
+        flex: .5;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .van-step__title{
+          margin: 0;
+          line-height: vw(44);
+          width: 94%;
+          color: #333333;
+          font-size: vw(16);
+        }
+        .van-step__title--active{
+          background-color: #919A74;
+          border-radius: vw(25);
+        }
+      }
+
+      .van-step--horizontal:last-child {
+        position: inherit
+      }
+    }
+  }
+  .add_order-form {
+    margin-top: vw(50);
+    background: #FFFFFF;
+    // padding: 20px;
+    text-align: left;
+
+    .record_code {
+      font-size: vw(16);
+      color: #333333;
+      margin-bottom: vw(9);
+
+    }
+
+    .van-cell-group {
+      height: vw(36);
+      margin-bottom: vw(20);
+      .van-field {
+        padding: 0;
+        height: 100%;
+        border: vw(1) solid #DEDEDE;
+        border-radius: vw(3);
+      }
+
+      .van-field .van-field__control {
+        padding: 0 vw(13);
+      }
+
+      .van-field .van-field__control,
+      .van-field .van-field__body {
+        height: 100%;
+        background-color: #F5F5F5;
+      }
+    }
+    .van-cell__right-icon{
+      display: none;
+    }
+    .van-field__right-icon{
+      padding-right: vw(20);
+    }
+    .van-cell{
+      overflow: visible;
+      padding: 0;
+    }
+    .model_state{
+      margin: vw(20) 0 ;
+    }
+    .hair_model {
+      width: vw(335);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: vw(30);
+      .van-radio{
+        width: vw(169);
+        height: vw(136);
+        position: relative;
+        display: flex;
+        flex-direction: column-reverse;
+      }
+      .van-radio__icon{
+        position: absolute;
+        left: vw(36);
+        bottom: vw(3);
+      }
+      .radio_last .van-radio__icon {
+        left: vw(26);
+      }
+      .van-image{
+        position: absolute;
+        width: vw(100);
+        height: vw(100);
+        top: vw(-130);
+        left: vw(-5);
+      }
+      .van-radio span{
+        position: absolute;
+        bottom: 0;
+        width: 80%;
+        left: vw(26);
+      }
+
+      .van-radio .radio_span_last {
+        left: vw(14);
+      }
+      .van-icon-success ,
+      .van-radio__icon,
+      .van-icon:before {
+        border-radius: 0;
+        width: vw(14);
+        height: vw(14)
+      }
+      .van-radio__icon--checked .van-icon{
+        width: vw(14);
+        height: vw(14);
+        font-size: vw(14);
+        border-color:#919A74;
+        background-color: #919A74;
+      }
+    }
+    .image-preview .image_preview {
+      padding: 0;
+    }
+    .picTip{
+      font-size: vw(16);
+      color: #999999;
+      margin: vw(18) 0;
+    }
+    .van-uploader {
+      width: vw(335);
+      height: vw(152);
+
+      .van-uploader__wrapper,
+      .van-uploader__upload {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+  .submit_next {
+    // width: vw(335);
+    // height: vw(44);
+    padding-bottom: vw(60);
+    .van-button--default{
+      margin-top: vw(27);
+      border-radius: vw(25);
+      font-size: vw(16);
+    }
+  }
+  .popup_tip .van_popup {
+    width: vw(323);
+    height: vw(205);
+    border-radius: vw(20);
+    .tip_content{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tip_content p{
+      padding: vw(23) vw(24);
+      text-align: justify;
+      color: #24253D;
+      opacity: .7;
+      font-size: vw(15);
+    }
+    .tip_content span{
+      color: #919A74;
+      line-height: vw(43);
+      font-size: vw(17);
+    }
+    .van-icon-info-o{
+      font-size: vw(32);
+      color: #E41818;
+      margin-top: vw(34);
+    }
+  }
+}

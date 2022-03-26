@@ -1,0 +1,79 @@
+@import '../../styles/style.scss';
+@import '../../styles/function.scss';
+
+body{
+  background-color: #EFF3E1;
+}
+.home{
+  width: 100%;
+  padding-top: vw(38);
+}
+.pen_b{
+  height: vw(160);
+  background-image: url('../../assets/home/card.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  .card_text{
+    padding: vw(35) vw(41) 0;
+    display: flex;
+    justify-content: space-between;
+    h3{
+      color: #FFFFFF;
+      font-size: vw(20);
+      font-weight: bold;
+    }
+    img{
+      width: vw(48);
+      height: 100%;
+    }
+  }
+  .card_phone{
+    padding: 0 vw(41);
+    margin-top: vw(20);
+    text-align: left;
+    .phone_num{
+      color: #FFFFFF;
+      font-size: vw(12);
+    }
+  }
+}
+.manage_list {
+  padding: 0 vw(20);
+  .manage_list_title{
+    font-size: vw(20);
+    color: #A9B28E;
+    margin: vw(46) 0;
+    font-weight: bold;
+  }
+  ul li{
+    // width: vw(335);
+    background-image: url('../../assets/home/list_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    line-height: vw(80);
+    display: flex;
+    flex-direction: row;
+    background-color: #A9B28E;
+    justify-content: space-between;
+    align-content: center;
+    color: #FFFFFF;
+  }
+  ul .li_center {
+    margin: vw(33) 0;
+  }
+  ul li .icon_left .van-icon{
+    font-size: vw(37);
+  }
+  ul li .icon_left{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: vw(80);
+  }
+  ul li .text_right{
+    width: calc(100% - vw(80));
+    font-size: vw(20);
+    font-weight: bold;
+  }
+}
