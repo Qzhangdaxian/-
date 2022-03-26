@@ -6,98 +6,24 @@ body{
 .record{
   padding-top: vw(32);
 }
-.record_massage{
-  position: relative;
-  background: #FFFFFF;
-  overflow: hidden;
-  // transform: all 2s;
-}
-.listIndex {
-  height: vw(620);
-  transition: height .5s;
-}
+.van-cell-group {
+  height: vw(36);
 
-.listIndexs {
-  height: vw(299);
-  transition: height .5s;
-  // overflow: hidden;
-}
-.arrow_togger{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-  width: 100vw;
-  height: vw(62);
-  z-index: 2;
-  background: #FFFFFF;
-  font-size: vw(16);
-  color: #999999;
-  transform: all 0;
-}
-.van-icon.van-icon-shop-o {
-  font-size: vw(20);
-  color: #919A74;
-}
-
-.van-icon.van-icon-arrow {
-  color: #919A74;
-  font-size: vw(14);
-}
-
-.storeName {
-  color: #919A74;
-  font-size: vw(16);
-  margin: 0 vw(10);
-}
-
-.nav_text {
-  font-size: vw(16);
-  color: #333333;
-}
-.nat_text_data {
-  font-size: vw(16);
-  color: #999999;
-}
-.van-nav-bar__text{
-  color: red;
-}
-.van-hairline--top{
-  width: calc(100% - 34px);
-  height: 3px;
-  margin: 0 auto;
-}
-.van-hairline--top::after{
-  border-top-width: 3px;
-}
-
-.record_form{
-  margin-top: vw(12);
-  background: #FFFFFF;
-  padding: 20px;
-  text-align: left;
-  .record_code{
-    font-size: vw(16);
-    color: #333333;
-    margin-bottom: vw(9);
+  .van-field {
+    padding: 0;
+    height: 100%;
+    border: vw(1) solid #DEDEDE;
+    border-radius: vw(3);
   }
-  .van-cell-group{
-    height: vw(36);
-    .van-field{
-      padding: 0;
-      height: 100%;
-      border: vw(1) solid #DEDEDE;
-      border-radius: vw(3);
-    }
-    .van-field .van-field__control{
-      padding: 0 vw(13);
-    }
-    .van-field .van-field__control,
-    .van-field .van-field__body {
-      height: 100%;
-      background-color: #F5F5F5;
-    }
+
+  .van-field .van-field__control {
+    padding: 0 vw(13);
+  }
+
+  .van-field .van-field__control,
+  .van-field .van-field__body {
+    height: 100%;
+    background-color: #F5F5F5;
   }
 }
 .imgs .image_preview {
@@ -112,6 +38,11 @@ body{
     height: 100%;
     width: 100%;
   }
+}
+.record_code {
+  font-size: vw(16);
+  color: #333333;
+  margin-bottom: vw(9);
 }
 .examples {
   font-size: vw(16);

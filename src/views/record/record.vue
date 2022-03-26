@@ -1,104 +1,6 @@
 <template>
   <div class="record">
-    <div class="record_massage" v-bind:class="{ listIndex: show, listIndexs: !show }">
-      <van-nav-bar :right-text="CheckStatePipe(3)">
-        <template #left>
-          <van-icon name="shop-o" />
-          <span class="storeName">和合苑理发店</span>
-          <van-icon name="arrow" />
-        </template>
-      </van-nav-bar>
-      <van-divider :style="{ color: '#CBCBCB' }" />
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">用户姓名</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">张飒</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">身份证号</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">1544698498416341</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">下单日期</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">2022-01-20</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">产品管理编号</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">无</span>
-        </template>
-      </van-nav-bar>
-      <div class="van-hairline--top"></div>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">脱发史</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">2022-01-20</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">脱发状态</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">M型脱发</span>
-        </template>
-      </van-nav-bar>
-      <!--
-      <div class="image_preview">
-        <div class="img_box" v-for="(item2, index) of images" :key="index">
-          <img :src="item2" alt="" @click="getImg(index)" />
-        </div>
-      </div>
-      -->
-      <div>
-        <van-image-preview :isdefault="true" :images="images"></van-image-preview>
-      </div>
-      <div class="van-hairline--top"></div>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">发货日期</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">无</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">快递公司</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">无</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">快递单号</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">无</span>
-        </template>
-      </van-nav-bar>
-      <div class="arrow_togger" @click="arrowTogger">
-        {{ arrowText }}
-        <van-icon name="arrow-down" v-if="!show" />
-        <van-icon name="arrow-up" v-if="show" />
-      </div>
-    </div>
+    <h-detail :dataSources="dataSources" :images="images"></h-detail>
     <div class="record_form">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
@@ -117,74 +19,59 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { NavBar, Icon, Divider, Uploader, CellGroup, Field, Button } from "vant";
-import imgagePre from "../../components/imagePreview/imagePreview.vue";
+import {Uploader, CellGroup, Field, Button } from "vant";
+import imgagePre from "@/components/imagePreview/imagePreview.vue";
+import hDetail from '@/components/header_detail/detail.component.vue'
 document.title = "补录";
 export default defineComponent({
   name: "h-record",
   components: {
-    "van-nav-bar": NavBar,
-    "van-icon": Icon,
-    "van-divider": Divider,
     "van-cell-group": CellGroup,
     "van-field": Field,
     "van-image-preview": imgagePre,
     "van-uploader": Uploader,
-    "van-button": Button
+    "van-button": Button,
+    "h-detail": hDetail
   },
   setup() {
-    const data = [
-      {
-        name: "全部",
-        value: 1,
-      },
-      {
-        name: "已提交",
-        value: 2,
-      },
-      {
-        name: "待补录",
-        value: 3,
-      },
-      {
-        name: "待发货",
-        value: 4,
-      },
-      {
-        name: "已发货",
-        value: 5,
-      },
-      {
-        name: "已完成",
-        value: 6,
-      },
-      {
-        name: "待付款",
-        value: 7,
-      },
-      {
-        name: "待审核",
-        value: 9,
-      },
-    ];
-    function CheckStatePipe(value: any): any {
-      const returnData = data.filter((item: Data) => item.value === Number(value));
-      return returnData[0].name;
-    }
     const show = ref(false);
     const index = ref(0);
     const arrowText = ref("展开");
     const record_code = ref("");
     const images = ["https://img.yzcdn.cn/vant/apple-1.jpg", "https://img.yzcdn.cn/vant/apple-2.jpg", "https://img.yzcdn.cn/vant/apple-1.jpg"];
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
-    function arrowTogger() {
-      show.value = !show.value;
-      if (!show.value) {
-        arrowText.value = "展开";
-      } else {
-        arrowText.value = "收起";
-      }
-    }
+    const dataSources = [
+      {
+        storeName: '和合苑理发店',
+        userName: '张珊',
+        identity: '51651653',
+        age: '45',
+        orderTime: '2022-01-20',
+        code: '1165651',
+        alopecia: '2022-01-22',
+        alopeciaState: 'M型脱发',
+        deliveryDate: '2022-01-23',
+        courierCompany: '京东',
+        courierNumber: '459325454',
+        id:0,
+        state: 1,
+      },
+      // {
+      //   storeName: '和合苑理发店',
+      //   userName: '张珊',
+      //   identity: '51651653',
+      //   age: '45',
+      //   orderTime: '2022-01-20',
+      //   code: '1165651',
+      //   alopecia: '2022-01-22',
+      //   alopeciaState: 'M型脱发',
+      //   deliveryDate: '2022-01-23',
+      //   courierCompany: '京东',
+      //   courierNumber: '459325454',
+      //   id:1,
+      //   state: 2,
+      // }
+    ]
     const fileList = ref([
       // {
       //   url: 'https://img.yzcdn.cn/vant/leaf.jpg',
@@ -215,16 +102,12 @@ export default defineComponent({
       arrowText,
       record_code,
       fileList,
-      CheckStatePipe,
-      arrowTogger,
+      dataSources,
       afterRead
     };
   },
 });
-interface Data {
-  name: string;
-  value: number;
-}
+
 </script>
 <style lang="scss">
 @import "./record.scss";

@@ -1,0 +1,92 @@
+@import '../../styles/function.scss';
+@import '../../styles/style.scss';
+
+.record_massage {
+  position: relative;
+  background: #FFFFFF;
+  overflow: hidden;
+  // transform: all 2s;
+  .image_preview{
+    margin-bottom: vw(20);
+  }
+}
+
+.listIndex {
+  height: vw(680);
+  transition: height .5s;
+}
+
+.listIndexs {
+  height: vw(290);
+  transition: height .5s;
+  // overflow: hidden;
+}
+
+.arrow_togger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: vw(62);
+  z-index: 2;
+  background: #FFFFFF;
+  font-size: vw(16);
+  color: #999999;
+  transform: all 0;
+}
+
+.van-icon.van-icon-shop-o {
+  font-size: vw(20);
+  color: #919A74;
+}
+
+.van-icon.van-icon-arrow {
+  color: #919A74;
+  font-size: vw(14);
+}
+
+.storeName {
+  color: #919A74;
+  font-size: vw(16);
+  margin: 0 vw(10);
+}
+
+.nav_text {
+  font-size: vw(16);
+  color: #333333;
+}
+
+.nat_text_data {
+  font-size: vw(16);
+  color: #999999;
+}
+
+.van-nav-bar__text {
+  color: red;
+}
+
+.van-hairline--top {
+  width: calc(100% - 34px);
+  height: 3px;
+  margin: 0 auto;
+}
+
+.van-hairline--top::after {
+  border-top-width: 3px;
+}
+
+.record_form {
+  margin-top: vw(12);
+  background: #FFFFFF;
+  padding: 20px;
+  text-align: left;
+
+  .record_code {
+    font-size: vw(16);
+    color: #333333;
+    margin-bottom: vw(9);
+  }
+
+}

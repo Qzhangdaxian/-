@@ -114,10 +114,9 @@ export default defineComponent({
         console.log(1)
     };
     function addOrder() {
-      console.log((child.value.loading))
-      // router.push({
-      //   path: "/addOrder",
-      // });
+      router.push({
+        path: "/addOrder",
+      });
     }
     return {
       value,
