@@ -94,7 +94,7 @@ export default defineComponent({
     };
     //
     const onLoadIng = () => {
-      props.onLoad();
+      // props.onLoad();
       // Toast('加载中');
       // console.log(isLoding.value)
     };

@@ -109,51 +109,13 @@
       flex-direction: row;
       justify-content: space-between;
       margin-top: vw(30);
-      .van-radio{
-        width: vw(169);
-        height: vw(136);
-        position: relative;
-        display: flex;
-        flex-direction: column-reverse;
-      }
-      .van-radio__icon{
-        position: absolute;
-        left: vw(36);
-        bottom: vw(3);
-      }
-      .radio_last .van-radio__icon {
-        left: vw(26);
-      }
+  
       .van-image{
         position: absolute;
         width: vw(100);
         height: vw(100);
         top: vw(-130);
         left: vw(-5);
-      }
-      .van-radio span{
-        position: absolute;
-        bottom: 0;
-        width: 80%;
-        left: vw(26);
-      }
-
-      .van-radio .radio_span_last {
-        left: vw(14);
-      }
-      .van-icon-success ,
-      .van-radio__icon,
-      .van-icon:before {
-        border-radius: 0;
-        width: vw(14);
-        height: vw(14)
-      }
-      .van-radio__icon--checked .van-icon{
-        width: vw(14);
-        height: vw(14);
-        font-size: vw(14);
-        border-color:#919A74;
-        background-color: #919A74;
       }
     }
     .image-preview .image_preview {
@@ -174,6 +136,13 @@
         width: 100%;
       }
     }
+    .btn_next{
+        padding-top: vw(121);
+        .van-button--default{
+          border-radius: vw(100);
+          height: vw(44);
+        }
+       }
   }
   .submit_next {
     // width: vw(335);

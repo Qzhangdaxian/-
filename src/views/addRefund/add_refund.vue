@@ -51,11 +51,22 @@
           <van-button color="#919A74" size="large" @click="onSubmitDealer">提交申请</van-button>
         </div>
     </div>
+
+    <div class="popup_tip">
+      <van-popup class="van_popup" :close-on-click-overlay="false" v-model:show="show">
+        <div class="tip_content">
+          <van-icon name="info-o" />
+          <p>因身份证号码与提交订单信息不符，无法进行退款，请联系客服。</p>
+          <van-divider />
+          <span @click="onClickStep(1, true)">确认</span>
+        </div>
+      </van-popup>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
-import { CellGroup, Field, Button, Form, Picker, Uploader, Popup } from "vant";
+import { CellGroup, Field, Button, Form, Picker, Uploader, Popup, Icon, Divider} from "vant";
 import imgagePre from "@/components/imagePreview/imagePreview.vue";
 document.title = "退款";
 export default defineComponent({
@@ -69,9 +80,12 @@ export default defineComponent({
     "van-image-preview": imgagePre,
     "van-uploader": Uploader,
     "van-popup": Popup,
+    "van-icon": Icon,
+    "van-divider": Divider,
   },
   setup() {
     let data = reactive({
+      show:false,
       backWhy: '',
       backHeadImg: [],
       backDestoryImg:[],
@@ -89,6 +103,7 @@ export default defineComponent({
     };
     const onSubmitStore = () => {
       console.log(data);
+      data.show = true;
     };
     const onSubmitDealer = () => {
       console.log(data);
@@ -96,12 +111,17 @@ export default defineComponent({
     const afterRead = (file: any) => {
       console.log(file);
     }
+    const onClickStep = (active: any, isNext: boolean) => {
+      console.log(active)
+      data.show = false;
+    }
     return {
       ...toRefs(data),
       onConfirm,
       onSubmitStore,
       onSubmitDealer,
       afterRead,
+      onClickStep,
     }
   }
 })
