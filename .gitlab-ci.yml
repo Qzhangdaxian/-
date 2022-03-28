@@ -1,11 +1,21 @@
 stages: 
-  - build
+  - build_dev
+  - build_master
 
-steps-build: 
-  stage: build
+steps-dev: 
+  stage: build_dev
   script:
     - yarn && yarn build
     - scp -r dist/* 192.168.10.22:/hsh_production/Natural_Ying_Web
-    - echo "Complete!"	
+    - echo "Dev Publish Complete!"		
   only:
     - dev
+
+steps-master: 
+  stage: build_master
+  script:
+    - yarn && yarn build
+    - scp -r dist/* 192.168.6.130:/hsh_production/Natural_Ying_Web
+    - echo "Master Publish Complete!"	
+  only:
+    - master
