@@ -2,7 +2,7 @@ stages:
   - build_dev
   - build_master
 
-steps-build: 
+steps-dev: 
   stage: build_dev
   script:
     - yarn && yarn build
@@ -11,7 +11,7 @@ steps-build:
   only:
     - dev
 
-steps-build: 
+steps-master: 
   stage: build_master
   script:
     - yarn && yarn build
