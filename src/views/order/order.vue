@@ -3,13 +3,8 @@
     <form action="/">
       <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @search="onSearch(value)" @clear="onClear" />
     </form>
-    <ListArr ref="child"
-    :data="data"
-    :list="list"
-    :btnType="'record'"
-    :finished='finished'
-    :onLoad="onLoadData">
-    </ListArr>
+      <ListArr ref="child" :data="data" :list="list" :btnType="'record'" :finished="finished" :onLoad="onLoadData"></ListArr>
+
     <div class="add_btn">
       <van-button color="#919A74" @click="addOrder">
         <van-icon name="plus" />
@@ -76,42 +71,41 @@ export default defineComponent({
           value: 9,
         },
       ],
-      list: [{
-        state: 1,
-        storeName: "和合苑理发店",
-        userName: "张飒",
-        productIdent: '123546'
-      }],
+      list: [
+        {
+          state: 1,
+          storeName: "和合苑理发店",
+          userName: "张飒",
+          productIdent: "123546",
+        },
+      ],
       // loading: false,
-      finished: false
+      finished: false,
     });
 
-    const child = ref()
+    const child = ref();
     const refreshing = ref(false);
     const onSearch = (val: string) => Toast(val);
     const onClear = (val: string) => Toast("搜索清除");
-    const onLoad = ref()
-    const onLoadData = (num:number) => {
-        if (refreshing.value) {
-          datas.list = [];
-          refreshing.value = false;
-        }
-        for (let i = 0; i < 10; i++) {
-          datas.list.push(
-            {
-              state: 1,
-              storeName: "和合苑理发店",
-              userName: "张飒" +i,
-              productIdent: '123546'
-            }
-          );
-        }
-        // datas.loading= false;
+    const onLoad = ref();
+    const onLoadData = (num: number) => {
+      if (refreshing.value) {
+        datas.list = [];
+        refreshing.value = false;
+      }
+      for (let i = 0; i < 10; i++) {
+        datas.list.push({
+          state: 1,
+          storeName: "和合苑理发店",
+          userName: "张飒" + i,
+          productIdent: "123546",
+        });
+      }
+      // datas.loading= false;
 
-        if (datas.list.length >= 40) {
-          datas.finished = true;
-        }
-        console.log(1)
+      if (datas.list.length >= 40) {
+        datas.finished = true;
+      }
     };
     function addOrder() {
       router.push({
@@ -126,7 +120,7 @@ export default defineComponent({
       addOrder,
       onLoadData,
       onLoad,
-      child
+      child,
     };
   },
 });

@@ -35,14 +35,14 @@
                 </div>
                 <template #right>
                   <!---->
-                  <van-button v-if="btnType==='record'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
-                  <van-button v-if="btnType==='performance'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="入库" @click="onClick('performance')" />
-                  <van-button v-if="btnType==='refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('refund')" />
+                  <van-button v-if="btnType === 'record'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
+                  <van-button v-if="btnType === 'performance'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="入库" @click="onClick('performance')" />
+                  <van-button v-if="btnType === 'refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('refund')" />
                 </template>
               </van-swipe-cell>
             </van-cell>
           </van-list>
-       </van-pull-refresh>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider,Toast } from "vant";
+import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider, Toast } from "vant";
 import router from "@/router";
 import { number, string } from "vue-types";
 
@@ -70,12 +70,12 @@ export default defineComponent({
   props: {
     list: [] as any,
     data: [] as any,
-    onLoad: Function,
+    onLoad: Function as any,
     finished: {
       type: Boolean,
     },
     // routerName: String,
-    btnType: String
+    btnType: String,
   },
   setup(props, context) {
     const loading = ref(false);
@@ -87,8 +87,8 @@ export default defineComponent({
     };
     const onRefresh = () => {
       // props.onLoad();
-       setTimeout(() => {
-        Toast('刷新成功');
+      setTimeout(() => {
+        Toast("刷新成功");
         loading.value = false;
       }, 1000);
     };
