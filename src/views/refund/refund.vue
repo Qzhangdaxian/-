@@ -1,20 +1,22 @@
 <template>
   <div class="refund">
-    <van-search
-      v-model="value"
-      shape="round"
-      placeholder="客户姓名/身份证/产品管理编号"
-      @search="onSearch(value)"
-      @clear="onClear"
-    />
     <form action="/">
-      <ListArr ref="child" :data="data" :list="list" :typeWhat="typeWhat"  @click="onLoad"></ListArr>
-      <div class="add_btn">
-        <van-button color="#919A74" @click="addRefund">
-          <van-icon name="plus" />
-        </van-button>
-      </div>
+      <van-search
+        v-model="value"
+        shape="round"
+        placeholder="客户姓名/身份证/产品管理编号"
+        @search="onSearch(value)"
+        @clear="onClear"
+      />
     </form>
+    <ListArr
+      ref="child"
+      :data="data"
+      :list="list"
+      :btnType="'refund'"
+      :finished="finished"
+      @click="onLoad"
+    ></ListArr>
   </div>
 </template>
 <script lang="ts">
@@ -29,13 +31,14 @@ export default defineComponent({
   name: "h-refund",
   components: {
     "van-search": Search,
-    "van-button": Button,
-    "van-icon": Icon,
+    // "van-button": Button,
+    // "van-icon": Icon,
     ListArr,
   },
   setup() {
     const value = ref("");
     const datas = reactive({
+      // 门店
       data: [
         {
           name: "已完成",
@@ -46,13 +49,32 @@ export default defineComponent({
           value: 2,
         },
       ],
+      // 经销商
+      // data: [
+      //   {
+      //     name: "已完成",
+      //     value: 1,
+      //   },
+      //   {
+      //     name: "待补录",
+      //     value: 2,
+      //   },
+      //   {
+      //     name: "待审核",
+      //     value: 3,
+      //   },
+      //   {
+      //     name: "已退款",
+      //     value: 4,
+      //   },
+      // ],
       list: [{
         state: 1,
         storeName: "和合苑理发店",
         userName: "张飒",
         productIdent: '123546'
       }],
-      typeWhat:"退款",
+      finished: false
 
     });
     const child = ref()
@@ -82,6 +104,5 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-@import "../order/order.scss";
 @import "./refund.scss";
 </style>
