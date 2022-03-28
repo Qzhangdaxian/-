@@ -5,8 +5,10 @@
 //   background-color: #F9F9F9;
 // }
 .add_refund {
-  padding: vw(20) vw(25);
-  background-color: #FFFFFF;
+  // padding: vw(20) vw(25);
+  // padding-top: vw(20);
+  padding-top: vw(32);
+  background-color: #F9F9F9;
   height: 100vh;
   .add_order-tip {
     color: #999999;
@@ -58,7 +60,8 @@
     }
   }
   .add_refund-form {
-    margin-top: vw(50);
+    padding: vw(20);
+    margin-top: vw(13);
     background: #FFFFFF;
     // padding: 20px;
     text-align: left;

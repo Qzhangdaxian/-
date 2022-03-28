@@ -1,5 +1,6 @@
 @import '../../styles/style.scss';
 @import '../../styles/function.scss';
+@import '../../components/lists/list.scss';
 body{
   background-color: #F9F9F9 ;
 }
@@ -27,6 +28,7 @@ body{
       }
  
     }
+
     .van-dropdown-menu__title--active,.van-dropdown-item__option--active,.van-dropdown-item__option--active .van-dropdown-item__icon{
         color: #A9B28E;
     }
@@ -35,4 +37,10 @@ body{
     }
     .van-calendar__day--middle{
         color: #A9B28E;
+    }
+    .van-swipe-cell{
+      width: 100%;
+    }
+    .cell-title{
+      text-align: left;
     }
