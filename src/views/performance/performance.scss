@@ -1,38 +1,52 @@
 @import '../../styles/style.scss';
 @import '../../styles/function.scss';
-body{
-  background-color: #F9F9F9 ;
+
+body {
+  background-color: #F9F9F9;
 }
-.performance{
+
+.performance {
   padding-top: vw(34);
 }
 
 .add_btn {
-    position: fixed;
-    bottom: vw(50);
-    right: 0;
-      .van-button{
-        text-align: left;
-        width: vw(150);
-        height: vw(52);
-        border-bottom-left-radius: 50rem;
-        border-top-left-radius: 50rem;
-      }
-      .van-button .van-icon-plus{
-        font-size: vw(20);
-      }
-      .money{
-          font-size: 20px;
-          font-weight: bold;
-      }
- 
-    }
-    .van-dropdown-menu__title--active,.van-dropdown-item__option--active,.van-dropdown-item__option--active .van-dropdown-item__icon{
-        color: #A9B28E;
-    }
-    .van-calendar__day--end, .van-calendar__day--start, .van-calendar__day--start-end, .van-calendar__day--multiple-middle, .van-calendar__day--multiple-selected{
-        background: #A9B28E;
-    }
-    .van-calendar__day--middle{
-        color: #A9B28E;
-    }
+  position: fixed;
+  bottom: vw(50);
+  right: 0;
+
+  .van-button {
+    text-align: left;
+    width: vw(150);
+    height: vw(52);
+    border-bottom-left-radius: 50rem;
+    border-top-left-radius: 50rem;
+  }
+
+  .van-button .van-icon-plus {
+    font-size: vw(20);
+  }
+
+  .money {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+}
+
+.van-dropdown-menu__title--active,
+.van-dropdown-item__option--active,
+.van-dropdown-item__option--active .van-dropdown-item__icon {
+  color: #A9B28E;
+}
+
+.van-calendar__day--end,
+.van-calendar__day--start,
+.van-calendar__day--start-end,
+.van-calendar__day--multiple-middle,
+.van-calendar__day--multiple-selected {
+  background: #A9B28E;
+}
+
+.van-calendar__day--middle {
+  color: #A9B28E;
+}

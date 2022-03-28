@@ -1,111 +1,139 @@
 <template>
-  <div class="record_massage" v-bind:class="{ listIndex: show, listIndexs: !show }">
+  <div class="record_massage" v-bind:class="{ listIndex: show && !isDetail, listIndexs: !show && !isDetail }">
     <div v-for="item in dataSources" :key="item.id">
       <van-nav-bar :right-text="CheckStatePipe(item.state)">
-      <template #left>
-        <van-icon name="shop-o" />
-        <span class="storeName">{{item.storeName}}</span>
-        <van-icon name="arrow" />
-      </template>
-    </van-nav-bar>
-    <van-divider :style="{ color: '#CBCBCB' }" />
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">用户姓名</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.userName}}</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">身份证号</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.identity}}</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">年龄</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.age}}岁</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">下单日期</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.orderTime}}</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">产品管理编号</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.code}}</span>
-      </template>
-    </van-nav-bar>
-    <div class="van-hairline--top"></div>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">脱发史</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.alopecia}}</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">脱发状态</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.alopeciaState}}</span>
-      </template>
-    </van-nav-bar>
-    <!--
+        <template #left>
+          <van-icon name="shop-o" />
+          <span class="storeName">{{ item.storeName }}</span>
+          <van-icon name="arrow" />
+        </template>
+      </van-nav-bar>
+      <van-divider :style="{ color: '#CBCBCB' }" />
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">用户姓名</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.userName }}</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">身份证号</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.identity }}</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">年龄</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.age }}岁</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">下单日期</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.orderTime }}</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">产品管理编号</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.code }}</span>
+        </template>
+      </van-nav-bar>
+      <div class="image_pic" v-if="isDetail">
+        <van-image-preview :isdefault="false" :images="imageArr"></van-image-preview>
+      </div>
+      <div class="van-hairline--top"></div>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">脱发史</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.alopecia }}</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">脱发状态</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.alopeciaState }}</span>
+        </template>
+      </van-nav-bar>
+      <!--
       <div class="image_preview">
         <div class="img_box" v-for="(item2, index) of images" :key="index">
           <img :src="item2" alt="" @click="getImg(index)" />
         </div>
       </div>
       -->
-    <div>
-      <van-image-preview :isdefault="true" :images="images"></van-image-preview>
+      <div>
+        <van-image-preview :isdefault="true" :images="images"></van-image-preview>
+      </div>
+      <div class="van-hairline--top"></div>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">发货日期</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.deliveryDate }}</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">快递公司</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.courierCompany }}</span>
+        </template>
+      </van-nav-bar>
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">快递单号</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ item.courierNumber }}</span>
+        </template>
+      </van-nav-bar>
     </div>
-    <div class="van-hairline--top"></div>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">发货日期</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.deliveryDate}}</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">快递公司</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.courierCompany}}</span>
-      </template>
-    </van-nav-bar>
-    <van-nav-bar>
-      <template #left>
-        <span class="nav_text">快递单号</span>
-      </template>
-      <template #right>
-        <span class="nat_text_data">{{item.courierNumber}}</span>
-      </template>
-    </van-nav-bar>
-    </div>
-    <div class="arrow_togger" @click="arrowTogger">
+    <div class="arrow_togger" @click="arrowTogger" v-if="!isDetail">
       {{ arrowText }}
       <van-icon name="arrow-down" v-if="!show" />
       <van-icon name="arrow-up" v-if="show" />
+    </div>
+  </div>
+  <div class="refund_text" v-if="isDetail">
+    <div class="refund_cause">
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">退款原因</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">有毛发生长但未达到预期</span>
+        </template>
+      </van-nav-bar>
+      <div class="image_pic" v-if="isDetail">
+        <van-image-preview :isdefault="true" :images="images"></van-image-preview>
+      </div>
+    </div>
+    <div class="destroy">
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">销毁图片</span>
+        </template>
+      </van-nav-bar>
+      <div class="image_pic" v-if="isDetail">
+        <van-image-preview :isdefault="false" :images="imageArr"></van-image-preview>
+      </div>
     </div>
   </div>
 </template>
@@ -113,6 +141,7 @@
 import { defineComponent, ref } from "vue";
 import { NavBar, Icon, Divider } from "vant";
 import imgagePre from "@/components/imagePreview/imagePreview.vue";
+import router from "@/router";
 
 export default defineComponent({
   name: "h-header_detail",
@@ -122,12 +151,13 @@ export default defineComponent({
     "van-divider": Divider,
     "van-image-preview": imgagePre,
   },
-  props:{
-    images:[] as any,
-    dataSources: [] as any
+  props: {
+    images: [] as any,
+    dataSources: [] as any,
+    isDetail: Boolean,
   },
   setup(props) {
-    console.log(props.dataSources)
+    console.log(props.dataSources);
     const data = [
       {
         name: "全部",
@@ -162,6 +192,7 @@ export default defineComponent({
         value: 9,
       },
     ];
+    const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const show = ref(false);
     const arrowText = ref("展开");
     function arrowTogger() {
@@ -179,8 +210,9 @@ export default defineComponent({
     return {
       show,
       arrowText,
+      imageArr,
       arrowTogger,
-      CheckStatePipe
+      CheckStatePipe,
     };
   },
 });

@@ -53,6 +53,16 @@ const routes: Array<RouteRecordRaw> = [
     name:'Performance',
     component: () =>import('../views/performance/performance.vue'),
   },
+  {
+    path: '/orderDetail',
+    name: 'OrderDetail',
+    component: () => import('../views/orderDetail/orderDetail.vue'),
+  },
+  {
+    path: '/payOrder',
+    name: 'PayOrder',
+    component: () => import('../views/payOrder/pay-order.vue'),
+  },
 ]
 
 const router = createRouter({

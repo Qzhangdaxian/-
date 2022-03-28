@@ -1,0 +1,143 @@
+@import '../../styles/style.scss';
+@import '../../styles/function.scss';
+body{
+  background-color: #F9F9F9;
+}
+.pay_order{
+  height: calc(100% + vw(117));
+  background-color: #F9F9F9;
+  padding-top: vw(32);
+  padding-bottom: vw(105);
+  .van-icon.van-icon-shop-o {
+    font-size: vw(20);
+    color: #919A74;
+  }
+
+  .van-icon.van-icon-arrow {
+    color: #919A74;
+    font-size: vw(14);
+  }
+
+  .storeName {
+    color: #919A74;
+    font-size: vw(16);
+    margin: 0 vw(10);
+  }
+  .nav_text {
+    font-size: vw(16);
+    color: #333333;
+  }
+
+  .nat_text_data {
+    font-size: vw(16);
+    color: #999999;
+  }
+  .pay_type{
+    margin-top: vw(13);
+
+    background-color: #FFFFFF;
+    &-title{
+      padding: vw(17) vw(20);
+      font-size: vw(16);
+      color: #333333;
+      text-align: left;
+    }
+    .sapn_btns{
+      padding: vw(20);
+      display: flex;
+      justify-content: center;
+    }
+    .sapn_btns .span_btn{
+      width: vw(137);
+      line-height: vw(34);
+      background-color: #F8F8F8;
+      color: #999999;
+      border-radius: vw(8);
+      margin: 0 vw(15);
+    }
+    .sapn_btns .bntActive{
+      border: 1px solid #919A74;
+      color: #919A74;
+    }
+    &-cash {
+      margin-top: vw(13);
+    }
+    &—code{
+      background-color: #FFFFFF;
+      .van-empty__image{
+        width: vw(251);
+        height: vw(251);
+      }
+    }
+    &-order{
+      margin-top: vw(13);
+      background-color: #FFFFFF;
+      padding-bottom: vw(20);
+      .van-uploader{
+        width: vw(335);
+        height: vw(152);
+        background-color: #F5F5F5;
+        border-radius: vw(3);
+        border: 1px solid #DEDEDE;
+        &__wrapper,
+        &__upload,
+        &__input-wrapper {
+          width: 100%;
+          height: 100%;
+        }
+         &__input-wrapper{
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+         }
+         &__input-wrapper p{
+           color: #999999;
+           font-size: vw(14);
+           margin-top: vw(10);
+         }
+      }
+    }
+    &-tips{
+      padding: 0 vw(20);
+      font-size: vw(16);
+      color: #999999;
+      margin: vw(12) 0;
+      text-align: left;
+    }
+    &-upload{
+      font-size: vw(49);
+      color: #C5C5C5;
+    }
+  }
+  .pcs{
+    margin-top: vw(13);
+    .van-empty{
+      background-color: #FFFFFF;
+      &__image{
+        width: vw(137);
+        height: vw(135);
+      }
+      &__description{
+        padding: 0;
+        color: #919A74;
+        font-size: vw(16);
+      }
+    }
+  }
+  &-submit{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    line-height: vw(85);
+    background-color: #FFFFFF;
+  }
+  &-btn{
+    display: inline-block;
+    width: vw(335);
+    height: vw(44);
+    border-radius: vw(100);
+    background-color: #919A74;
+  }
+
+}

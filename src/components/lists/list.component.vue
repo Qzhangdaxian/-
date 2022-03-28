@@ -10,9 +10,11 @@
                 <div>
                   <van-nav-bar :right-text="CheckStatePipe(item.state)">
                     <template #left>
-                      <van-icon name="shop-o" />
-                      <span class="storeName">{{ item.storeName }}</span>
-                      <van-icon name="arrow" />
+                      <div @click="detail" data-for="1">
+                        <van-icon name="shop-o" />
+                        <span class="storeName">{{ item.storeName }}</span>
+                        <van-icon name="arrow" />
+                      </div>
                     </template>
                   </van-nav-bar>
                   <van-divider :style="{ color: '#CBCBCB' }" />
@@ -37,7 +39,8 @@
                   <!---->
                   <van-button v-if="btnType === 'record'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
                   <van-button v-if="btnType === 'performance'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="入库" @click="onClick('performance')" />
-                  <van-button v-if="btnType === 'refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('refund')" />
+                  <van-button v-if="btnType === 'refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('addRefund')" />
+                  <van-button v-if="btnType === 'payOrder'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="付款" @click="onClick('payOrder')" />
                 </template>
               </van-swipe-cell>
             </van-cell>
@@ -50,7 +53,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider, Toast } from "vant";
+import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider, Toast, Icon } from "vant";
 import router from "@/router";
 import { number, string } from "vue-types";
 
@@ -66,6 +69,7 @@ export default defineComponent({
     "van-button": Button,
     "van-nav-bar": NavBar,
     "van-divider": Divider,
+    "van-icon": Icon
   },
   props: {
     list: [] as any,
@@ -104,6 +108,11 @@ export default defineComponent({
         path: "/" + uerRouter,
       });
     };
+    const detail = ()=>{
+      router.push({
+        path:'/orderDetail'
+      })
+    }
     function CheckStatePipe(value: any): any {
       const returnData = props.data.filter((item: Data) => item.value === Number(value));
       return returnData[0].name;
@@ -123,6 +132,7 @@ export default defineComponent({
       onClickTab,
       onLoadIng,
       // addOrder,
+      detail,
     };
   },
 });

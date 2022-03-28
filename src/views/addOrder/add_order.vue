@@ -14,9 +14,7 @@
         <div class="user_info add_order-form" v-if="active === 0">
           <h6 class="record_code required">客户姓名</h6>
           <van-cell-group>
-            <van-field v-model="userName"
-              :rules="[{ required: true, message: '请填写客户姓名' }]"
-             placeholder="请输入" />
+            <van-field v-model="userName" :rules="[{ required: true, message: '请填写客户姓名' }]" placeholder="请输入" />
           </van-cell-group>
           <h6 class="record_code">身份证号</h6>
           <van-cell-group>
@@ -28,7 +26,7 @@
           </van-cell-group>
           <h6 class="record_code required">年龄</h6>
           <van-cell-group>
-            <van-field v-model="age" placeholder="请输入" :rules="[{ required: true, message: '请填写客户年龄' }]"/>
+            <van-field v-model="age" placeholder="请输入" :rules="[{ required: true, message: '请填写客户年龄' }]" />
           </van-cell-group>
           <div class="btn_next">
             <van-button color="#919A74" :disabled="!Boolean(userName) || !Boolean(age)" size="large" @click="onNext">下一步 </van-button>
@@ -74,7 +72,10 @@
             <van-image-preview :isdefault="true" :images="images"></van-image-preview>
           </div>
           <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
-          <van-uploader v-model="fileList" :after-read="afterRead" :max-count="1" />
+          <van-uploader v-model="fileList" :after-read="afterRead" :upload-icon="'back-top'" :max-count="1">
+            <van-icon name="back-top" class="van-uploader-upload" />
+            <p>点击上传</p>
+          </van-uploader>
           <div class="submit_next">
             <van-button color="#919A74" size="large" @click="onSubmit">提交 </van-button>
           </div>
@@ -135,13 +136,13 @@ export default defineComponent({
       pattern: /^1[3456789]\d{9}$/,
     });
     const onClickStep = (active: any, isNext: boolean) => {
-      if(!data.userName && !data.age){
-        Toast('带*号的的是必填项');
+      if (!data.userName && !data.age) {
+        Toast("带*号的的是必填项");
         return;
       }
-      if (!data.idCard&& !isNext && active === 1) {
+      if (!data.idCard && !isNext && active === 1) {
         data.show = true;
-        return
+        return;
       }
       if (data.userName && data.age) {
         data.active = active;

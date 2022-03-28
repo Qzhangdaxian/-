@@ -5,19 +5,20 @@ body{
 }
 .order{
   padding-top: vw(34);
+  .add_btn {
+    position: fixed;
+    bottom: vw(50);
+    right: vw(50);
+      .van-button{
+        width: vw(52);
+        height: vw(52);
+        border-radius: 50%;
+        box-shadow: 0 0 12px 10px rgba(169, 178, 142, .3);
+      }
+      .van-button .van-icon-plus{
+        font-size: vw(20);
+      }
+  }
 }
 // .order
-.add_btn {
-  position: fixed;
-  bottom: vw(50);
-  right: vw(50);
-    .van-button{
-      width: vw(52);
-      height: vw(52);
-      border-radius: 50%;
-    }
-    .van-button .van-icon-plus{
-      font-size: vw(20);
-    }
-}
 

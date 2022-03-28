@@ -1,7 +1,7 @@
 <template>
   <div class="add_refund">
     <!-- 此处添加客户信息 -->
-    <h-detail :dataSources="dataSources" :images="images"></h-detail>
+    <h-detail :isDetail="false" :dataSources="dataSources" :images="images"></h-detail>
     <!-- 门店上传退款信息 -->
     <van-form v-if="true">
       <div class="add_refund-form">
