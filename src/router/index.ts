@@ -46,7 +46,13 @@ const routes: Array<RouteRecordRaw> = [
     path:'/addRefund',
     name:'AddRefund',
     component: () =>import('../views/addRefund/add_refund.vue'),
-  }
+  },
+  // 业绩管理
+  {
+    path:'/performance',
+    name:'Performance',
+    component: () =>import('../views/performance/performance.vue'),
+  },
 ]
 
 const router = createRouter({

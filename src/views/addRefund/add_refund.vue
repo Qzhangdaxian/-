@@ -1,6 +1,7 @@
 <template>
   <div class="add_refund">
     <!-- 此处添加客户信息 -->
+    <h-detail :dataSources="dataSources" :images="images"></h-detail>
     <!-- 门店上传退款信息 -->
     <van-form v-if="true">
       <div class="add_refund-form">
@@ -67,6 +68,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
 import { CellGroup, Field, Button, Form, Picker, Uploader, Popup, Icon, Divider} from "vant";
+import hDetail from '@/components/header_detail/detail.component.vue'
 import imgagePre from "@/components/imagePreview/imagePreview.vue";
 document.title = "退款";
 export default defineComponent({
@@ -82,6 +84,7 @@ export default defineComponent({
     "van-popup": Popup,
     "van-icon": Icon,
     "van-divider": Divider,
+    "h-detail": hDetail,
   },
   setup() {
     let data = reactive({
@@ -96,6 +99,23 @@ export default defineComponent({
       result: "",
       pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
     });
+    const dataSources = [
+        {
+        storeName: '和合苑理发店',
+        userName: '张珊',
+        identity: '51651653',
+        age: '45',
+        orderTime: '2022-01-20',
+        code: '1165651',
+        alopecia: '2022-01-22',
+        alopeciaState: 'M型脱发',
+        deliveryDate: '2022-01-23',
+        courierCompany: '京东',
+        courierNumber: '459325454',
+        id:0,
+        state: 1,
+      },
+    ]
     const onConfirm = (value: string) => {
       console.log(value);
       data.backWhy = value;
@@ -122,6 +142,7 @@ export default defineComponent({
       onSubmitDealer,
       afterRead,
       onClickStep,
+      dataSources,
     }
   }
 })

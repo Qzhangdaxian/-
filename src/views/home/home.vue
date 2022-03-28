@@ -21,8 +21,8 @@
           <i class="icon_left"><van-icon name="refund-o" /></i>
           <span class="text_right">退款管理</span>
         </li>
-        <li>
-          <i class="icon_left" @click="pathRouter('performance')"><van-icon name="chart-trending-o" /></i>
+        <li class="li_center" @click="pathRouter('performance')">
+          <i class="icon_left" ><van-icon name="chart-trending-o" /></i>
           <span class="text_right">业绩管理</span>
         </li>
       </ul>
@@ -45,6 +45,7 @@ export default defineComponent({
   },
   setup() {
     function pathRouter(routerName: string){
+      console.log(routerName);
       router.push({
         path: '/'+routerName,
       })

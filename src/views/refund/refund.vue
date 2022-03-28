@@ -1,18 +1,22 @@
 <template>
   <div class="refund">
-    <van-search
-      v-model="value"
-      shape="round"
-      placeholder="客户姓名/身份证/产品管理编号"
-      @search="onSearch(value)"
-      @clear="onClear"
-    />
     <form action="/">
-      <ListArr ref="child" :data="data"
-      :list="list"  :btnType="'refund'"
-    :finished='finished'
-    @click="onLoad"></ListArr>
+      <van-search
+        v-model="value"
+        shape="round"
+        placeholder="客户姓名/身份证/产品管理编号"
+        @search="onSearch(value)"
+        @clear="onClear"
+      />
     </form>
+    <ListArr
+      ref="child"
+      :data="data"
+      :list="list"
+      :btnType="'refund'"
+      :finished="finished"
+      @click="onLoad"
+    ></ListArr>
   </div>
 </template>
 <script lang="ts">
@@ -100,6 +104,5 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-@import "../order/order.scss";
 @import "./refund.scss";
 </style>

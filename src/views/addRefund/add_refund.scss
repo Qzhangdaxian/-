@@ -142,7 +142,7 @@
           border-radius: vw(100);
           height: vw(44);
         }
-       }
+    }
   }
   .submit_next {
     // width: vw(335);
@@ -152,6 +152,9 @@
       margin-top: vw(27);
       border-radius: vw(25);
       font-size: vw(16);
+    }
+    .van-button__content{
+        height: vw(44);
     }
   }
   .popup_tip .van_popup {
