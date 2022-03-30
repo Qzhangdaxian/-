@@ -76,9 +76,12 @@ export default defineComponent({
     const child = ref()
     const refreshing = ref(false);
     const onSearch = (val: string) => {
+      datas.list = [];
       onLoadData([1, datas.state])
     };
-    const onClear = (val: string) => Toast("搜索清除");
+    const onClear = (val: string) => {
+      console.log(1)
+    };
     const onLoad = ref()
     const onLoading = (num: number) => {
       console.log(child.value)

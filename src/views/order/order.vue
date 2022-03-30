@@ -202,10 +202,12 @@ export default defineComponent({
       orderService
         .storeList(param)
         .then((res) => {
-          res.data.data.forEach((item: any) => {
-            datas.dataSoures.push(item.id)
-            datas.storeLists.push(item.dealerName)
-          })
+          if(res.data && res.data.data){
+            res.data.data.forEach((item: any) => {
+              datas.dataSoures.push(item.id)
+              datas.storeLists.push(item.dealerName)
+            })
+          }
         });
     };
     storeList();

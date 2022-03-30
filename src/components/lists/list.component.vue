@@ -146,6 +146,52 @@ export default defineComponent({
     let page = ref(1);
     let state = ref(0);
     let isNo = ref(false);
+    const data= ref([
+        {
+          name: "全部",
+          value: 0,
+        },
+        {
+          name: "已提交",
+          value: 1,
+        },
+        {
+          name: "待审核",
+          value: 2,
+        },
+        {
+          name: "待发货",
+          value: 3,
+        },
+        {
+          name: "已驳回",
+          value: 4,
+        },
+        {
+          name: "待补录",
+          value: 5,
+        },
+        {
+          name: "已完成",
+          value: 6,
+        },
+        {
+          name: "退款待补录",
+          value: 7,
+        },
+        {
+          name: "退款待审核",
+          value: 8,
+        },
+        {
+          name: "退款完成",
+          value: 9,
+        },
+        {
+          name: "退款失败",
+          value: 10,
+        },
+      ],)
     const onClickTab = (name: number) => {
       isNo.value = true;
       page.value = 1;
@@ -189,8 +235,7 @@ export default defineComponent({
       });
     };
     function CheckStatePipe(value: any): any {
-      const returnData = props.data.filter((item: Data) => item.value === Number(value));
-      // console.log(returnData)
+      const returnData = data.value.filter((item: Data) => item.value === Number(value));
       if (props.types == 3)
         switch (returnData[0]?.name) {
           case "已提交":

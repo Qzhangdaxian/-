@@ -5,7 +5,7 @@
         v-model="value"
         shape="round"
         placeholder="客户姓名"
-        @search="onSearch(value)"
+        @change="onSearch(value)"
         @clear="onClear"
       />
     </form>
@@ -31,10 +31,10 @@
       <van-list :offset="100" :finished="finished && list.length>0" finished-text="没有更多了" @load="onLoadIng">
         <van-cell v-for="item in list" :key="item.state">
           <van-swipe-cell>
-              <van-nav-bar :right-text="dateForState[Number(item.state)].text">
+              <van-nav-bar :right-text="dateForState[Number(item?.state)]?.text">
                 <template #left>
                   <van-icon name="shop-o" />
-                  <span class="storeName">{{ item.storeName || '合和苑理发店'}}</span>
+                  <span class="storeName">{{ item?.storeName }}</span>
                   <van-icon name="arrow" />
                 </template>
               </van-nav-bar>
@@ -44,7 +44,7 @@
                   <span class="nav_text">用户姓名</span>
                 </template>
                 <template #right>
-                  <span class="nat_text_data">{{ item.userName }}</span>
+                  <span class="nat_text_data">{{ item?.userName }}</span>
                 </template>
               </van-nav-bar>
               <van-nav-bar>
@@ -52,7 +52,7 @@
                   <span class="nav_text">产品管理编号</span>
                 </template>
                 <template #right>
-                  <span class="nat_text_data">{{ item.productIdent }}</span>
+                  <span class="nat_text_data">{{ item?.productNo || "暂无"}}</span>
                 </template>
               </van-nav-bar>
 
@@ -122,39 +122,30 @@ export default defineComponent({
   setup() {
     const value = ref("");
     const datas = reactive({
-      dateForStore: [{
-        text: "理发店0",
-        value: 0,
-      },
-      {
-        text: "理发店1",
-        value: 1,
-      },
-
-      {
-        text: "理发店2",
-        value: 2,
-      },
-      ],
+      dateForStore: ([] as Array<{text:string, value: number}>),
       dateForState: [
-        {
+         {
           text: "全部",
-          value: 1,
+          value: 0,
         },
         {
           text: "已提交",
+          value: 1,
+        },
+        {
+          text: "待审核",
           value: 2,
         },
         {
-          text: "待补录",
+          text: "待发货",
           value: 3,
         },
         {
-          text: "待发货",
+          text: "已驳回",
           value: 4,
         },
         {
-          text: "已发货",
+          text: "待补录",
           value: 5,
         },
         {
@@ -162,12 +153,20 @@ export default defineComponent({
           value: 6,
         },
         {
-          text: "待付款",
+          text: "退款待补录",
           value: 7,
         },
         {
-          text: "待审核",
+          text: "退款待审核",
+          value: 8,
+        },
+        {
+          text: "退款完成",
           value: 9,
+        },
+        {
+          text: "退款失败",
+          value: 10,
         },
       ],
       list: [] as any,
@@ -184,15 +183,40 @@ export default defineComponent({
       maxDate: new Date(),
       overlay:true,
       page: 1,
-      total:0
+      total:0,
+      dataSoures: ([] as Array<any>),
+      storeLists: ([] as Array<any>),
     });
     const child = ref()
-    const onSearch = (val: string) => Toast(val);
-    const onClear = (val: string) => Toast("搜索清除");
+    const onSearch = (val: string) => {
+      datas.list=[]
+      let param = {}
+      if(val){
+         param = {
+          page:1,
+          limit: 10,
+          userName: val
+        }
+      }else{
+        param = {
+        page:1,
+        limit: 10,
+      }
+      }
+      onLoadIng(param)
+    };
+    const onClear = (val: string) => {
+      const param = {
+        page:datas.page,
+        limit: 10,
+      }
+      onLoadIng(param)
+    };
     const onLoad = ref();
     const loading = ref(false);
-    const onLoadIng = () => {
-      orderService.orderList({page:datas.page, limit: 10}).then(res=>{
+    const onLoadIng = (param: any) => {
+      // datas.list = []
+      orderService.orderList(param).then(res=>{
         let length = 0;
         datas.total = res.data.count;
         if(res.data.data){
@@ -201,7 +225,8 @@ export default defineComponent({
           datas.finished = true
         }
         if(length){
-          datas.list = datas.list.concat(res.data.data)
+          datas.list = datas.list.concat(res.data.data);
+          console.log(datas.list)
           if(length< datas.page){
             datas.finished = true
           }else{
@@ -216,28 +241,65 @@ export default defineComponent({
         }
       )
     }
-    onLoadIng
+    onLoadIng({page:datas.page, limit: 10})
     const onRefresh = () => {
       // props.onLoad();
       setTimeout(() => {
         Toast('刷新成功');
+        const param ={
+          page:1,
+          limit: 10
+        }
+        onLoadIng(param)
         loading.value = false;
       }, 1000);
     };
     // 点击筛选订单状态
     const selectState = () => {
-      console.log(datas.state)
+      datas.list = [];
+      const param ={page:1, limit: 10, state: datas.state}
+      onLoadIng(param)
     }
     // 点击筛选店铺名称
     const selectStore = () => {
-      console.log(datas.storeName)
+      datas.list = []
+      const param ={
+        page:1,
+        limit: 10,
+        storeId: datas.storeName
+      }
+      console.log(param)
+      // datas.dateForStore.forEach(item=>{
+      //   if(item.text == datas.storeName){
+
+      //   }
+      // })
+      onLoadIng(param)
     }
     // 获得所有门店信息
     const AllStore = () => {
       // 接口获取所有门店信息，更新dateForStore
+      const param = ({
+        page: 1,
+        limit: 999999,
+      } as any)
+
+      orderService
+        .storeList(param)
+        .then((res) => {
+          if(res.data && res.data.data){
+            datas.dateForStore = []
+            res.data.data.forEach((item: any) => {
+              datas.dateForStore.push({text: item.dealerName, value:item.id})
+              // datas.dataSoures.push(item.id)
+              // datas.storeLists.push(item.dealerName)
+            })
+          }
+        });
     }
+    AllStore()
     const selectTime = () => {
-      console.log(datas.nowTime);
+      datas.list = []
       let date = new Date(datas.nowTime);
       let dateTmp = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
       datas.nowTime
@@ -247,7 +309,13 @@ export default defineComponent({
         datas.endTime = dateTmp;
       }
       if (datas.startTime && datas.endTime) {
-        console.log("ok");
+        const param ={
+          page:1,
+          limit: 10,
+          startTime: new Date(datas.startTime).valueOf(),
+          entTime: new Date(datas.startTime).valueOf()+ 86400000 - 1 ,
+        }
+        onLoadIng(param)
         // 可以筛选了
         datas.showTime = false;
 
