@@ -4,7 +4,7 @@
     <van-nav-bar :right-text="CheckStatePipe(dataSource?.state)">
       <template #left>
         <van-icon name="shop-o" />
-        <span class="storeName">{{ dataSource.storeName }}</span>
+        <span class="storeName">{{ dataSource?.storeName }}</span>
         <van-icon name="arrow" />
       </template>
     </van-nav-bar>
@@ -14,7 +14,7 @@
         <span class="nav_text">用户姓名</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.userName }}</span>
+        <span class="nat_text_data">{{ dataSource?.userName }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -22,7 +22,7 @@
         <span class="nav_text">身份证号</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.identity }}</span>
+        <span class="nat_text_data">{{ dataSource?.identity }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -30,7 +30,7 @@
         <span class="nav_text">年龄</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.age }}岁</span>
+        <span class="nat_text_data">{{ dataSource?.age }}岁</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -38,7 +38,7 @@
         <span class="nav_text">下单日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSource.createTime)|| '暂无' }}</span>
+        <span class="nat_text_data">{{ dateFormat(dataSource?.createTime) || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -46,7 +46,7 @@
         <span class="nav_text">产品管理编号</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.productNo || "暂无" }}</span>
+        <span class="nat_text_data">{{ dataSource?.productNo || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <div class="image_pic">
@@ -58,7 +58,7 @@
         <span class="nav_text">脱发史</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ alopeciaHistory[dataSource.alopeciaHistory] }}</span>
+        <span class="nat_text_data">{{ alopeciaHistory[dataSource?.alopeciaHistory] }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -66,7 +66,7 @@
         <span class="nav_text">脱发状态</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ alopeciaState[dataSource.alopeciaState] }}</span>
+        <span class="nat_text_data">{{ alopeciaState[dataSource?.alopeciaState] }}</span>
       </template>
     </van-nav-bar>
     <!--
@@ -85,7 +85,7 @@
         <span class="nav_text">发货日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSource.expressTime) || "暂无" }}</span>
+        <span class="nat_text_data">{{ dateFormat(dataSource?.expressTime) || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -93,7 +93,7 @@
         <span class="nav_text">快递公司</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.expressCompany || "暂无" }}</span>
+        <span class="nat_text_data">{{ dataSource?.expressCompany || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -101,7 +101,7 @@
         <span class="nav_text">快递单号</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.express || "暂无" }}</span>
+        <span class="nat_text_data">{{ dataSource?.express || "暂无" }}</span>
       </template>
     </van-nav-bar>
 
@@ -118,7 +118,7 @@
           <span class="nav_text">退款原因</span>
         </template>
         <template #right>
-          <span class="nat_text_data">{{ dataSource.refundReason || "暂无" }}</span>
+          <span class="nat_text_data">{{ dataSource?.refundReason || "暂无" }}</span>
         </template>
       </van-nav-bar>
       <div class="image_pic" v-if="isDetail">
@@ -154,12 +154,31 @@ export default defineComponent({
   props: {
     dataSources: {} as any,
     isDetail: Boolean,
+    types: Number as any
   },
   setup(props) {
-    let dataSource = ref();
+    let dataSource = ref({
+      alopeciaImgArray: [],
+      productNoImgArray:[],
+      refundHairImgArray: [],
+      refundImgArray: [],
+      alopeciaHistory: 0,
+      state: 1,
+      storeName: '',
+      userName: '',
+      refundReason: '',
+      express: '',
+      expressCompany: '',
+      expressTime: '',
+      alopeciaState: 0,
+      identity: '',
+      productNo: '',
+      createTime: '',
+      age: 0
+    });
     let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
-    const data = [
+    const data = ref([
       {
         name: "全部",
         value: 0,
@@ -204,7 +223,7 @@ export default defineComponent({
         name: "退款失败",
         value: 10,
       },
-    ];
+    ]);
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const show = ref(false);
     const arrowText = ref("展开");
@@ -256,8 +275,26 @@ export default defineComponent({
       }
     }
     function CheckStatePipe(value: any): any {
-      const returnData = data.filter((dataSource: Data) => dataSource.value === Number(value));
-      return returnData[0].name;
+      data.value.forEach((item:any)=>{
+        if(item.value === Number(value)){
+          switch (item.name) {
+            case "已提交":
+              return "待付款";
+            default:
+              return item.name;
+          }
+        }
+      })
+      // const returnData = data.value.filter((item: Data) => item.value === Number(value));
+      // if (props.types == 3 && returnData.length>=1){
+      //   console.log(returnData)
+      //   switch (returnData[0] && returnData[0].name) {
+      //     case "已提交":
+      //       return "待付款";
+      //     default:
+      //       return returnData[0].name;
+      //   }
+      //   } else return returnData[0].name;
     }
     function dateFormat(time: string) {
       var date = new Date(time);
@@ -271,7 +308,7 @@ export default defineComponent({
       var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
       var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       // 拼接 + " " + hours + ":" + minutes + ":" + seconds
-      return year + "-" + month + "-" + day ;
+      return year + "-" + month + "-" + day;
     }
     return {
       show,
@@ -286,7 +323,7 @@ export default defineComponent({
       refundHairImgArray,
       arrowTogger,
       CheckStatePipe,
-      dateFormat
+      dateFormat,
     };
   },
 });
