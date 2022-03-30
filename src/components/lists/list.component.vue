@@ -231,12 +231,13 @@ export default defineComponent({
         path: "/orderDetail",
         query: {
           id,
+          type: route.query.type
         },
       });
     };
     function CheckStatePipe(value: any): any {
       const returnData = data.value.filter((item: Data) => item.value === Number(value));
-      if (props.types == 3)
+      if (props.types == 3 && returnData.length> 0)
         switch (returnData[0]?.name) {
           case "已提交":
             return "待付款";

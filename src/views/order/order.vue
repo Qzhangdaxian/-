@@ -4,7 +4,8 @@
       <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @update:model-value="onSearch(value)" @clear="onClear" />
       <span @click="isShow">筛选</span>
     </form>
-    <ListArr ref="child" :data="data" :list="list" :btnType="btnType" :finished="finished" :onLoad="onLoadData" @page="onLoadData" :types="type"></ListArr>
+    <ListArr ref="child" :data="data" :list="list" :btnType="btnType" :finished="finished"
+     :onLoad="onLoadData" @page="onLoadData" :types="type"></ListArr>
 
     <div class="add_btn" v-if="Number(type) === 4">
       <van-button color="#919A74" @click="addOrder">

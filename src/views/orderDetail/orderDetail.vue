@@ -1,7 +1,7 @@
 <template>
   <div class="order_detail">
     <div>
-       <h-detail :isDetail="true" :dataSources="dataSources" ></h-detail>
+       <h-detail :isDetail="true" :dataSources="dataSources" :types="type" ></h-detail>
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@ export default defineComponent({
       let dataSources = ref();
       const route = useRoute();
       const router = useRouter();
+      const type = ref(route.query.type);
       let res: any = ref(route.query);
       const orderDetail = ()=>{
         orderService.orderDetail({id:res.value.id}).then((res)=>{
@@ -33,6 +34,7 @@ export default defineComponent({
       orderDetail()
     return {
       dataSources,
+      type
     };
   },
 });
