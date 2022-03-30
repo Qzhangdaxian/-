@@ -192,7 +192,7 @@ export default defineComponent({
     const onLoad = ref();
     const loading = ref(false);
     const onLoadIng = () => {
-      orderService.orderList('get', {page:datas.page, limit: 10}).then(res=>{
+      orderService.orderList({page:datas.page, limit: 10}).then(res=>{
         let length = 0;
         datas.total = res.data.count;
         if(res.data.data){

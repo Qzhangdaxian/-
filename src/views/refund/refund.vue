@@ -24,7 +24,6 @@
 import { defineComponent, reactive, ref, toRefs } from "vue";
 import { Icon } from "vant";
 import { Toast, Search, Button } from "vant";
-import router from "@/router";
 import ListArr from "@/components/lists/list.component.vue";
 import {orderService} from '../service';
 document.title = "退款管理"
@@ -69,33 +68,33 @@ export default defineComponent({
       //     value: 4,
       //   },
       // ],
-      list: [{
-        state: 1,
-        storeName: "和合苑理发店",
-        userName: "张飒",
-        productIdent: '123546'
-      }],
+      list: [],
       finished: false,
-      length:0
+      length:0,
+      state: 0
     });
     const child = ref()
     const refreshing = ref(false);
-    const onSearch = (val: string) => Toast(val);
+    const onSearch = (val: string) => {
+      onLoadData([1, datas.state])
+    };
     const onClear = (val: string) => Toast("搜索清除");
     const onLoad = ref()
     const onLoading = (num: number) => {
       console.log(child.value)
     }
     const onLoadData = (param:any) => {
-      console.log(param[0],param[1])
+      datas.state = param[1];
       if (refreshing.value) {
         datas.list = [];
         refreshing.value = false;
       }
-      orderService.orderList('get', {
+      orderService.orderList({
         page: param[0],
         limit: 10,
+        state: param[1] == 0? 6 : 8,
         // state: param[1]
+        userName: value.value,
         }).then((res: any)=>{
         // console.log(res);
         if(res.data.data){

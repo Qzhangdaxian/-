@@ -48,6 +48,16 @@
                   -->
                   <!--
                   经销商
+                  <van-button
+                      v-if="item.state === 5 "
+                      square
+                      :loading="isLoding"
+                      :disabled="isLoding "
+                      type="default"
+                      color="#919A74"
+                      text="待补录"
+                      @click="onClick('record', item.id)"
+                    />
                 -->
                   <template v-if="types == 3">
                     <van-button
@@ -60,16 +70,7 @@
                       text="待补录"
                       @click="onClick('addRefund', item.id)"
                     />
-                    <van-button
-                      v-if="item.state === 5 "
-                      square
-                      :loading="isLoding"
-                      :disabled="isLoding "
-                      type="default"
-                      color="#919A74"
-                      text="待补录"
-                      @click="onClick('record', item.id)"
-                    />
+
                   </template>
                   <!--
                   门店

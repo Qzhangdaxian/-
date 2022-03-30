@@ -8,10 +8,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import hDeatil from "@/components/header_detail/detail.component.vue";
+import hDeatil from "../../components/header_detail/detail.component.vue";
 import { useRoute, useRouter } from "vue-router";
 import { orderService } from "../service";
-
 document.title = "订单详情";
 export default defineComponent({
   name: "h-order_detail",

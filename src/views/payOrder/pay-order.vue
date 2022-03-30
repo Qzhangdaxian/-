@@ -70,8 +70,8 @@
       </div>
     </div>
     <div class="pay_order-submit">
-      <van-button round class="pay_order-btn" color="#919A74" size="large" type="primary" @click="onPay" v-if="payNum === 1">提交付款</van-button>
-      <van-button round class="pay_order-btn" :disabled="imgData.length == 0" color="#919A74" size="large" type="primary" @click="onPay" v-if="payNum === 2">提交付款</van-button>
+      <van-button round class="pay_order-btn" color="#919A74" :disabled="isDis" size="large" type="primary" @click="onPay" v-if="payNum === 1">提交付款</van-button>
+      <van-button round class="pay_order-btn" :disabled="imgData.length == 0 || isDis" color="#919A74" size="large" type="primary" @click="onPay" v-if="payNum === 2">提交付款</van-button>
     </div>
   </div>
 </template>
@@ -102,6 +102,7 @@ export default defineComponent({
     const data = reactive({
       imgData: [] as any,
       productNoImg: [] as Array<any>,
+      isDis: false
     });
     const dataSources = ref();
     const orderDetail = () => {
@@ -118,6 +119,7 @@ export default defineComponent({
     };
     orderDetail();
     const onPay = () => {
+      data.isDis = true;
       const param = {
         id: Number(route.query.id),
         voucher: payNum.value ==2? data.imgData.join(",") : null,
@@ -127,6 +129,9 @@ export default defineComponent({
         if (res.data.success) {
           Toast("提交成功");
           history.back();
+        }else{
+          data.isDis = false;
+          Toast("提交失败")
         }
       });
     };

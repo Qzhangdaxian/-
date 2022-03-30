@@ -4,7 +4,7 @@ import { get, post, http } from '../core/http';
 
 export const orderService = {
   uploadPath: '/oss/file/upload',
-  orderList(method: any, params: LoginData): Promise<AxiosResponse<LoginData>> {
+  orderList(params: LoginData): Promise<AxiosResponse<LoginData>> {
     // Axios.default
     // console.log(Axios)
     // return axios.post('/login', params)
@@ -21,7 +21,7 @@ export const orderService = {
     //   params: params
     // })
     // /nature/order/getList
-    return get('/taskOrderOtc/queryList', params);
+    return get('/nature/order/getList', params);
   },
   orderSave(params: LoginData): Promise<AxiosResponse<LoginData>> {
     return post('/nature/order/save', params);

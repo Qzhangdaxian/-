@@ -38,7 +38,7 @@
         <span class="nav_text">下单日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.createTime }}</span>
+        <span class="nat_text_data">{{ dateFormat(dataSource.createTime)|| '暂无' }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -85,7 +85,7 @@
         <span class="nav_text">发货日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource.expressTime || "暂无" }}</span>
+        <span class="nat_text_data">{{ dateFormat(dataSource.expressTime) || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -161,57 +161,57 @@ export default defineComponent({
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
     const data = [
       {
-          name: "全部",
-          value: 0,
-        },
-        {
-          name: "已提交",
-          value: 1,
-        },
-        {
-          name: "待审核",
-          value: 2,
-        },
-        {
-          name: "待发货",
-          value: 3,
-        },
-        {
-          name: "已驳回",
-          value: 4,
-        },
-        {
-          name: "待补录",
-          value: 5,
-        },
-        {
-          name: "已完成",
-          value: 6,
-        },
-        {
-          name: "退款待补录",
-          value: 7,
-        },
-        {
-          name: "退款待审核",
-          value: 8,
-        },
-        {
-          name: "退款完成",
-          value: 9,
-        },
-        {
-          name: "退款失败",
-          value: 10,
-        }
+        name: "全部",
+        value: 0,
+      },
+      {
+        name: "已提交",
+        value: 1,
+      },
+      {
+        name: "待审核",
+        value: 2,
+      },
+      {
+        name: "待发货",
+        value: 3,
+      },
+      {
+        name: "已驳回",
+        value: 4,
+      },
+      {
+        name: "待补录",
+        value: 5,
+      },
+      {
+        name: "已完成",
+        value: 6,
+      },
+      {
+        name: "退款待补录",
+        value: 7,
+      },
+      {
+        name: "退款待审核",
+        value: 8,
+      },
+      {
+        name: "退款完成",
+        value: 9,
+      },
+      {
+        name: "退款失败",
+        value: 10,
+      },
     ];
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const show = ref(false);
     const arrowText = ref("展开");
     let alopeciaImgArray = ref([] as any);
-    let productNoImgArray = ref ([] as any)
+    let productNoImgArray = ref([] as any);
     let refundHairImgArray = ref([] as any);
-    let refundImgArray = ref ([] as any)
+    let refundImgArray = ref([] as any);
     if (props.dataSources && props.dataSources.data) {
       // eslint-disable-next-line vue/no-setup-props-destructure
       dataSource.value = props.dataSources.data;
@@ -259,6 +259,20 @@ export default defineComponent({
       const returnData = data.filter((dataSource: Data) => dataSource.value === Number(value));
       return returnData[0].name;
     }
+    function dateFormat(time: string) {
+      var date = new Date(time);
+      var year = date.getFullYear();
+      /* 在日期格式中，月份是从0开始的，因此要加0
+       * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+       * */
+      var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+      var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // 拼接 + " " + hours + ":" + minutes + ":" + seconds
+      return year + "-" + month + "-" + day ;
+    }
     return {
       show,
       arrowText,
@@ -272,6 +286,7 @@ export default defineComponent({
       refundHairImgArray,
       arrowTogger,
       CheckStatePipe,
+      dateFormat
     };
   },
 });
