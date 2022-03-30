@@ -1,10 +1,10 @@
 <template>
   <div class="record_massage" v-bind:class="{ listIndex: show && !isDetail, listIndexs: !show && !isDetail }">
     <!--<div v-for="dataSource in dataSource" :key="dataSource.id"></div> -->
-    <van-nav-bar :right-text="CheckStatePipe(dataSource?.state)">
+    <van-nav-bar :right-text="CheckStatePipe(dataSources?.state)">
       <template #left>
         <van-icon name="shop-o" />
-        <span class="storeName">{{ dataSource?.storeName }}</span>
+        <span class="storeName">{{ dataSources?.storeName }}</span>
         <van-icon name="arrow" />
       </template>
     </van-nav-bar>
@@ -14,7 +14,7 @@
         <span class="nav_text">用户姓名</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource?.userName }}</span>
+        <span class="nat_text_data">{{ dataSources?.userName }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -22,7 +22,7 @@
         <span class="nav_text">身份证号</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource?.identity }}</span>
+        <span class="nat_text_data">{{ dataSources?.identity }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -30,7 +30,7 @@
         <span class="nav_text">年龄</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource?.age }}岁</span>
+        <span class="nat_text_data">{{ dataSources?.age }}岁</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -38,7 +38,7 @@
         <span class="nav_text">下单日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSource?.createTime) || "暂无" }}</span>
+        <span class="nat_text_data">{{ dateFormat(dataSources?.createTime) || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -46,7 +46,7 @@
         <span class="nav_text">产品管理编号</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource?.productNo || "暂无" }}</span>
+        <span class="nat_text_data">{{ dataSources?.productNo || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <div class="image_pic">
@@ -58,7 +58,7 @@
         <span class="nav_text">脱发史</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ alopeciaHistory[dataSource?.alopeciaHistory] }}</span>
+        <span class="nat_text_data">{{ alopeciaHistory[dataSources?.alopeciaHistory] }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -66,7 +66,7 @@
         <span class="nav_text">脱发状态</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ alopeciaState[dataSource?.alopeciaState] }}</span>
+        <span class="nat_text_data">{{ alopeciaState[dataSources?.alopeciaState] }}</span>
       </template>
     </van-nav-bar>
     <!--
@@ -85,7 +85,7 @@
         <span class="nav_text">发货日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSource?.expressTime) || "暂无" }}</span>
+        <span class="nat_text_data">{{ dateFormat(dataSources?.expressTime) || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -93,7 +93,7 @@
         <span class="nav_text">快递公司</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource?.expressCompany || "暂无" }}</span>
+        <span class="nat_text_data">{{ dataSources?.expressCompany || "暂无" }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -101,7 +101,7 @@
         <span class="nav_text">快递单号</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dataSource?.express || "暂无" }}</span>
+        <span class="nat_text_data">{{ dataSources?.express || "暂无" }}</span>
       </template>
     </van-nav-bar>
 
@@ -118,7 +118,7 @@
           <span class="nav_text">退款原因</span>
         </template>
         <template #right>
-          <span class="nat_text_data">{{ dataSource?.refundReason || "暂无" }}</span>
+          <span class="nat_text_data">{{ dataSources?.refundReason || "暂无" }}</span>
         </template>
       </van-nav-bar>
       <div class="image_pic" v-if="isDetail">
@@ -213,37 +213,35 @@ export default defineComponent({
     let productNoImgArray = ref([] as any);
     let refundHairImgArray = ref([] as any);
     let refundImgArray = ref([] as any);
-    console.log(props.dataSources.data)
-    if (props.dataSources && props.dataSources.data) {
-      // eslint-disable-next-line vue/no-setup-props-destructure
-      dataSource.value = props.dataSources.data;
-    } else {
-      // eslint-disable-next-line vue/no-setup-props-destructure
-      dataSource.value = props.dataSources;
-    }
-    if (dataSource.value && dataSource.value?.alopeciaImgArray) {
+    // console.log(props.dataSources.data)
+    // if (props.dataSources && props.dataSources.data) {
+    //   dataSource.value = props.dataSources.data;
+    // } else {
+    //   dataSource.value = props.dataSources;
+    // }
+    if (props.dataSources && props.dataSources.alopeciaImgArray) {
       dataSource.value.alopeciaImgArray.forEach((item: any) => {
         if (item && item.url) {
           alopeciaImgArray.value.push(item.url);
         }
       });
     }
-    if (dataSource.value && dataSource.value?.productNoImgArray) {
-      dataSource.value.productNoImgArray.forEach((item: any) => {
+    if (props.dataSources && props.dataSources.productNoImgArray) {
+      props.dataSources.productNoImgArray.forEach((item: any) => {
         if (item && item.url) {
           productNoImgArray.value.push(item.url);
         }
       });
     }
-    if (dataSource.value && dataSource.value?.refundHairImgArray) {
-      dataSource.value.refundHairImgArray.forEach((item: any) => {
+    if (props.dataSources && props.dataSources.refundHairImgArray) {
+      props.dataSources.refundHairImgArray.forEach((item: any) => {
         if (item && item.url) {
           refundHairImgArray.value.push(item.url);
         }
       });
     }
-    if (dataSource.value && dataSource.value?.refundImgArray) {
-      dataSource.value.refundImgArray.forEach((item: any) => {
+    if (props.dataSources && props.dataSources.refundImgArray) {
+      props.dataSources.refundImgArray.forEach((item: any) => {
         if (item && item.url) {
           refundImgArray.value.push(item.url);
         }
@@ -260,6 +258,7 @@ export default defineComponent({
     function CheckStatePipe(value: any): any {
       data.value.forEach((item:any)=>{
         if(item.value === Number(value)){
+          console.log(item.name)
           switch (item.name) {
             case "已提交":
               return "待付款";

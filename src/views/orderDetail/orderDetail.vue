@@ -26,7 +26,7 @@ export default defineComponent({
       const orderDetail = ()=>{
         orderService.orderDetail({id:res.value.id}).then((res)=>{
           if(res.data.success){
-            dataSources.value = res.data;
+            dataSources.value = res.data.data;
           }
           console.log(dataSources.value)
         })
