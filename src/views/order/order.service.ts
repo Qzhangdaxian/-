@@ -23,6 +23,9 @@ export const orderService = {
     // /nature/order/getList
     return get('/nature/order/getList', params);
   },
+  storeList(params: any) {
+    return get('/store/queryList', params)
+  },
 };
 
 export interface LoginData {

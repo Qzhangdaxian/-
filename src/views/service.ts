@@ -44,6 +44,9 @@ export const orderService = {
   orderreRund(params: any): Promise<AxiosResponse<RefundRecordData>> {
     return post('/nature/order/refund', params)
   },
+  storeList(params: any) {
+    return get('/store/queryList', params)
+  },
   // 上传图片
   upload(file: File): any {
     // const formData = new FormData();

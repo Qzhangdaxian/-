@@ -1,24 +1,44 @@
 @import '../../styles/style.scss';
 @import '../../styles/function.scss';
-body{
+
+body {
   background-color: #F9F9F9;
 }
-.order{
+
+.order {
   padding-top: vw(34);
+
+  .order_form {
+    width: 100%;
+    background: #FFFF;
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    .van-search{
+      width: 80%;
+    }
+    span{
+      line-height: vw(54);
+      padding-right: vw(10);
+    }
+  }
+
   .add_btn {
     position: fixed;
     bottom: vw(50);
     right: vw(50);
-      .van-button{
-        width: vw(52);
-        height: vw(52);
-        border-radius: 50%;
-        box-shadow: 0 0 12px 10px rgba(169, 178, 142, .3);
-      }
-      .van-button .van-icon-plus{
-        font-size: vw(20);
-      }
+
+    .van-button {
+      width: vw(52);
+      height: vw(52);
+      border-radius: 50%;
+      box-shadow: 0 0 12px 10px rgba(169, 178, 142, .3);
+    }
+
+    .van-button .van-icon-plus {
+      font-size: vw(20);
+    }
   }
 }
-// .order
 
+// .order

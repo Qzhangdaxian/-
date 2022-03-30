@@ -46,10 +46,12 @@
                    退款
                    付款
                   -->
-
+                  <!--
+                  经销商
+                -->
                   <template v-if="types == 3">
                     <van-button
-                      v-if="item.state === 5 || item.state ===7 "
+                      v-if="item.state === 7 "
                       square
                       :loading="isLoding"
                       :disabled="isLoding "
@@ -58,11 +60,8 @@
                       text="待补录"
                       @click="onClick('addRefund', item.id)"
                     />
-                  </template>
-
-                  <template v-if="types == 4">
                     <van-button
-                      v-if="item.state === 5 || item.state ===7 "
+                      v-if="item.state === 5 "
                       square
                       :loading="isLoding"
                       :disabled="isLoding "
@@ -72,22 +71,25 @@
                       @click="onClick('record', item.id)"
                     />
                   </template>
+                  <!--
+                  门店
+                -->
+                  <template v-if="types == 4 && item.state == 5">
+                    <van-button square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="待补录" @click="onClick('record', item.id)" />
+                  </template>
 
-                  <van-button v-if="item.state === 6"
-                  square :loading="isLoding"
-                  :disabled="isLoding || types == 3"
-                  type="default"
-                  color="#919A74"
-                  text="退款"
-                  @click="onClick('addRefund', item.id)" />
+                  <van-button v-if="item.state === 6" square :loading="isLoding" :disabled="isLoding || types == 3" type="default" color="#919A74" text="退款" @click="onClick('addRefund', item.id)" />
 
-                  <van-button v-if="(item.state == 1 || item.state == 5) && types == 3"
-                  square :loading="isLoding"
-                  :disabled="isLoding"
-                  type="default"
-                  color="#919A74"
-                  text="付款"
-                  @click="onClick('payOrder', item.id)" />
+                  <van-button
+                    v-if="(item.state == 1 || item.state == 4) && types == 3"
+                    square
+                    :loading="isLoding"
+                    :disabled="isLoding"
+                    type="default"
+                    color="#919A74"
+                    text="付款"
+                    @click="onClick('payOrder', item.id)"
+                  />
                 </template>
               </van-swipe-cell>
             </van-cell>
