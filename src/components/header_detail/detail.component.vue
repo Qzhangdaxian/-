@@ -157,7 +157,7 @@ export default defineComponent({
     types: Number as any
   },
   setup(props) {
-    let dataSource = ref();
+    let dataSource = ref({} as any);
     let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
     const data = ref([
@@ -213,6 +213,7 @@ export default defineComponent({
     let productNoImgArray = ref([] as any);
     let refundHairImgArray = ref([] as any);
     let refundImgArray = ref([] as any);
+    console.log(props.dataSources.data)
     if (props.dataSources && props.dataSources.data) {
       // eslint-disable-next-line vue/no-setup-props-destructure
       dataSource.value = props.dataSources.data;
