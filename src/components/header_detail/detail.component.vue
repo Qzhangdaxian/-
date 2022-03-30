@@ -1,7 +1,7 @@
 <template>
   <div class="record_massage" v-bind:class="{ listIndex: show && !isDetail, listIndexs: !show && !isDetail }">
     <!--<div v-for="dataSource in dataSource" :key="dataSource.id"></div> -->
-    <van-nav-bar :right-text="CheckStatePipe(dataSource.state)">
+    <van-nav-bar :right-text="CheckStatePipe(dataSource?.state)">
       <template #left>
         <van-icon name="shop-o" />
         <span class="storeName">{{ dataSource.storeName }}</span>
