@@ -154,9 +154,14 @@ export default defineComponent({
   props: {
     dataSources: {} as any,
     isDetail: Boolean,
-    types: Number as any
+    types: Number as any,
+    alopeciaImgArray: [],
+    productNoImgArray: [],
+    refundHairImgArray: [],
+    refundImgArray: []
   },
   setup(props) {
+    console.log(props.alopeciaImgArray)
     let dataSource = ref({} as any);
     let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
@@ -209,44 +214,41 @@ export default defineComponent({
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const show = ref(false);
     const arrowText = ref("展开");
-    let alopeciaImgArray = ref([] as any);
-    let productNoImgArray = ref([] as any);
-    let refundHairImgArray = ref([] as any);
-    let refundImgArray = ref([] as any);
+    // let alopeciaImgArray = ref([] as any);
+    // let productNoImgArray = ref([] as any);
+    // let refundHairImgArray = ref([] as any);
+    // let refundImgArray = ref([] as any);
     // console.log(props.dataSources.data)
     // if (props.dataSources && props.dataSources.data) {
     //   dataSource.value = props.dataSources.data;
     // } else {
     //   dataSource.value = props.dataSources;
     // }
-    if (props.dataSources && props.dataSources.alopeciaImgArray) {
-      dataSource.value.alopeciaImgArray.forEach((item: any) => {
-        if (item && item.url) {
-          alopeciaImgArray.value.push(item.url);
-        }
-      });
-    }
-    if (props.dataSources && props.dataSources.productNoImgArray) {
-      props.dataSources.productNoImgArray.forEach((item: any) => {
-        if (item && item.url) {
-          productNoImgArray.value.push(item.url);
-        }
-      });
-    }
-    if (props.dataSources && props.dataSources.refundHairImgArray) {
-      props.dataSources.refundHairImgArray.forEach((item: any) => {
-        if (item && item.url) {
-          refundHairImgArray.value.push(item.url);
-        }
-      });
-    }
-    if (props.dataSources && props.dataSources.refundImgArray) {
-      props.dataSources.refundImgArray.forEach((item: any) => {
-        if (item && item.url) {
-          refundImgArray.value.push(item.url);
-        }
-      });
-    }
+    // function dataMap () {
+
+    // if (props.dataSources && props.dataSources.productNoImgArray) {
+    //   props.dataSources.productNoImgArray.forEach((item: any) => {
+    //     if (item && item.url) {
+    //       productNoImgArray.value.push(item.url);
+    //     }
+    //   });
+    // }
+    // if (props.dataSources && props.dataSources.refundHairImgArray) {
+    //   props.dataSources.refundHairImgArray.forEach((item: any) => {
+    //     if (item && item.url) {
+    //       refundHairImgArray.value.push(item.url);
+    //     }
+    //   });
+    // }
+    // if (props.dataSources && props.dataSources.refundImgArray) {
+    //   props.dataSources.refundImgArray.forEach((item: any) => {
+    //     if (item && item.url) {
+    //       refundImgArray.value.push(item.url);
+    //     }
+    //   });
+    // }
+    // }
+    // dataMap()
     function arrowTogger() {
       show.value = !show.value;
       if (!show.value) {
@@ -296,13 +298,13 @@ export default defineComponent({
       show,
       arrowText,
       imageArr,
-      alopeciaImgArray,
+      // alopeciaImgArray,
       alopeciaHistory,
       alopeciaState,
       dataSource,
-      productNoImgArray,
-      refundImgArray,
-      refundHairImgArray,
+      // productNoImgArray,
+      // refundImgArray,
+      // refundHairImgArray,
       arrowTogger,
       CheckStatePipe,
       dateFormat,
