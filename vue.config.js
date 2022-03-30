@@ -1,8 +1,9 @@
 const path = require('path');
+const { defineConfig } = require('@vue/cli-service')
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
-module.exports = {
+module.exports = defineConfig({
   //publicPath取代了baseUrl
   publicPath: './',
 
@@ -15,7 +16,62 @@ module.exports = {
 
   //关键点在这  原来的 Compiler 换成了 runtimeCompiler
   runtimeCompiler: true,
+  // 配置 webpack-dev-server 行为。
+  devServer: {
+    open: process.platform === 'darwin',
+    host: '192.168.2.139',
+    port: 8088,
+    hot: true,
+    // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/cli-service.md#配置代理
+    proxy: {
+      '/api': {
+        target: process.env.VUE_APP_BASE_URL, // 代理服务器路径
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '', // 去掉接口地址中的api字符串
+        },
+      }
+    },
+  },
 
+  css: {
+    // 配置高于chainWebpack中关于css loader的配置
+    // modules: true, // 是否开启支持‘foo.module.css’样式
+    extract: true, // 是否使用css分离插件 ExtractTextPlugin，采用独立样式文件载入，不采用<style>方式内联至html文件中
+    // sourceMap: false, // 是否在构建样式地图，false将提高构建速度
+    loaderOptions: { // css预设器配置项
+      sass: {
+        // 映入全局样
+        /**
+         * sass-loader v8- 这个选项名为“data”
+         * sass-loader v8 这个选项名为“prependData”
+         * sass-loader v8- 这个选项名为“additionalData”
+         */
+        additionalData: '@import "@/styles/style.scss";',
+        // additionalData: '@import "@/styles/mixin.scss";',
+        // eslint-disable-next-line no-dupe-keys
+        additionalData: '@import "@/styles/ant-design.scss";',
+        // prependData: '@import "@/styles/font.scss";',
+        // loaderOptions: {
+        //   javascriptEnabled: true,
+        //   }
+      },
+      // loaderOptions: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true
+        }
+      }
+      // }
+      // scss: {
+      //   // 映入全局样式
+      //   additionalData: '@use "@/styles/style.scss";',
+      //   additionalData: '@import "@/styles/mixin.scss";',
+      //   additionalData: '@use "@/styles/element-reset.scss";',
+      //   additionalData: '@use "@/styles/font.scss";',
+      // },
+    }
+  },
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/webpack.md
   chainWebpack: (config) => {
@@ -123,64 +179,9 @@ module.exports = {
         },
       };
     }
-   },
-
-  // 配置 webpack-dev-server 行为。
-  devServer: {
-    open: process.platform === 'darwin',
-    host: '192.168.2.139',
-    port: 8088,
-    hot: true,
-    // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/cli-service.md#配置代理
-    proxy: {
-      '/api': {
-        target: process.env.VUE_APP_BASE_URL, // 代理服务器路径
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '', // 去掉接口地址中的api字符串
-        },
-      }
-    },
   },
 
-  css: {
-    // 配置高于chainWebpack中关于css loader的配置
-    // modules: true, // 是否开启支持‘foo.module.css’样式
-    extract: true, // 是否使用css分离插件 ExtractTextPlugin，采用独立样式文件载入，不采用<style>方式内联至html文件中
-    // sourceMap: false, // 是否在构建样式地图，false将提高构建速度
-    loaderOptions: { // css预设器配置项
-      sass: {
-        // 映入全局样
-        /**
-         * sass-loader v8- 这个选项名为“data”
-         * sass-loader v8 这个选项名为“prependData”
-         * sass-loader v8- 这个选项名为“additionalData”
-         */
-        additionalData: '@import "@/styles/style.scss";',
-        // additionalData: '@import "@/styles/mixin.scss";',
-        // eslint-disable-next-line no-dupe-keys
-        additionalData: '@import "@/styles/ant-design.scss";',
-        // prependData: '@import "@/styles/font.scss";',
-        // loaderOptions: {
-        //   javascriptEnabled: true,
-        //   }
-      },
-      // loaderOptions: {
-      less: {
-        lessOptions: {
-          javascriptEnabled: true
-        }
-      }
-      // }
-      // scss: {
-      //   // 映入全局样式
-      //   additionalData: '@use "@/styles/style.scss";',
-      //   additionalData: '@import "@/styles/mixin.scss";',
-      //   additionalData: '@use "@/styles/element-reset.scss";',
-      //   additionalData: '@use "@/styles/font.scss";',
-      // },
-    }
-  },
+
 
   pluginOptions: {
     'style-resources-loader': {
@@ -189,3 +190,4 @@ module.exports = {
     }
   }
 }
+)
