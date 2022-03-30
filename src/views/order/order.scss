@@ -39,6 +39,13 @@ body {
       font-size: vw(20);
     }
   }
+  .popup_top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: vw(28) vw(20);
+    font-size: vw(14);
+  }
 }
 
 // .order

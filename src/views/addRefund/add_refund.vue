@@ -154,7 +154,9 @@ export default defineComponent({
         Toast('请添加三张客户图片')
         return;
       }
-      if (dataSources.value.data.identity != data.refundIdentity.substring(0, 12)) {
+      console.log(dataSources.value.data.identity);
+      console.log(data.refundIdentity.substring(0, 12))
+      if (dataSources.value.data.identity.substring(0,12) != data.refundIdentity.substring(0, 12)) {
         data.show = true;
         return;
       }

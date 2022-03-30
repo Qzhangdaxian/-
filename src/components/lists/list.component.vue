@@ -36,7 +36,7 @@
                       <span class="nav_text">产品管理编号</span>
                     </template>
                     <template #right>
-                      <span class="nat_text_data">{{ item.productIdent || "暂无" }}</span>
+                      <span class="nat_text_data">{{ item.productNo || "暂无" }}</span>
                     </template>
                   </van-nav-bar>
                 </div>
@@ -84,7 +84,7 @@
                     v-if="(item.state == 1 || item.state == 4) && types == 3"
                     square
                     :loading="isLoding"
-                    :disabled="isLoding"
+                    :disabled="isLoding "
                     type="default"
                     color="#919A74"
                     text="付款"
@@ -106,7 +106,6 @@ import { defineComponent, ref } from "vue";
 import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider, Toast, Icon, Empty } from "vant";
 // import router from "@/router";
 import { useRoute, useRouter } from "vue-router";
-import { number } from "vue-types";
 
 export default defineComponent({
   name: "h-list",

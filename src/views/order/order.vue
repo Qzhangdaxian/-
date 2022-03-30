@@ -11,20 +11,23 @@
         <van-icon name="plus" />
       </van-button>
     </div>
-    <van-popup
-    v-model:show="show"
-    round
-    position="bottom"
-    :style="{ height: '30%' }">
-      筛选
+    <van-popup v-model:show="show" round position="bottom" >
+      <!--
+      <div class="popup_top">
+        <span>理发店/门店选择</span>
+        <van-icon name="cross"  @click="onCancel"/>
+      </div>
+      <van-search v-model="values" shape="round" placeholder="请输入店铺名称搜索" @update:model-value="storeSearch(value)" @clear="onClear" />
+      :showToolbar="false"
+      -->
+      <van-picker title="理发店/门店选择" v-if="show" :columns="storeLists"  @confirm="onConfirm"  @change="onChange"/>
     </van-popup>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
-import { Icon } from "vant";
 import { useRoute, useRouter } from "vue-router";
-import { Toast, Search, Button, Popup } from "vant";
+import { Toast, Search, Button, Popup, Icon, Picker } from "vant";
 // import router from "@/router";
 import ListArr from "@/components/lists/list.component.vue";
 import { orderService } from "./order.service";
@@ -41,14 +44,15 @@ export default defineComponent({
     ListArr,
     // 'van-sticky': Sticky
     // 'van-badge': Badge
-    "van-popup": Popup
+    "van-picker": Picker,
+    "van-popup":Popup
   },
 
   setup() {
     const route = useRoute();
     const router = useRouter();
     const value = ref("");
-    const show = ref(false)
+    const show = ref(false);
     const datas = reactive({
       data: [
         {
@@ -103,6 +107,10 @@ export default defineComponent({
       username: "",
       state: 0,
       btnType: "",
+      dataSoures: ([] as Array<any>),
+      storeLists: ([] as Array<any>),
+      values: '',
+      storeId: null
     });
     const type = ref(route.query.type);
     const child = ref();
@@ -130,7 +138,8 @@ export default defineComponent({
           page: param[0],
           limit: 10,
           state: param[1] == 0 ? "" : param[1],
-          username: datas.username,
+          userName: datas.username,
+          storeId: datas.storeId
         })
         .then((res) => {
           // console.log(res);
@@ -175,18 +184,28 @@ export default defineComponent({
       //   datas.finished = true;
       // }
     };
-    const isShow = () =>{
-      show.value = !show.value
-    }
-    const storeList = () => {
+    const isShow = () => {
+      show.value = !show.value;
+    };
+    const storeSearch = (val: string) => {
+      storeList(datas.values)
+    };
+    const storeList = (userName?: string) => {
+      // datas.storeLists = []
+      const param = ({
+        page: 1,
+        limit: 999999,
+      } as any)
+      if(userName){
+        param.userName = userName;
+      }
       orderService
-        .storeList({
-          page: 1,
-          limit: 999999,
-          // userName
-        })
+        .storeList(param)
         .then((res) => {
-          console.log(res);
+          res.data.data.forEach((item: any) => {
+            datas.dataSoures.push(item.id)
+            datas.storeLists.push(item.dealerName)
+          })
         });
     };
     storeList();
@@ -195,6 +214,18 @@ export default defineComponent({
         path: "/addOrder",
       });
     }
+    const onCancel = () => {
+      show.value= false;
+    };
+    const onConfirm = (val: string, index: number) => {
+      // Toast(`当前值: ${val}, 当前索引: ${index}`);
+      datas.storeId = datas.dataSoures[index]
+      show.value= false;
+      onLoadData([1, datas.state])
+    };
+    const onChange = (val: string, index: number) => {
+      // Toast(`当前值: ${val}, 当前索引: ${index}`);
+    };
     return {
       value,
       ...toRefs(datas),
@@ -206,7 +237,11 @@ export default defineComponent({
       child,
       type,
       show,
-      isShow
+      isShow,
+      onConfirm,
+      onCancel,
+      onChange,
+      storeSearch
     };
   },
 });

@@ -122,7 +122,7 @@
         </template>
       </van-nav-bar>
       <div class="image_pic" v-if="isDetail">
-        <van-image-preview :isdefault="true" :images="dataSource.refundHairImgArray"></van-image-preview>
+        <van-image-preview :isdefault="true" :images="refundHairImgArray"></van-image-preview>
       </div>
     </div>
     <div class="destroy">
@@ -132,7 +132,7 @@
         </template>
       </van-nav-bar>
       <div class="image_pic" v-if="isDetail">
-        <van-image-preview :isdefault="false" :images="dataSource.refundImgArray"></van-image-preview>
+        <van-image-preview :isdefault="false" :images="refundImgArray"></van-image-preview>
       </div>
     </div>
   </div>
@@ -210,6 +210,8 @@ export default defineComponent({
     const arrowText = ref("展开");
     let alopeciaImgArray = ref([] as any);
     let productNoImgArray = ref ([] as any)
+    let refundHairImgArray = ref([] as any);
+    let refundImgArray = ref ([] as any)
     if (props.dataSources && props.dataSources.data) {
       // eslint-disable-next-line vue/no-setup-props-destructure
       dataSource.value = props.dataSources.data;
@@ -228,6 +230,20 @@ export default defineComponent({
       dataSource.value.productNoImgArray.forEach((item: any) => {
         if (item && item.url) {
           productNoImgArray.value.push(item.url);
+        }
+      });
+    }
+    if (dataSource.value && dataSource.value?.refundHairImgArray) {
+      dataSource.value.refundHairImgArray.forEach((item: any) => {
+        if (item && item.url) {
+          refundHairImgArray.value.push(item.url);
+        }
+      });
+    }
+    if (dataSource.value && dataSource.value?.refundImgArray) {
+      dataSource.value.refundImgArray.forEach((item: any) => {
+        if (item && item.url) {
+          refundImgArray.value.push(item.url);
         }
       });
     }
@@ -252,6 +268,8 @@ export default defineComponent({
       alopeciaState,
       dataSource,
       productNoImgArray,
+      refundImgArray,
+      refundHairImgArray,
       arrowTogger,
       CheckStatePipe,
     };
