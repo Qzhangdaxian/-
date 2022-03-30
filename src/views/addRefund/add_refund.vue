@@ -1,7 +1,12 @@
 <template>
   <div class="add_refund">
     <!-- 此处添加客户信息 -->
-    <h-detail :isDetail="false" :dataSources="dataSources" :images="images"></h-detail>
+    <h-detail :isDetail="false" :dataSources="dataSources"
+    :alopeciaImgArray="alopeciaImgArray"
+      :productNoImgArray="productNoImgArray"
+      :refundHairImgArray="refundHairImgArray"
+      :refundImgArray="refundImgArray"
+      :types="type"></h-detail>
     <!-- 门店上传退款信息 -->
     <van-form v-if="type == 4">
       <div class="add_refund-form">
@@ -95,6 +100,10 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     let res: any = ref(route.query);
+    let alopeciaImgArray =ref([] as any)
+    let productNoImgArray =ref([] as any)
+    let refundHairImgArray =ref([] as any)
+    let refundImgArray =ref([] as any)
     let data = reactive({
       show: false,
       refundReason: "",
@@ -120,6 +129,34 @@ export default defineComponent({
     const orderDetail = () => {
       orderService.orderDetail({ id: res.value.id }).then((res) => {
         if (res.data.success) {
+          if (res.data.data && res.data.data.alopeciaImgArray) {
+            res.data.data.alopeciaImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                alopeciaImgArray.value.push(item.url);
+              }
+            });
+          }
+          if (res.data.data && res.data.data.productNoImgArray) {
+            res.data.data.productNoImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                productNoImgArray.value.push(item.url);
+              }
+            });
+          }
+          if (res.data.data && res.data.data.refundHairImgArray) {
+            res.data.data.refundHairImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                refundHairImgArray.value.push(item.url);
+              }
+            });
+          }
+          if (res.data.data && res.data.data.refundImgArray) {
+            res.data.data.refundImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                refundImgArray.value.push(item.url);
+              }
+            });
+          }
           dataSources.value = res.data.data;
         }
         console.log(dataSources.value);
@@ -226,6 +263,10 @@ export default defineComponent({
       data.show = false;
     };
     return {
+      alopeciaImgArray,
+      productNoImgArray,
+      refundHairImgArray,
+      refundImgArray,
       ...toRefs(data),
       onConfirm,
       onSubmitStore,

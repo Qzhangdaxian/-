@@ -2,7 +2,12 @@
   <div class="record">
     <!--
   -->
-    <h-detail :isDetail="false" :dataSources="dataSources" :images="images"></h-detail>
+    <h-detail :isDetail="false" :dataSources="dataSources"
+      :alopeciaImgArray="alopeciaImgArray"
+      :productNoImgArray="productNoImgArray"
+      :refundHairImgArray="refundHairImgArray"
+      :refundImgArray="refundImgArray"
+      :types="type"></h-detail>
     <div class="record_form" v-if="Number(type) === 4">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
@@ -63,6 +68,10 @@ export default defineComponent({
     const images = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const dataSources = ref();
+    let alopeciaImgArray =ref([] as any)
+    let productNoImgArray =ref([] as any)
+    let refundHairImgArray =ref([] as any)
+    let refundImgArray =ref([] as any)
     const data = reactive({
       imgData: [] as any,
       productNoImg: [] as Array<any>,
@@ -72,6 +81,34 @@ export default defineComponent({
     function getDetail() {
       orderService.orderDetail({ id: route.query.id }).then((res) => {
         if (res.data.success) {
+          if (res.data.data && res.data.data.alopeciaImgArray) {
+            res.data.data.alopeciaImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                alopeciaImgArray.value.push(item.url);
+              }
+            });
+          }
+          if (res.data.data && res.data.data.productNoImgArray) {
+            res.data.data.productNoImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                productNoImgArray.value.push(item.url);
+              }
+            });
+          }
+          if (res.data.data && res.data.data.refundHairImgArray) {
+            res.data.data.refundHairImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                refundHairImgArray.value.push(item.url);
+              }
+            });
+          }
+          if (res.data.data && res.data.data.refundImgArray) {
+            res.data.data.refundImgArray.forEach((item: any) => {
+              if (item && item.url) {
+                refundImgArray.value.push(item.url);
+              }
+            });
+          }
           dataSources.value = res.data.data;
           console.log(res.data);
         }
@@ -123,6 +160,10 @@ export default defineComponent({
       ...toRefs(data),
       afterRead,
       record,
+      alopeciaImgArray,
+      productNoImgArray,
+      refundHairImgArray,
+      refundImgArray
     };
   },
 });
