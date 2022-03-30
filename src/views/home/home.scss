@@ -13,7 +13,7 @@ body {
 .pen_b{
   height: vw(160);
   background-image: url('../../assets/home/card.jpg');
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
   .card_text{
     padding: vw(35) vw(41) 0;
@@ -46,6 +46,10 @@ body {
     color: #A9B28E;
     margin: vw(46) 0;
     font-weight: bold;
+    span{
+      font-weight: 300;
+      opacity: .5;
+    }
   }
   ul li{
     // width: vw(335);

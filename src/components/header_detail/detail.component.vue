@@ -1,110 +1,110 @@
 <template>
   <div class="record_massage" v-bind:class="{ listIndex: show && !isDetail, listIndexs: !show && !isDetail }">
-    <div v-for="item in dataSources" :key="item.id">
-      <van-nav-bar :right-text="CheckStatePipe(item.state)">
-        <template #left>
-          <van-icon name="shop-o" />
-          <span class="storeName">{{ item.storeName }}</span>
-          <van-icon name="arrow" />
-        </template>
-      </van-nav-bar>
-      <van-divider :style="{ color: '#CBCBCB' }" />
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">用户姓名</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.userName }}</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">身份证号</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.identity }}</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">年龄</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.age }}岁</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">下单日期</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.orderTime }}</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">产品管理编号</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.code }}</span>
-        </template>
-      </van-nav-bar>
-      <div class="image_pic" v-if="isDetail">
-        <van-image-preview :isdefault="false" :images="imageArr"></van-image-preview>
-      </div>
-      <div class="van-hairline--top"></div>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">脱发史</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.alopecia }}</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">脱发状态</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.alopeciaState }}</span>
-        </template>
-      </van-nav-bar>
-      <!--
+    <!--<div v-for="dataSource in dataSource" :key="dataSource.id"></div> -->
+    <van-nav-bar :right-text="CheckStatePipe(dataSource.state)">
+      <template #left>
+        <van-icon name="shop-o" />
+        <span class="storeName">{{ dataSource.storeName }}</span>
+        <van-icon name="arrow" />
+      </template>
+    </van-nav-bar>
+    <van-divider :style="{ color: '#CBCBCB' }" />
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">用户姓名</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.userName }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">身份证号</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.identity }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">年龄</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.age }}岁</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">下单日期</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.createTime }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">产品管理编号</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.productNo || "暂无" }}</span>
+      </template>
+    </van-nav-bar>
+    <div class="image_pic">
+      <van-image-preview :isdefault="false" :images="productNoImgArray"></van-image-preview>
+    </div>
+    <div class="van-hairline--top"></div>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">脱发史</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ alopeciaHistory[dataSource.alopeciaHistory] }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">脱发状态</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ alopeciaState[dataSource.alopeciaState] }}</span>
+      </template>
+    </van-nav-bar>
+    <!--
       <div class="image_preview">
         <div class="img_box" v-for="(item2, index) of images" :key="index">
           <img :src="item2" alt="" @click="getImg(index)" />
         </div>
       </div>
       -->
-      <div>
-        <van-image-preview :isdefault="true" :images="images"></van-image-preview>
-      </div>
-      <div class="van-hairline--top"></div>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">发货日期</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.deliveryDate }}</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">快递公司</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.courierCompany }}</span>
-        </template>
-      </van-nav-bar>
-      <van-nav-bar>
-        <template #left>
-          <span class="nav_text">快递单号</span>
-        </template>
-        <template #right>
-          <span class="nat_text_data">{{ item.courierNumber }}</span>
-        </template>
-      </van-nav-bar>
+    <div>
+      <van-image-preview :isdefault="true" :images="alopeciaImgArray"></van-image-preview>
     </div>
+    <div class="van-hairline--top"></div>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">发货日期</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.expressTime || "暂无" }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">快递公司</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.expressCompany || "暂无" }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">快递单号</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ dataSource.express || "暂无" }}</span>
+      </template>
+    </van-nav-bar>
+
     <div class="arrow_togger" @click="arrowTogger" v-if="!isDetail">
       {{ arrowText }}
       <van-icon name="arrow-down" v-if="!show" />
@@ -118,11 +118,11 @@
           <span class="nav_text">退款原因</span>
         </template>
         <template #right>
-          <span class="nat_text_data">有毛发生长但未达到预期</span>
+          <span class="nat_text_data">{{ dataSource.refundReason || "暂无" }}</span>
         </template>
       </van-nav-bar>
       <div class="image_pic" v-if="isDetail">
-        <van-image-preview :isdefault="true" :images="images"></van-image-preview>
+        <van-image-preview :isdefault="true" :images="dataSource.refundHairImgArray"></van-image-preview>
       </div>
     </div>
     <div class="destroy">
@@ -132,7 +132,7 @@
         </template>
       </van-nav-bar>
       <div class="image_pic" v-if="isDetail">
-        <van-image-preview :isdefault="false" :images="imageArr"></van-image-preview>
+        <van-image-preview :isdefault="false" :images="dataSource.refundImgArray"></van-image-preview>
       </div>
     </div>
   </div>
@@ -152,49 +152,85 @@ export default defineComponent({
     "van-image-preview": imgagePre,
   },
   props: {
-    images: [] as any,
-    dataSources: [] as any,
+    dataSources: {} as any,
     isDetail: Boolean,
   },
   setup(props) {
-    console.log(props.dataSources);
+    let dataSource = ref();
+    let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
+    let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
     const data = [
       {
-        name: "全部",
-        value: 1,
-      },
-      {
-        name: "已提交",
-        value: 2,
-      },
-      {
-        name: "待补录",
-        value: 3,
-      },
-      {
-        name: "待发货",
-        value: 4,
-      },
-      {
-        name: "已发货",
-        value: 5,
-      },
-      {
-        name: "已完成",
-        value: 6,
-      },
-      {
-        name: "待付款",
-        value: 7,
-      },
-      {
-        name: "待审核",
-        value: 9,
-      },
+          name: "全部",
+          value: 0,
+        },
+        {
+          name: "已提交",
+          value: 1,
+        },
+        {
+          name: "待审核",
+          value: 2,
+        },
+        {
+          name: "待发货",
+          value: 3,
+        },
+        {
+          name: "已驳回",
+          value: 4,
+        },
+        {
+          name: "待补录",
+          value: 5,
+        },
+        {
+          name: "已完成",
+          value: 6,
+        },
+        {
+          name: "退款待补录",
+          value: 7,
+        },
+        {
+          name: "退款待审核",
+          value: 8,
+        },
+        {
+          name: "退款完成",
+          value: 9,
+        },
+        {
+          name: "退款失败",
+          value: 10,
+        }
     ];
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const show = ref(false);
     const arrowText = ref("展开");
+    let alopeciaImgArray = ref([] as any);
+    let productNoImgArray = ref ([] as any)
+    if (props.dataSources && props.dataSources.data) {
+      // eslint-disable-next-line vue/no-setup-props-destructure
+      dataSource.value = props.dataSources.data;
+    } else {
+      // eslint-disable-next-line vue/no-setup-props-destructure
+      dataSource.value = props.dataSources;
+    }
+    if (dataSource.value && dataSource.value?.alopeciaImgArray) {
+      dataSource.value.alopeciaImgArray.forEach((item: any) => {
+        if (item && item.url) {
+          alopeciaImgArray.value.push(item.url);
+        }
+      });
+    }
+    if (dataSource.value && dataSource.value?.productNoImgArray) {
+      dataSource.value.productNoImgArray.forEach((item: any) => {
+        if (item && item.url) {
+          productNoImgArray.value.push(item.url);
+        }
+      });
+    }
     function arrowTogger() {
       show.value = !show.value;
       if (!show.value) {
@@ -204,13 +240,18 @@ export default defineComponent({
       }
     }
     function CheckStatePipe(value: any): any {
-      const returnData = data.filter((item: Data) => item.value === Number(value));
+      const returnData = data.filter((dataSource: Data) => dataSource.value === Number(value));
       return returnData[0].name;
     }
     return {
       show,
       arrowText,
       imageArr,
+      alopeciaImgArray,
+      alopeciaHistory,
+      alopeciaState,
+      dataSource,
+      productNoImgArray,
       arrowTogger,
       CheckStatePipe,
     };

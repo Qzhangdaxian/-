@@ -112,7 +112,7 @@
       flex-direction: row;
       justify-content: space-between;
       margin-top: vw(30);
-  
+
       .van-image{
         position: absolute;
         width: vw(100);
@@ -131,12 +131,34 @@
     }
     .van-uploader {
       width: vw(335);
-      height: vw(152);
+      min-height: vw(152);
+      background-color: #F5F5F5;
+      border-radius: vw(3);
+      border: 1px solid #DEDEDE;
 
-      .van-uploader__wrapper,
-      .van-uploader__upload {
-        height: 100%;
+      &__wrapper,
+      &__upload,
+      &__input-wrapper {
         width: 100%;
+        min-height: vw(152);
+      }
+
+      &__input-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &__input-wrapper p {
+        color: #999999;
+        font-size: vw(14);
+        margin-top: vw(10);
+      }
+
+      &-upload {
+        font-size: vw(49);
+        color: #C5C5C5;
       }
     }
     .btn_next{

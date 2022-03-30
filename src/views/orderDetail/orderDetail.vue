@@ -1,14 +1,17 @@
 <template>
   <div class="order_detail">
     <div>
-      <h-detail :isDetail="true" :dataSources="dataSources" :images="images"></h-detail>
+       <h-detail :isDetail="true" :dataSources="dataSources" ></h-detail>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import hDeatil from "@/components/header_detail/detail.component.vue";
+import { useRoute, useRouter } from "vue-router";
+import { orderService } from "../service";
+
 document.title = "订单详情";
 export default defineComponent({
   name: "h-order_detail",
@@ -16,41 +19,20 @@ export default defineComponent({
     "h-detail": hDeatil,
   },
   setup() {
-    const images = ["https://img.yzcdn.cn/vant/apple-1.jpg", "https://img.yzcdn.cn/vant/apple-2.jpg", "https://img.yzcdn.cn/vant/apple-1.jpg"];
-    const dataSources = [
-      {
-        storeName: "和合苑理发店",
-        userName: "张珊",
-        identity: "51651653",
-        age: "45",
-        orderTime: "2022-01-20",
-        code: "1165651",
-        alopecia: "2022-01-22",
-        alopeciaState: "M型脱发",
-        deliveryDate: "2022-01-23",
-        courierCompany: "京东",
-        courierNumber: "459325454",
-        id: 0,
-        state: 1,
-      },
-      // {
-      //   storeName: '和合苑理发店',
-      //   userName: '张珊',
-      //   identity: '51651653',
-      //   age: '45',
-      //   orderTime: '2022-01-20',
-      //   code: '1165651',
-      //   alopecia: '2022-01-22',
-      //   alopeciaState: 'M型脱发',
-      //   deliveryDate: '2022-01-23',
-      //   courierCompany: '京东',
-      //   courierNumber: '459325454',
-      //   id:1,
-      //   state: 2,
-      // }
-    ];
+      let dataSources = ref();
+      const route = useRoute();
+      const router = useRouter();
+      let res: any = ref(route.query);
+      const orderDetail = ()=>{
+        orderService.orderDetail({id:res.value.id}).then((res)=>{
+          if(res.data.success){
+            dataSources.value = res.data;
+          }
+          console.log(dataSources.value)
+        })
+      }
+      orderDetail()
     return {
-      images,
       dataSources,
     };
   },

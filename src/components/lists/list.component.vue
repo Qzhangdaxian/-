@@ -1,20 +1,25 @@
 <template>
-  <div>
+  <div class="order_list_z">
     <van-tabs v-model:active="active" sticky :animated="true" @click-tab="onClickTab(active)">
       <van-tab v-for="index in data" :key="index.value" :title="index.name">
         <p class="tips" v-if="active === 2">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
         <van-pull-refresh v-model="loading" @refresh="onRefresh">
-          <van-list :finished="finished" finished-text="没有更多了" @load="onLoadIng">
+          <van-list :offset="100" :finished="finished && list.length > 0" finished-text="没有更多了" @load="onLoadIng">
             <van-cell v-for="item in list" :key="item.state">
               <van-swipe-cell>
                 <div>
-                  <van-nav-bar :right-text="CheckStatePipe(item.state)">
+                  <van-nav-bar>
                     <template #left>
-                      <div @click="detail" data-for="1">
+                      <div @click="detail(item.id)" data-for="1">
                         <van-icon name="shop-o" />
                         <span class="storeName">{{ item.storeName }}</span>
                         <van-icon name="arrow" />
                       </div>
+                    </template>
+                    <template #right>
+                      <span :style="{ color: color[item.state] }">
+                        {{ CheckStatePipe(item.state) }}
+                      </span>
                     </template>
                   </van-nav-bar>
                   <van-divider :style="{ color: '#CBCBCB' }" />
@@ -31,16 +36,58 @@
                       <span class="nav_text">产品管理编号</span>
                     </template>
                     <template #right>
-                      <span class="nat_text_data">{{ item.productIdent }}</span>
+                      <span class="nat_text_data">{{ item.productIdent || "暂无" }}</span>
                     </template>
                   </van-nav-bar>
                 </div>
                 <template #right>
-                  <!---->
-                  <van-button v-if="btnType === 'record'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="补录" @click="onClick('record')" />
-                  <van-button v-if="btnType === 'performance'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="入库" @click="onClick('performance')" />
-                  <van-button v-if="btnType === 'refund'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="退款" @click="onClick('addRefund')" />
-                  <van-button v-if="btnType === 'payOrder'" square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="付款" @click="onClick('payOrder')" />
+                  <!--
+                   补录 || item.state !== 5
+                   退款
+                   付款
+                  -->
+
+                  <template v-if="types == 3">
+                    <van-button
+                      v-if="item.state === 5 || item.state ===7 "
+                      square
+                      :loading="isLoding"
+                      :disabled="isLoding "
+                      type="default"
+                      color="#919A74"
+                      text="待补录"
+                      @click="onClick('addRefund', item.id)"
+                    />
+                  </template>
+
+                  <template v-if="types == 4">
+                    <van-button
+                      v-if="item.state === 5 || item.state ===7 "
+                      square
+                      :loading="isLoding"
+                      :disabled="isLoding "
+                      type="default"
+                      color="#919A74"
+                      text="待补录"
+                      @click="onClick('record', item.id)"
+                    />
+                  </template>
+
+                  <van-button v-if="item.state === 6"
+                  square :loading="isLoding"
+                  :disabled="isLoding || types == 3"
+                  type="default"
+                  color="#919A74"
+                  text="退款"
+                  @click="onClick('addRefund', item.id)" />
+
+                  <van-button v-if="(item.state == 1 || item.state == 5) && types == 3"
+                  square :loading="isLoding"
+                  :disabled="isLoding"
+                  type="default"
+                  color="#919A74"
+                  text="付款"
+                  @click="onClick('payOrder', item.id)" />
                 </template>
               </van-swipe-cell>
             </van-cell>
@@ -48,14 +95,16 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
+    <van-empty class="custom-image custom-image-no-found" :image="require('../../assets/addOrder/no-found.png')" description="暂无订单~" v-if="list.length === 0" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider, Toast, Icon } from "vant";
-import router from "@/router";
-import { number, string } from "vue-types";
+import { Tab, Tabs, PullRefresh, List, Cell, SwipeCell, Button, NavBar, Divider, Toast, Icon, Empty } from "vant";
+// import router from "@/router";
+import { useRoute, useRouter } from "vue-router";
+import { number } from "vue-types";
 
 export default defineComponent({
   name: "h-list",
@@ -69,7 +118,8 @@ export default defineComponent({
     "van-button": Button,
     "van-nav-bar": NavBar,
     "van-divider": Divider,
-    "van-icon": Icon
+    "van-icon": Icon,
+    "van-empty": Empty,
   },
   props: {
     list: [] as any,
@@ -80,14 +130,25 @@ export default defineComponent({
     },
     // routerName: String,
     btnType: String,
+    types: Number as any,
   },
   setup(props, context) {
+    console.log(props.btnType);
+    //待付款 待审核 待发货 已发货 已完成
+    const color = ["#F9BB48", "#A9B28E", "#E41818", "#919A74", "#8E8E8E"];
+    const route = useRoute();
+    const router = useRouter();
     const loading = ref(false);
     const active = ref(0);
-
     const isLoding = ref(false);
+    let page = ref(1);
+    let state = ref(0);
+    let isNo = ref(false);
     const onClickTab = (name: number) => {
-      console.log(name);
+      isNo.value = true;
+      page.value = 1;
+      state.value = name;
+      context.emit("page", [page.value, state.value, isNo.value]);
     };
     const onRefresh = () => {
       // props.onLoad();
@@ -98,24 +159,44 @@ export default defineComponent({
     };
     //
     const onLoadIng = () => {
-      // props.onLoad();
+      console.log(props.finished);
+      isNo.value = false;
+      if (!props.finished) {
+        //   props.onLoad(2);
+        context.emit("page", [page.value++, state.value, isNo.value]);
+      }
       // Toast('加载中');
       // console.log(isLoding.value)
     };
-    const onClick = (uerRouter: string) => {
+    const onClick = (uerRouter: string, id: number) => {
       // isLoding.value = true;
       router.push({
         path: "/" + uerRouter,
+        query: {
+          type: props.types,
+          id,
+        },
       });
     };
-    const detail = ()=>{
+    const detail = (id: number) => {
       router.push({
-        path:'/orderDetail'
-      })
-    }
+        path: "/orderDetail",
+        query: {
+          id,
+        },
+      });
+    };
     function CheckStatePipe(value: any): any {
       const returnData = props.data.filter((item: Data) => item.value === Number(value));
-      return returnData[0].name;
+      // console.log(returnData)
+      if (props.types == 3)
+        switch (returnData[0]?.name) {
+          case "已提交":
+            return "待付款";
+          default:
+            return returnData[0].name;
+        }
+      else return returnData[0].name;
     }
     return {
       active,
@@ -126,6 +207,7 @@ export default defineComponent({
       isLoding,
       // onSearch,
       // onClear,
+      color,
       onRefresh,
       onClick,
       CheckStatePipe,

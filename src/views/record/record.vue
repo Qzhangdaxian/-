@@ -1,30 +1,47 @@
 <template>
   <div class="record">
+    <!--
+  -->
     <h-detail :isDetail="false" :dataSources="dataSources" :images="images"></h-detail>
-    <div class="record_form">
+    <div class="record_form" v-if="Number(type) === 4">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
-        <van-field v-model="record_code" placeholder="请输入" />
+        <van-field v-model="productNo" placeholder="请输入" />
       </van-cell-group>
       <div class="imgs">
         <van-image-preview :isdefault="false" :images="imageArr"></van-image-preview>
       </div>
       <p class="examples ARequired">请按照上述示例图标准拍照上传</p>
-      <van-uploader v-model="fileList" :after-read="afterRead" :upload-icon="'back-top'" :max-count="1">
+      <van-uploader v-model="productNoImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="1">
+        <van-icon name="back-top" class="van-uploader-upload" />
+        <p>点击上传</p>
+      </van-uploader>
+    </div>
+    <div class="record_form" v-if="Number(type) === 3">
+      <h6 class="record_code model_state required">上传销毁照片</h6>
+      <div class="image-preview">
+        <van-image-preview :isdefault="false" :images="images"></van-image-preview>
+      </div>
+      <p class="ARequired examples">请按照上述示例图标准拍照上传</p>
+      <van-uploader v-model="alopeciaImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="1">
         <van-icon name="back-top" class="van-uploader-upload" />
         <p>点击上传</p>
       </van-uploader>
     </div>
     <div class="btn_submit">
-      <van-button round color="#919A74" size="large" type="primary">提交补录</van-button>
+      <van-button round color="#919A74" size="large" type="primary" @click="record">提交补录</van-button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { Uploader, CellGroup, Field, Button, Icon } from "vant";
+import { defineComponent, reactive, ref, toRefs } from "vue";
+import { Uploader, CellGroup, Field, Button, Icon, Toast } from "vant";
 import imgagePre from "@/components/imagePreview/imagePreview.vue";
 import hDetail from "@/components/header_detail/detail.component.vue";
+import { orderService } from "../service";
+import { useRoute } from "vue-router";
+import router from "@/router";
+
 document.title = "补录";
 export default defineComponent({
   name: "h-record",
@@ -38,75 +55,74 @@ export default defineComponent({
     "h-detail": hDetail,
   },
   setup() {
+    const route = useRoute();
     const show = ref(false);
     const index = ref(0);
     const arrowText = ref("展开");
-    const record_code = ref("");
-    const images = ["https://img.yzcdn.cn/vant/apple-1.jpg", "https://img.yzcdn.cn/vant/apple-2.jpg", "https://img.yzcdn.cn/vant/apple-1.jpg"];
+    const productNo = ref("");
+    const images = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
-    const dataSources = [
-      {
-        storeName: "和合苑理发店",
-        userName: "张珊",
-        identity: "51651653",
-        age: "45",
-        orderTime: "2022-01-20",
-        code: "1165651",
-        alopecia: "2022-01-22",
-        alopeciaState: "M型脱发",
-        deliveryDate: "2022-01-23",
-        courierCompany: "京东",
-        courierNumber: "459325454",
-        id: 0,
-        state: 1,
-      },
-      // {
-      //   storeName: '和合苑理发店',
-      //   userName: '张珊',
-      //   identity: '51651653',
-      //   age: '45',
-      //   orderTime: '2022-01-20',
-      //   code: '1165651',
-      //   alopecia: '2022-01-22',
-      //   alopeciaState: 'M型脱发',
-      //   deliveryDate: '2022-01-23',
-      //   courierCompany: '京东',
-      //   courierNumber: '459325454',
-      //   id:1,
-      //   state: 2,
-      // }
-    ];
-    const fileList = ref([
-      // {
-      //   url: 'https://img.yzcdn.cn/vant/leaf.jpg',
-      //   status: 'success',
-      //   message: '上传中...',
-      // },
-      // {
-      //   url: 'https://img.yzcdn.cn/vant/tree.jpg',
-      //   status: 'success',
-      //   message: '上传失败',
-      // },
-    ]);
+    const dataSources = ref();
+    const data = reactive({
+      imgData: [] as any,
+      productNoImg: [] as Array<any>,
+      alopeciaImg: [] as Array<any>,
+      type: route.query.type,
+    });
+    function getDetail() {
+      orderService.orderDetail({ id: route.query.id }).then((res) => {
+        if (res.data.success) {
+          dataSources.value = res.data.data;
+          console.log(res.data);
+        }
+      });
+    }
+    getDetail();
+    function record() {
+      const param = {
+        id: Number(route.query.id),
+        productNo: productNo.value,
+        productNoImg: data.imgData.join(","),
+      };
+      orderService.orderRecord(param).then((res: any) => {
+        if (res.data.success) {
+          history.back();
+        }
+      });
+    }
     const afterRead = (file: any) => {
-      // file.status = 'success';
-      // file.message = '上传中...';
-      // setTimeout(() => {
-      //   file.status = 'success';
-      //   file.message = '上传失败';
-      // }, 1000);
+      let fileContent = file.file as File;
+      orderService
+        .upload(fileContent)
+        .then((res: any) => res.json())
+        .then((res: any) => {
+          data.imgData.push(res.data.id);
+          console.log(data.imgData, res.data);
+        });
     };
-
+    const deteleImg: any = (file: any) => {
+      data.productNoImg.forEach((item: any, index: number) => {
+        if (item.file.name === file.file.name) {
+          data.productNoImg.splice(index, 1);
+          let id = data.imgData.splice(index, 1);
+          orderService.delete(id).then((res: any) => {
+            Toast("删除成功");
+          });
+        }
+      });
+    };
     return {
       show,
       index,
       images,
       imageArr,
       arrowText,
-      record_code,
-      fileList,
+      productNo,
       dataSources,
+      deteleImg,
+      ...toRefs(data),
       afterRead,
+      record,
     };
   },
 });

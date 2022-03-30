@@ -28,13 +28,13 @@
       />
     </van-dropdown-menu>
     <van-pull-refresh v-model="loading" @refresh="onRefresh">
-      <van-list :finished="finished" finished-text="没有更多了" @load="onLoadIng">
+      <van-list :offset="100" :finished="finished && list.length>0" finished-text="没有更多了" @load="onLoadIng">
         <van-cell v-for="item in list" :key="item.state">
           <van-swipe-cell>
               <van-nav-bar :right-text="dateForState[Number(item.state)].text">
                 <template #left>
                   <van-icon name="shop-o" />
-                  <span class="storeName">{{ item.storeName }}</span>
+                  <span class="storeName">{{ item.storeName || '合和苑理发店'}}</span>
                   <van-icon name="arrow" />
                 </template>
               </van-nav-bar>
@@ -81,17 +81,24 @@
     <div class="add_btn">
       <van-button color="#919A74">
         共
-        <span class="money">30</span> 单
+        <span class="money">{{total}}</span> 单
       </van-button>
     </div>
+    <van-empty
+        class="custom-image custom-image-no-found"
+        :image="require('../../assets/addOrder/no-found.png')"
+        description="暂无订单~"
+        v-if="list.length === 0"
+      />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
 import { Icon, Overlay } from "vant";
-import { Toast, Search, Button, DropdownMenu, DatetimePicker, CellGroup, DropdownItem, PullRefresh, List, ActionSheet, Cell, SwipeCell, NavBar, Divider } from "vant";
+import { Toast, Search, Button, DropdownMenu, DatetimePicker, CellGroup, DropdownItem, PullRefresh, List,
+ActionSheet, Cell, SwipeCell, NavBar, Divider,Empty } from "vant";
 import ListArr from "@/components/lists/list.component.vue";
-
+import {orderService} from '../service'
 document.title = "业绩管理"
 export default defineComponent({
   name: "h-refund",
@@ -110,6 +117,7 @@ export default defineComponent({
     "van-icon": Icon,
     "van-action-sheet": ActionSheet,
     "van-datetime-picker": DatetimePicker,
+    "van-empty": Empty
   },
   setup() {
     const value = ref("");
@@ -162,18 +170,7 @@ export default defineComponent({
           value: 9,
         },
       ],
-      list: [{
-        state: 1,
-        storeName: "和合苑理发店",
-        userName: "张飒",
-        productIdent: '123546'
-      },
-      {
-        state: 1,
-        storeName: "和合苑理发店",
-        userName: "张飒",
-        productIdent: '123546'
-      }],
+      list: [] as any,
       finished: false,
       showTime: false,
       state: 0,
@@ -186,15 +183,40 @@ export default defineComponent({
       minDate: new Date(2022, 2, 1),
       maxDate: new Date(),
       overlay:true,
+      page: 1,
+      total:0
     });
     const child = ref()
     const onSearch = (val: string) => Toast(val);
     const onClear = (val: string) => Toast("搜索清除");
     const onLoad = ref();
     const loading = ref(false);
-    const onLoadIng = (num: number) => {
-      console.log(child.value)
+    const onLoadIng = () => {
+      orderService.orderList('get', {page:datas.page, limit: 10}).then(res=>{
+        let length = 0;
+        datas.total = res.data.count;
+        if(res.data.data){
+          length = res.data.data.length
+        }else{
+          datas.finished = true
+        }
+        if(length){
+          datas.list = datas.list.concat(res.data.data)
+          if(length< datas.page){
+            datas.finished = true
+          }else{
+            datas.page++
+          }
+        }else{
+          datas.finished = true;
+          if(datas.page === 1){
+           console.log('没有数据')
+          }
+        }
+        }
+      )
     }
+    onLoadIng
     const onRefresh = () => {
       // props.onLoad();
       setTimeout(() => {

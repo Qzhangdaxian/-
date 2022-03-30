@@ -41,7 +41,8 @@ import { Input, Button } from "ant-design-vue";
 import { InputPassword } from "ant-design-vue/lib/input";
 import { CheckCircleOutlined } from "@ant-design/icons-vue";
 import { LoginService } from "./login.service";
-import router from "@/router";
+import { useRouter } from 'vue-router';
+import store from "@/store";
 // interface FormState {
 //   username: string;
 //   password: string;
@@ -63,6 +64,7 @@ export default defineComponent({
     document.title = "登录";
     const userName = ref<string>("");
     const passWord = ref<string>("");
+    const router = useRouter()
     // let iconColor = ref<string>("#");
     let canPasswordVisible = reactive({
       isOpen: false,
@@ -103,24 +105,32 @@ export default defineComponent({
         password: passWord.value,
       };
       // console.log(param);
-      // LoginService.login("POST", param).then((res) => {
-      //   if (!res.data.success) {
-      //     if (res.data.message === null || res.data.message) {
-      //       canPasswordVisible.isPassword = true;
-      //     } else {
-      //       // console.log("success===>登陆成功");
-      //       // router.push({
-      //       //   path: "/demo",
-      //       // });
-      //     }
-      //     canPasswordVisible.isPasswordError = true;
-      //   } else {
+      LoginService.login("POST", param).then((res) => {
+        if (!res.data.success) {
+          if (res.data.message === null || res.data.message) {
+            canPasswordVisible.isPassword = true;
+          } else {
+            // console.log("success===>登陆成功");
+            // router.push({
+            //   path: "/demo",
+            // });
+          }
+          canPasswordVisible.isPasswordError = true;
+        } else {
+          let data = res.data.data
+          store.commit("set_token", data.token);
+          console.log(data.userInfo.type)
           router.push({
-            path: "/demo",
+            path: "/",
+            query: {
+              // 1：财务 2 运营 3 经销商 4 门店
+              type: data.userInfo.type,
+              userMobile: data.userInfo.userMobile
+            }
           });
-      //     console.log("success===>登陆成功");
-      //   }
-      // });
+          console.log("success===>登陆成功");
+        }
+      });
     }
     function onChangs(name: string): void {
       if (name === "userName") {

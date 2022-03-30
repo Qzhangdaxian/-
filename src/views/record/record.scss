@@ -14,7 +14,8 @@ body{
 
     &__wrapper,
     &__upload,
-    &__input-wrapper {
+    &__input-wrapper,
+    &__preview-image {
       width: 100%;
       height: 100%;
     }
@@ -35,6 +36,14 @@ body{
     &-upload {
       font-size: vw(49);
       color: #C5C5C5;
+    }
+    &__preview{
+      width: 100%;
+      height: vw(152);
+      margin: 0;
+    }
+    .van-image__img{
+      width: 100%;
     }
   }
 }

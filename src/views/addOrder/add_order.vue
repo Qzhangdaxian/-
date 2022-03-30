@@ -18,11 +18,11 @@
           </van-cell-group>
           <h6 class="record_code">身份证号</h6>
           <van-cell-group>
-            <van-field v-model="idCard" placeholder="请输入客户身份证号钱前12位" />
+            <van-field v-model="identity" placeholder="请输入客户身份证号钱前12位" />
           </van-cell-group>
           <h6 class="record_code">客户联系电话</h6>
           <van-cell-group>
-            <van-field v-model="userPhone" :length="11" :rules="[{ pattern: pattern, message: '手机号格式错误' }]" placeholder="请输入" />
+            <van-field v-model="phone" :length="11" :rules="[{ pattern: pattern, message: '手机号格式错误' }]" placeholder="请输入" />
           </van-cell-group>
           <h6 class="record_code required">年龄</h6>
           <van-cell-group>
@@ -35,7 +35,8 @@
         <div class="user_info add_order-form" v-if="active === 1">
           <h6 class="record_code required">脱发史</h6>
           <van-cell-group>
-            <van-field v-model="result" is-link readonly name="picker" :right-icon="'arrow-down'" placeholder="请选择" @click="showPicker = true" />
+            <van-field v-model="alopeciaHistory" is-link readonly name="picker"
+            :right-icon="'arrow-down'" placeholder="请选择" @click="showPicker = true" />
             <van-popup v-model:show="showPicker" position="bottom">
               <van-picker :columns="columns" @confirm="onConfirm" @cancel="showPicker = false" />
             </van-popup>
@@ -43,7 +44,7 @@
           <h6 class="record_code required">脱发状态</h6>
           <van-field name="radio">
             <template #input>
-              <van-radio-group v-model="checked" direction="horizontal">
+              <van-radio-group v-model="alopeciaState" direction="horizontal">
                 <div class="hair_model">
                   <van-radio name="1" label="M型脱发">
                     <van-image width="100" height="100" :src="require('../../assets/addOrder/m_model.png')" />
@@ -72,12 +73,12 @@
             <van-image-preview :isdefault="true" :images="images"></van-image-preview>
           </div>
           <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
-          <van-uploader v-model="fileList" :after-read="afterRead" :upload-icon="'back-top'" :max-count="1">
+          <van-uploader v-model="alopeciaImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="3">
             <van-icon name="back-top" class="van-uploader-upload" />
             <p>点击上传</p>
           </van-uploader>
           <div class="submit_next">
-            <van-button color="#919A74" size="large" @click="onSubmit">提交 </van-button>
+            <van-button color="#919A74" :disabled="((alopeciaImg.length< 3 || !Boolean(alopeciaState) || !Boolean(alopeciaHistory)) || !isDis)" size="large" @click="onSubmit">提交 </van-button>
           </div>
         </div>
       </van-form>
@@ -100,6 +101,9 @@ import { defineComponent, reactive, ref, toRefs } from "vue";
 import { Steps, Step, CellGroup, Field, Button, Form, Popup, Picker, RadioGroup, Radio, Image, Uploader, Icon, Divider, Toast } from "vant";
 // import { Image as VanImage } from 'vant';
 import imgagePre from "@/components/imagePreview/imagePreview.vue";
+import { orderService } from "../service";
+import { useRoute, useRouter } from "vue-router";
+// import router from "@/router";
 document.title = "新订单申请";
 export default defineComponent({
   name: "h-add_order",
@@ -121,26 +125,32 @@ export default defineComponent({
     "van-divider": Divider,
   },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
     let data = reactive({
       active: 0,
       userName: "",
-      idCard: "",
-      userPhone: "",
+      identity: "",
+      phone: "",
       age: "",
       show: false,
-      result: "",
+      alopeciaHistory: "",
       showPicker: false,
-      columns: ["杭州", "宁波", "温州", "嘉兴", "湖州"],
-      checked: 1,
+      // 1-3，3-5，5-7，7-10，10年以上
+      columns: ["1-3年", "3-5年", "5-7年", "7-10年", "10年以上"],
+      alopeciaState: 0,
       images: ["https://img.yzcdn.cn/vant/apple-1.jpg", "https://img.yzcdn.cn/vant/apple-2.jpg", "https://img.yzcdn.cn/vant/apple-1.jpg"],
       pattern: /^1[3456789]\d{9}$/,
+      alopeciaImg: [] as Array<any>,
+      imgData: [] as any,
+      isDis: true,
     });
     const onClickStep = (active: any, isNext: boolean) => {
       if (!data.userName && !data.age) {
         Toast("带*号的的是必填项");
         return;
       }
-      if (!data.idCard && !isNext && active === 1) {
+      if (!data.identity && !isNext && active === 1) {
         data.show = true;
         return;
       }
@@ -149,16 +159,15 @@ export default defineComponent({
         data.show = false;
       }
 
-      // console.log(active)
     };
     const onNext = () => {
       if (data.userName && data.age) {
         // data.active = 1;
-        if (data.userPhone && !data.pattern.test(data.userPhone)) {
+        if (data.phone && !data.pattern.test(data.phone)) {
           Toast("请填写正确的手机号");
           return;
         }
-        if (!data.idCard) {
+        if (!data.identity) {
           data.show = true;
         } else {
           data.active = 1;
@@ -166,25 +175,43 @@ export default defineComponent({
       }
     };
     const onConfirm = (value: string) => {
-      data.result = value;
+      data.alopeciaHistory = value;
       data.showPicker = false;
     };
     const onSubmit = () => {
-      console.log(data.checked);
+      data.isDis = true;
+      const param = {
+        userName: data.userName,
+        age: data.age,
+        identity: data.identity,
+        phone: data.phone,
+        alopeciaHistory: data.columns.indexOf(data.alopeciaHistory)+1,
+        alopeciaState: data.alopeciaState,
+        alopeciaImg: data.imgData.join(','),
+      };
+      orderService.orderSave(param).then((res: any) => {
+        if (res.data.success) {
+          data.isDis = false;
+          Toast('提交成功')
+          history.back()
+        }else{
+          data.isDis = false;
+        }
+      });
+      // router.push({
+      //   path: "/order",
+      // });
     };
-    const fileList = ref([
-      // {
-      //   url: 'https://img.yzcdn.cn/vant/leaf.jpg',
-      //   status: 'success',
-      //   message: '上传中...',
-      // },
-      // {
-      //   url: 'https://img.yzcdn.cn/vant/tree.jpg',
-      //   status: 'success',
-      //   message: '上传失败',
-      // },
-    ]);
     const afterRead = (file: any) => {
+      let fileContent = file.file as File
+      orderService.upload(fileContent).then(
+            (res: any) => res.json()
+        ).then(
+            (res: any) => {
+                data.imgData.push(res.data.id);
+                console.log(data.imgData, res.data)
+            }
+        )
       // file.status = 'success';
       // file.message = '上传中...';
       // setTimeout(() => {
@@ -192,15 +219,28 @@ export default defineComponent({
       //   file.message = '上传失败';
       // }, 1000);
     };
+    const deteleImg: any = (file:any)=>{
+      data.alopeciaImg.forEach((item: any, index: number)=>{
+        if(item.file.name === file.file.name){
+          data.alopeciaImg.splice(index,1);
+          let id = data.imgData.splice(index, 1);
+          orderService.delete(id).then((res: any) =>{
+            console.log('detele==>', res)
+          })
+        }
+      })
+      // console.log(data.imgData.splice(data.imgData.indexOf(file.file.name), 1))
+
+    }
     return {
       // active,
-      fileList,
       ...toRefs(data),
       onClickStep,
       onNext,
       onConfirm,
       onSubmit,
       afterRead,
+      deteleImg,
     };
   },
 });

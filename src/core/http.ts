@@ -19,6 +19,8 @@
 //   data: T;
 // }
 import axios from 'axios';
+import store from '@/store/index'
+import router from '@/router';
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
 // 创建axios实例
@@ -27,9 +29,13 @@ const service = axios.create({
 })
 
 // 添加request拦截器
-service.interceptors.request.use(config => {
+service.interceptors.request.use((config : any) => {
+  if (store.state.token) {
+    config.headers.Authorization = store.getters.get_token;
+  }
   return config;
 }, error => {
+  console.log("在request拦截器显示错误：", error.response)
   Promise.reject(error);
 })
 
@@ -40,6 +46,7 @@ service.interceptors.response.use(
       status: 0,
       data: {}
     };
+
     res.status = response.status;
     res.data = response.data;
     return res;
@@ -48,6 +55,21 @@ service.interceptors.response.use(
     if (error.response && error.response.status == 404) {
       //跳转到xx页面
       console.log("404错误")
+    }
+    if (error.response) {
+      console.log("在respone拦截器显示错误：", error.response)
+      switch (error.response.status) {
+        case 401:
+          //可能是token过期，清除它
+          // this.$store.commit("del_token");
+          store.commit("del_token");
+
+          router.replace({ //跳转到登录页面
+            path: '/login',
+            // 将跳转的路由path作为参数，登录成功后跳转到该路由
+            // query: { redirect: router.currentRoute.fullPath }
+          });
+      }
     }
     return Promise.reject(error.response)
   }
@@ -61,13 +83,14 @@ export function get(url: string, params = {}) {
     url: url,
     method: 'get',
     headers: {
+      "X-Access-Token": store.getters.get_token
     },
     params
   })
 }
 
 // 封装post请求
-export function post(url: string, data = {}) {
+export function post(url: string, data = {}, headers?: any) {
   //默认配置
   let sendObject: any
   // eslint-disable-next-line prefer-const
@@ -75,7 +98,8 @@ export function post(url: string, data = {}) {
     url,
     method: "post",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": 'application/json',
+      "X-Access-Token": store.getters.get_token
     },
     data: data
   };
@@ -89,7 +113,8 @@ function put(url: any, data = {}) {
     url: url,
     method: 'put',
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/json;charset=UTF-8',
+      "X-Access-Token": store.getters.get_token
     },
     data: JSON.stringify(data)
   })
@@ -150,7 +175,7 @@ const fetch = (options: any) => {
  * data 参数对象
  * method 请求方式
  *  */
-export function http(url: any, data = {}, method = "GET") {
+export function http(url: any, data = {}, method = "GET", headers: any) {
   // let httpUrl = process.env.VUE_APP_PATH + url;
   // console.log(process.env.VUE_APP_PATH)
   const options:any = { url: url, data: data, method: method }
