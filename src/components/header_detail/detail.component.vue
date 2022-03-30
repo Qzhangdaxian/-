@@ -157,25 +157,7 @@ export default defineComponent({
     types: Number as any
   },
   setup(props) {
-    let dataSource = ref({
-      alopeciaImgArray: [],
-      productNoImgArray:[],
-      refundHairImgArray: [],
-      refundImgArray: [],
-      alopeciaHistory: 0,
-      state: 1,
-      storeName: '',
-      userName: '',
-      refundReason: '',
-      express: '',
-      expressCompany: '',
-      expressTime: '',
-      alopeciaState: 0,
-      identity: '',
-      productNo: '',
-      createTime: '',
-      age: 0
-    });
+    let dataSource = ref();
     let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
     const data = ref([
