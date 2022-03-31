@@ -6,8 +6,7 @@ body {
 }
 
 .order {
-  padding-top: vw(34);
-
+  // padding-top: vw(34);
   .order_form {
     width: 100%;
     background: #FFFF;
@@ -15,7 +14,8 @@ body {
     justify-content: space-around;
     justify-items: center;
     .van-search{
-      width: 80%;
+      width: 95%;
+      padding-top: vw(15);
     }
     span{
       line-height: vw(54);

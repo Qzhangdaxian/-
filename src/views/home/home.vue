@@ -47,6 +47,8 @@ export default defineComponent({
     "van-icon": Icon,
   },
   setup() {
+    // const str = '1211111111111';
+    // console.log()
     const route = useRoute();
     const router = useRouter();
     let res: any = ref(route.query);

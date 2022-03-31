@@ -110,8 +110,8 @@ export default defineComponent({
               }
             });
           }
+          res.data.data.identity = res.data.data.identity.slice(0, 12) +'****';
           dataSources.value = res.data.data;
-          console.log(res.data);
         }
       });
     }

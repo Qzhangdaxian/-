@@ -1,11 +1,14 @@
 <template>
   <div class="record_massage" v-bind:class="{ listIndex: show && !isDetail, listIndexs: !show && !isDetail }">
-    <!--<div v-for="dataSource in dataSource" :key="dataSource.id"></div> -->
-    <van-nav-bar :right-text="CheckStatePipe(dataSources?.state)">
+    <!--<div v-for="dataSource in dataSource" :key="dataSource.id"></div><van-icon name="arrow" /> -->
+    <van-nav-bar>
       <template #left>
         <van-icon name="shop-o" />
         <span class="storeName">{{ dataSources?.storeName }}</span>
-        <van-icon name="arrow" />
+
+      </template>
+      <template #right>
+        <span :style="{ color: color[dataSources.state] }">{{ CheckStatePipe(dataSources?.state) }}</span>
       </template>
     </van-nav-bar>
     <van-divider :style="{ color: '#CBCBCB' }" />
@@ -214,6 +217,8 @@ export default defineComponent({
     const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
     const show = ref(false);
     const arrowText = ref("展开");
+        const color = ref(["#8E8E8E","#E41818", "#E41818", "#8E8E8E", "#8E8E8E",  "#8E8E8E", "#8E8E8E",  "#E41818","#8E8E8E", "#8E8E8E", "#8E8E8E"])
+
     // let alopeciaImgArray = ref([] as any);
     // let productNoImgArray = ref([] as any);
     // let refundHairImgArray = ref([] as any);
@@ -258,28 +263,17 @@ export default defineComponent({
       }
     }
     function CheckStatePipe(value: any): any {
-      data.value.forEach((item:any)=>{
-        if(item.value === Number(value)){
-          console.log(item.name)
-          switch (item.name) {
-            case "已提交":
-              return "待付款";
-            default:
-              return item.name;
-          }
+      const returnData = data.value.filter((item: Data) => item.value === Number(value));
+      if (props.types == 3 && returnData.length> 0)
+        switch (returnData[0]?.name) {
+          case "已提交":
+            return "待付款";
+          default:
+            return returnData[0].name;
         }
-      })
-      // const returnData = data.value.filter((item: Data) => item.value === Number(value));
-      // if (props.types == 3 && returnData.length>=1){
-      //   console.log(returnData)
-      //   switch (returnData[0] && returnData[0].name) {
-      //     case "已提交":
-      //       return "待付款";
-      //     default:
-      //       return returnData[0].name;
-      //   }
-      //   } else return returnData[0].name;
+      else return returnData[0].name;
     }
+
     function dateFormat(time: string) {
       var date = new Date(time);
       var year = date.getFullYear();
@@ -302,6 +296,7 @@ export default defineComponent({
       alopeciaHistory,
       alopeciaState,
       dataSource,
+      color,
       // productNoImgArray,
       // refundImgArray,
       // refundHairImgArray,

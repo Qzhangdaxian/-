@@ -114,7 +114,7 @@ export default defineComponent({
       refundIdentity: "",
       showPicker: false,
       columns: ["无新生毛发生长", "有毛发生长但未达到预期", "其他因素不满意（选择此项请填写具体原因）"],
-      images: [require('../../assets/img/heard_one.png'), require('../../assets/img/heard_two.png'), require('../../assets/img/heard_three.png')],
+      images: [require('../../assets/addOrder/destroy_one.png'), require('../../assets/addOrder/destroy_two.png'), require('../../assets/addOrder/destroy_three.png')],
       result: "",
       pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
       patternPhone: /^1[3456789]\d{9}$/,
@@ -159,6 +159,7 @@ export default defineComponent({
               }
             });
           }
+          res.data.data.identity = res.data.data.identity.slice(0, 12) +'****';
           dataSources.value = res.data.data;
         }
       });
