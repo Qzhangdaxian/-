@@ -14,15 +14,18 @@
       <h3 class="manage_list_title"><span>//</span> 三大模块系统管理 <span>//</span></h3>
       <ul>
         <li @click="pathRouter('order')">
-          <i class="icon_left"><van-icon name="todo-list-o" /></i>
+          <i class="icon_left">
+          <van-icon :name="require('../../assets/home/order_icon.png')" /></i>
           <span class="text_right">订单管理</span>
         </li>
         <li class="li_center" @click="pathRouter('refund')">
-          <i class="icon_left"><van-icon name="refund-o" /></i>
+          <i class="icon_left">
+          <van-icon :name="require('../../assets/home/refund_icon.png')" /></i>
           <span class="text_right">退款管理</span>
         </li>
         <li class="li_center" @click="pathRouter('performance')">
-          <i class="icon_left"><van-icon name="chart-trending-o" /></i>
+          <i class="icon_left">
+          <van-icon :name="require('../../assets/home/pre_icon.png')" /></i>
           <span class="text_right">业绩管理</span>
         </li>
       </ul>

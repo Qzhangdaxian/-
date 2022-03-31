@@ -65,6 +65,10 @@ export default defineComponent({
           value: 1,
         },
         {
+          name: "待补录",
+          value: 5,
+        },
+        {
           name: "待审核",
           value: 2,
         },
@@ -76,30 +80,11 @@ export default defineComponent({
           name: "已驳回",
           value: 4,
         },
-        {
-          name: "待补录",
-          value: 5,
-        },
+
         {
           name: "已完成",
           value: 6,
-        },
-        {
-          name: "退款待补录",
-          value: 7,
-        },
-        {
-          name: "退款待审核",
-          value: 8,
-        },
-        {
-          name: "退款完成",
-          value: 9,
-        },
-        {
-          name: "退款失败",
-          value: 10,
-        },
+        }
       ],
       list: [] as Array<{ state: number; storeName: string; userName: string; productIdent: string }>,
       // loading: false,
@@ -114,13 +99,15 @@ export default defineComponent({
       storeId: null
     });
     const type = ref(route.query.type);
+    if(Number(type.value) == 3){
+      datas.data[1].name="待付款"
+    }
     const child = ref();
     const refreshing = ref(false);
     const onSearch = (val: string) => {
       datas.username = val;
       onLoadData([1, datas.state]);
     };
-    console.log("type===>", route.query.type);
     if (Number(route.query.type) === 4) {
       datas.btnType = "record";
     } else if (Number(route.query.type) === 3) {
@@ -129,7 +116,7 @@ export default defineComponent({
     const onClear = (val: string) => Toast("搜索清除");
     const onLoad = ref();
     const onLoadData = (param: any) => {
-      datas.state = param[1];
+      datas.state = datas.data[param[1]].value;
       if (refreshing.value) {
         datas.list = [];
         refreshing.value = false;
@@ -138,9 +125,10 @@ export default defineComponent({
         .orderList("get", {
           page: param[0],
           limit: 10,
-          state: param[1] == 0 ? "" : param[1],
+          state: param[1] == 0 ? "" : datas.data[param[1]].value,
           userName: datas.username,
-          storeId: datas.storeId
+          storeId: datas.storeId,
+          category: 1,
         })
         .then((res) => {
           // console.log(res);

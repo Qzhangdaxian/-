@@ -74,7 +74,7 @@
           </div>
           <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
           <van-uploader v-model="alopeciaImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="3">
-            <van-icon name="back-top" class="van-uploader-upload" />
+            <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
             <p>点击上传</p>
           </van-uploader>
           <div class="submit_next">
@@ -139,7 +139,7 @@ export default defineComponent({
       // 1-3，3-5，5-7，7-10，10年以上
       columns: ["1-3年", "3-5年", "5-7年", "7-10年", "10年以上"],
       alopeciaState: 0,
-      images: ["https://img.yzcdn.cn/vant/apple-1.jpg", "https://img.yzcdn.cn/vant/apple-2.jpg", "https://img.yzcdn.cn/vant/apple-1.jpg"],
+      images: [require('../../assets/img/heard_one.png'), require('../../assets/img/heard_two.png'), require('../../assets/img/heard_three.png')],
       pattern: /^1[3456789]\d{9}$/,
       alopeciaImg: [] as Array<any>,
       imgData: [] as any,

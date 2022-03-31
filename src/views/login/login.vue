@@ -14,7 +14,7 @@
       <span>我已阅读并同意<a href="javascript:;" @click="openTips">《使用协议和隐私政策概要》</a> </span>
     </div>
     <!--:disabled="true"-->
-    <h-button class="log_in" :disabled="isDis" @click="login">登录</h-button>
+    <h-button class="log_in" :disabled="isDis"  @click="login">登录</h-button>
     <div class="policy_tip" v-if="tipsIsOpen">
       <div class="policy_shade"></div>
       <div class="policy_text">
@@ -74,26 +74,30 @@ export default defineComponent({
       tipsIsOpen: false,
       isUernameError: false,
       isPasswordError: false,
-      isDis: true,
+      isDis: false,
       isPassword: false,
     });
     function disChange() {
       if (canPasswordVisible.iconColor === "#A9B28E" && userName.value && passWord.value) {
         canPasswordVisible.isDis = false;
-      } else {
-        canPasswordVisible.isDis = true;
       }
+      // else {
+      //   canPasswordVisible.isDis = true;
+      // }
     }
     function toggleSgree() {
-      canPasswordVisible.iconColor === "rgba(214, 214, 214, 0.6)" ? (canPasswordVisible.iconColor = "#A9B28E") : (canPasswordVisible.iconColor = "rgba(214, 214, 214, 0.6)");
+      canPasswordVisible.iconColor === "#FFFFFF" ? (canPasswordVisible.iconColor = "#A9B28E") :
+       (canPasswordVisible.iconColor = "#FFFFFF");
       disChange();
     }
     function login() {
-      canPasswordVisible.isDis = true;
-      if (canPasswordVisible.iconColor === "rgba(214, 214, 214, 0.6)") {
-        console.log("请勾选使用协议和政策概要");
+
+      console.log(canPasswordVisible.iconColor)
+      if (canPasswordVisible.isDis) {
+        Toast('请勾选使用协议和政策概要')
         return;
       }
+      canPasswordVisible.isDis = true;
       if (!userName.value) {
         canPasswordVisible.isUernameError = true;
         return;
@@ -121,13 +125,13 @@ export default defineComponent({
         } else {
           let data = res.data.data
           store.commit("set_token", data.token);
-          console.log(data.userInfo.type)
           router.push({
             path: "/",
             query: {
               // 1：财务 2 运营 3 经销商 4 门店
               type: data.userInfo.type,
-              userMobile: data.userInfo.userMobile
+              userMobile: data.userInfo.userMobile,
+              quota: data.userInfo.quota
             }
           });
           //86400000

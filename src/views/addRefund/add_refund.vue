@@ -36,7 +36,7 @@
         </div>
         <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
         <van-uploader v-model="productNoImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="3">
-          <van-icon name="back-top" class="van-uploader-upload" />
+          <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
           <p>点击上传</p>
         </van-uploader>
         <div class="submit_next">
@@ -51,8 +51,10 @@
         <van-image-preview :isdefault="true" :images="images"></van-image-preview>
       </div>
       <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
-      <van-uploader v-model="refundImg" :after-read="afterReads" :before-delete="deteleImgs" :upload-icon="'back-top'" :max-count="3">
-        <van-icon name="back-top" class="van-uploader-upload" />
+      <van-uploader v-model="refundImg" :after-read="afterReads"
+      :before-delete="deteleImgs"
+      :upload-icon="'back-top'" :max-count="3">
+        <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
         <p>点击上传</p>
       </van-uploader>
       <div class="submit_next">
@@ -112,7 +114,7 @@ export default defineComponent({
       refundIdentity: "",
       showPicker: false,
       columns: ["无新生毛发生长", "有毛发生长但未达到预期", "其他因素不满意（选择此项请填写具体原因）"],
-      images: ["https://img.yzcdn.cn/vant/apple-1.jpg", "https://img.yzcdn.cn/vant/apple-2.jpg", "https://img.yzcdn.cn/vant/apple-1.jpg"],
+      images: [require('../../assets/img/heard_one.png'), require('../../assets/img/heard_two.png'), require('../../assets/img/heard_three.png')],
       result: "",
       pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
       patternPhone: /^1[3456789]\d{9}$/,
@@ -159,7 +161,6 @@ export default defineComponent({
           }
           dataSources.value = res.data.data;
         }
-        console.log(dataSources.value);
       });
     };
     orderDetail();
@@ -191,9 +192,7 @@ export default defineComponent({
         Toast('请添加三张客户图片')
         return;
       }
-      console.log(dataSources.value.data.identity);
-      console.log(data.refundIdentity.substring(0, 12))
-      if (dataSources.value.data.identity.substring(0,12) != data.refundIdentity.substring(0, 12)) {
+      if (dataSources.value.identity.substring(0,12) != data.refundIdentity.substring(0, 12)) {
         data.show = true;
         return;
       }

@@ -13,10 +13,10 @@ body {
 .pen_b{
   height: vw(160);
   background-image: url('../../assets/home/card.jpg');
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
   .card_text{
-    padding: vw(35) vw(41) 0;
+    padding: vw(35) vw(30) 0;
     display: flex;
     justify-content: space-between;
     h3{
@@ -30,12 +30,13 @@ body {
     }
   }
   .card_phone{
-    padding: 0 vw(41);
+    padding: 0 vw(30);
     margin-top: vw(20);
     text-align: left;
     .phone_num{
       color: #FFFFFF;
       font-size: vw(12);
+      margin-left: vw(5);
     }
   }
 }
@@ -68,7 +69,7 @@ body {
     margin: vw(33) 0;
   }
   ul li .icon_left .van-icon{
-    font-size: vw(37);
+    font-size: vw(42);
   }
   ul li .icon_left{
     display: flex;
