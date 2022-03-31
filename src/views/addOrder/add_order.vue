@@ -74,7 +74,7 @@
           </div>
           <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
           <van-uploader v-model="alopeciaImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="3">
-            <van-icon name="back-top" class="van-uploader-upload" />
+            <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
             <p>点击上传</p>
           </van-uploader>
           <div class="submit_next">

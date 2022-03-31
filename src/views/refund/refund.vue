@@ -17,15 +17,18 @@
       :finished="finished"
       :onLoad="onLoadData"
       @page="onLoadData"
+      :types="type"
     ></ListArr>
   </div>
 </template>
 <script lang="ts">
+      // :fefund="'fefund'"
 import { defineComponent, reactive, ref, toRefs } from "vue";
 import { Icon } from "vant";
 import { Toast, Search, Button } from "vant";
 import ListArr from "@/components/lists/list.component.vue";
 import {orderService} from '../service';
+import { useRoute } from "vue-router";
 document.title = "退款管理"
 export default defineComponent({
   name: "h-refund",
@@ -36,17 +39,27 @@ export default defineComponent({
     ListArr,
   },
   setup() {
+    const route = useRoute();
+    const type = route.query.type
     const value = ref("");
     const datas = reactive({
       // 门店
       data: [
         {
-          name: "已完成",
-          value: 1,
+          name: "退款待补录",
+          value: 7,
         },
         {
-          name: "退款已提交",
-          value: 2,
+          name: "退款待审核",
+          value: 8,
+        },
+        {
+          name: "退款完成",
+          value: 9,
+        },
+        {
+          name: "退款失败",
+          value: 10,
         },
       ],
       // 经销商
@@ -95,9 +108,10 @@ export default defineComponent({
       orderService.orderList({
         page: param[0],
         limit: 10,
-        state: param[1] == 0? 6 : 8,
+        state: datas.data[param[1]].value,
         // state: param[1]
         userName: value.value,
+        category: 2
         }).then((res: any)=>{
         // console.log(res);
         if(res.data.data){
@@ -159,7 +173,8 @@ export default defineComponent({
       onLoading,
       onLoad,
       child,
-      onLoadData
+      onLoadData,
+      type
     }
   }
 })

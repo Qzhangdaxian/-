@@ -13,6 +13,8 @@
     font-size: vw(16);
     line-height: vw(26);
     text-align: justify;
+    margin-top: vw(23);
+    margin-bottom: vw(33);
   }
 
   .van-steps--horizontal {
@@ -164,37 +166,7 @@
       color: #999999;
       margin: vw(18) 0;
     }
-    .van-uploader {
-      width: vw(335);
-      min-height: vw(152);
-      background-color: #F5F5F5;
-      border-radius: vw(3);
-      border: 1px solid #DEDEDE;
 
-      &__wrapper,
-      &__upload,
-      &__input-wrapper {
-        width: 100%;
-        min-height: vw(152);
-      }
-
-      &__input-wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      &__input-wrapper p {
-        color: #999999;
-        font-size: vw(14);
-        margin-top: vw(10);
-      }
-      &-upload {
-        font-size: vw(49);
-        color: #C5C5C5;
-      }
-    }
     .btn_next{
      padding-top: vw(121);
      .van-button--default{
@@ -205,6 +177,38 @@
     .submit_next .van-button--default {
       border-radius: vw(100);
       height: vw(44);
+    }
+  }
+  .van-uploader {
+    width: vw(335);
+    min-height: vw(152);
+    background-color: #F5F5F5;
+    border-radius: vw(3);
+    border: 1px solid #DEDEDE;
+
+    &__wrapper,
+    &__upload,
+    &__input-wrapper {
+      width: 100%;
+      min-height: vw(152);
+    }
+
+    &__input-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__input-wrapper p {
+      color: #999999;
+      font-size: vw(14);
+      margin-top: vw(10);
+    }
+
+    &-upload {
+      font-size: vw(49);
+      color: #C5C5C5;
     }
   }
   .submit_next {

@@ -31,7 +31,7 @@
     color: #FFFFFF;
     border-radius: 25px;
     opacity: 0.69;
-    background-color: #A9B28E;
+    background-color: #788453;
     margin-top: vw(65);
     outline: none;
     border: none;
@@ -48,8 +48,11 @@
     line-height: vw(38);
   }
   .form_input{
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
   }
+   .ant-input::placeholder {
+     color: #FFFFFF;
+   }
   .error_input{
     border-bottom: 1px solid red;
   }
@@ -72,17 +75,18 @@
   .policy{
     display: flex;
     justify-content: start;
-    color: rgba(214, 214, 214, 0.6);
+    color: #FFFFFF;
     margin-top: vw(32);
     a{
-      color: rgba(214, 214, 214, 0.6);
-      border-bottom: 1px solid rgba(214, 214, 214, 0.6);
+      color: #FFFFFF;
+      border-bottom: 1px solid #FFFFFF;
     }
     .check_circle{
+          border-radius: 50%;
       // width: 12px;
       margin-right: vw(5);
       // opacity: .6;
-      background-color: transparent;
+      background-color: #FFFFFF;
     }
   }
   .policy_tip{

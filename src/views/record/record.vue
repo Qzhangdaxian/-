@@ -18,7 +18,7 @@
       </div>
       <p class="examples ARequired">请按照上述示例图标准拍照上传</p>
       <van-uploader v-model="productNoImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="1">
-        <van-icon name="back-top" class="van-uploader-upload" />
+        <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
         <p>点击上传</p>
       </van-uploader>
     </div>
@@ -29,7 +29,7 @@
       </div>
       <p class="ARequired examples">请按照上述示例图标准拍照上传</p>
       <van-uploader v-model="alopeciaImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="1">
-        <van-icon name="back-top" class="van-uploader-upload" />
+        <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
         <p>点击上传</p>
       </van-uploader>
     </div>
@@ -65,8 +65,9 @@ export default defineComponent({
     const index = ref(0);
     const arrowText = ref("展开");
     const productNo = ref("");
-    const images = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
-    const imageArr = ["https://img.yzcdn.cn/vant/apple-1.jpg"];
+    const images = [require('../../assets/addOrder/destroy_one.png'),
+    require('../../assets/addOrder/destroy_two.png'),require('../../assets/addOrder/destroy_three.png')];
+    const imageArr = [require('../../assets/addOrder/order_code.png')];
     const dataSources = ref();
     let alopeciaImgArray =ref([] as any)
     let productNoImgArray =ref([] as any)

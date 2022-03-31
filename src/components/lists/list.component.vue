@@ -2,7 +2,7 @@
   <div class="order_list_z">
     <van-tabs v-model:active="active" sticky :animated="true" @click-tab="onClickTab(active)">
       <van-tab v-for="index in data" :key="index.value" :title="index.name">
-        <p class="tips" v-if="active === 2">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
+        <p class="tips" v-if="active === 2 && index.value == 5">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
         <van-pull-refresh v-model="loading" @refresh="onRefresh">
           <van-list :offset="100" :finished="finished && list.length > 0" finished-text="没有更多了" @load="onLoadIng">
             <van-cell v-for="item in list" :key="item.state">
@@ -78,8 +78,11 @@
                   <template v-if="types == 4 && item.state == 5">
                     <van-button square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="待补录" @click="onClick('record', item.id)" />
                   </template>
-
-                  <van-button v-if="item.state === 6" square :loading="isLoding" :disabled="isLoding || types == 3" type="default" color="#919A74" text="退款" @click="onClick('addRefund', item.id)" />
+                  <template v-if="types == 4 && item.state == 6">
+                    <van-button v-if="item.state == 6" square :loading="isLoding"
+                    :disabled="isLoding || types == 3" type="default" color="#919A74"
+                    text="退款" @click="onClick('addRefund', item.id)" />
+                  </template>
 
                   <van-button
                     v-if="(item.state == 1 || item.state == 4) && types == 3"
@@ -133,12 +136,12 @@ export default defineComponent({
     // routerName: String,
     btnType: String,
     types: Number as any,
+    fefund: String
   },
   setup(props, context) {
-    console.log(props.btnType);
-    //待付款 待审核 待发货 已发货 已完成
-    const color = ["#F9BB48", "#A9B28E", "#E41818", "#919A74", "#8E8E8E"];
     const route = useRoute();
+    //待付款 待审核 待发货 已发货 已完成
+
     const router = useRouter();
     const loading = ref(false);
     const active = ref(0);
@@ -146,6 +149,13 @@ export default defineComponent({
     let page = ref(1);
     let state = ref(0);
     let isNo = ref(false);
+    const color = ref(["#8E8E8E","#E41818", "#E41818", "#8E8E8E", "#8E8E8E",  "#8E8E8E", "#8E8E8E",  "#E41818","#8E8E8E", "#8E8E8E", "#8E8E8E"])
+    if(Number(route.query.type) == 3){
+      color.value[1] = "#E41818" ;
+    } else if(Number(route.query.type) == 4){
+      color.value[1] = "#8E8E8E";
+      color.value[5] = "#E41818" ;
+    }
     const data= ref([
         {
           name: "全部",
@@ -154,6 +164,10 @@ export default defineComponent({
         {
           name: "已提交",
           value: 1,
+        },
+        {
+          name: "待补录",
+          value: 5,
         },
         {
           name: "待审核",
@@ -166,10 +180,6 @@ export default defineComponent({
         {
           name: "已驳回",
           value: 4,
-        },
-        {
-          name: "待补录",
-          value: 5,
         },
         {
           name: "已完成",
@@ -223,6 +233,7 @@ export default defineComponent({
         query: {
           type: props.types,
           id,
+          quota: route.query.quota
         },
       });
     };
