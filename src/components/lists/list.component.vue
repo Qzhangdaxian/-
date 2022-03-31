@@ -2,7 +2,7 @@
   <div class="order_list_z">
     <van-tabs v-model:active="active" sticky :animated="true" @click-tab="onClickTab(active)">
       <van-tab v-for="index in data" :key="index.value" :title="index.name">
-        <p class="tips" v-if="active === 2 && index.value == 5">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
+        <p class="tips" v-if="active === 2 && index.value == 5 && types == 4">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
         <van-pull-refresh v-model="loading" @refresh="onRefresh">
           <van-list :offset="100" :finished="finished && list.length > 0" finished-text="没有更多了" @load="onLoadIng">
             <van-cell v-for="item in list" :key="item.state">
