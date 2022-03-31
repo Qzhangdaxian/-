@@ -1,9 +1,6 @@
 stages: 
   - build_dev
   - build_master
-cache:
-  paths:
-    - node_modules
 
 steps-dev: 
   stage: build_dev
