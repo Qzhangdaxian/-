@@ -10,14 +10,14 @@
     width: 120px;
     height: auto;
     margin-top: vw(134);
-    margin-bottom: vw(139);
+    margin-bottom: vw(106);
   }
   .login_welcome{
     font-size: 26px;
     line-height: 37px;
     color: #FFFFFF;
     text-align: left;
-    margin-bottom: vw(50);
+    margin-bottom: vw(40);
   }
   .error_tip{
     color: red;
@@ -70,6 +70,7 @@
     color: #FFFFFF;
   }
   .ant-input{
+    height: vw(50);
     color: #FFFFFF;
   }
   .policy{

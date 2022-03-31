@@ -2,7 +2,7 @@
   <div class="order_list_z">
     <van-tabs v-model:active="active" sticky :animated="true" @click-tab="onClickTab(active)">
       <van-tab v-for="index in data" :key="index.value" :title="index.name">
-        <p class="tips" v-if="active === 2 && index.value == 5">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
+        <p class="tips" v-if="active === 2 && index.value == 5 && types == 4">请您及时补录产品管理编号，产品管理编号的补录涉及后续退款流程的推进， 请提示客户谨慎保管并及时在系统提交相关信息。</p>
         <van-pull-refresh v-model="loading" @refresh="onRefresh">
           <van-list :offset="100" :finished="finished && list.length > 0" finished-text="没有更多了" @load="onLoadIng">
             <van-cell v-for="item in list" :key="item.state">
@@ -68,7 +68,7 @@
                       type="default"
                       color="#919A74"
                       text="待补录"
-                      @click="onClick('addRefund', item.id)"
+                      @click="onClick('addRefund', item.id, item.createTime)"
                     />
 
                   </template>
@@ -76,12 +76,13 @@
                   门店
                 -->
                   <template v-if="types == 4 && item.state == 5">
-                    <van-button square :loading="isLoding" :disabled="isLoding" type="default" color="#919A74" text="待补录" @click="onClick('record', item.id)" />
+                    <van-button square :loading="isLoding" :disabled="isLoding"
+                    type="default" color="#919A74" text="待补录" @click="onClick('record', item.id, item.createTime)" />
                   </template>
                   <template v-if="types == 4 && item.state == 6">
                     <van-button v-if="item.state == 6" square :loading="isLoding"
                     :disabled="isLoding || types == 3" type="default" color="#919A74"
-                    text="退款" @click="onClick('addRefund', item.id)" />
+                    text="退款" @click="onClick('addRefund', item.id,item.createTime)" />
                   </template>
 
                   <van-button
@@ -92,7 +93,7 @@
                     type="default"
                     color="#919A74"
                     text="付款"
-                    @click="onClick('payOrder', item.id)"
+                    @click="onClick('payOrder', item.id,item.createTime)"
                   />
                 </template>
               </van-swipe-cell>
@@ -149,13 +150,6 @@ export default defineComponent({
     let page = ref(1);
     let state = ref(0);
     let isNo = ref(false);
-    const color = ref(["#8E8E8E","#E41818", "#E41818", "#8E8E8E", "#8E8E8E",  "#8E8E8E", "#8E8E8E",  "#E41818","#8E8E8E", "#8E8E8E", "#8E8E8E"])
-    if(Number(route.query.type) == 3){
-      color.value[1] = "#E41818" ;
-    } else if(Number(route.query.type) == 4){
-      color.value[1] = "#8E8E8E";
-      color.value[5] = "#E41818" ;
-    }
     const data= ref([
         {
           name: "全部",
@@ -201,7 +195,16 @@ export default defineComponent({
           name: "退款失败",
           value: 10,
         },
-      ],)
+      ])
+    const color = ref(["#8E8E8E","#E41818", "#E41818", "#8E8E8E", "#F9BB48",  "#8E8E8E", "#8E8E8E",  "#E41818","#8E8E8E", "#8E8E8E", "#8E8E8E"])
+    if(Number(route.query.type) == 3){
+      color.value[1] = "#E41818" ;
+      data.value[1].name = '待付款'
+    } else if(Number(route.query.type) == 4){
+      color.value[1] = "#8E8E8E";
+      color.value[5] = "#E41818";
+    }
+
     const onClickTab = (name: number) => {
       isNo.value = true;
       page.value = 1;
@@ -226,7 +229,13 @@ export default defineComponent({
       // Toast('加载中');
       // console.log(isLoding.value)
     };
-    const onClick = (uerRouter: string, id: number) => {
+    const onClick = (uerRouter: string, id: number,createTime: string) => {
+      if(uerRouter === 'addRefund'){
+        if( Number(new Date().valueOf()) - Number(createTime) !> 86400000 * 60 || Number(new Date().valueOf()) - Number(createTime) !< 86400000 * 60){
+          Toast('请在大于六十天小于九十天内退款');
+          return
+        }
+      }
       // isLoding.value = true;
       router.push({
         path: "/" + uerRouter,
@@ -248,14 +257,7 @@ export default defineComponent({
     };
     function CheckStatePipe(value: any): any {
       const returnData = data.value.filter((item: Data) => item.value === Number(value));
-      if (props.types == 3 && returnData.length> 0)
-        switch (returnData[0]?.name) {
-          case "已提交":
-            return "待付款";
-          default:
-            return returnData[0].name;
-        }
-      else return returnData[0].name;
+      return returnData[0].name;
     }
     return {
       active,

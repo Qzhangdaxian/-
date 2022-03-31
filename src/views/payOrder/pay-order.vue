@@ -4,7 +4,6 @@
       <template #left>
         <van-icon name="shop-o" />
         <span class="storeName">{{ dataSources?.storeName }}</span>
-        <van-icon name="arrow" />
       </template>
     </van-nav-bar>
     <van-nav-bar>
