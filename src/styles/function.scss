@@ -1,0 +1,5 @@
+$design-width: 375;
+
+@function vw($px) {
+  @return ($px / $design-width) * 100vw;
+}
