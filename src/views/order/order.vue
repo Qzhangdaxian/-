@@ -2,7 +2,7 @@
   <div class="order">
     <form action="/" class="order_form">
       <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @update:model-value="onSearch(value)" @clear="onClear" />
-      <span @click="isShow">筛选</span>
+      <span @click="isShow" v-if="Number(type) == 3">筛选</span>
     </form>
     <ListArr ref="child" :data="data" :list="list" :btnType="btnType" :finished="finished"
      :onLoad="onLoadData" @page="onLoadData" :types="type"></ListArr>

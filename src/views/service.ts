@@ -45,7 +45,7 @@ export const orderService = {
     return post('/nature/order/refund', params)
   },
   storeList(params: any) {
-    return get('/store/queryList', params)
+    return get('/store/getList', params)
   },
   // 上传图片
   upload(file: File): any {

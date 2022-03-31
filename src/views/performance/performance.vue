@@ -313,7 +313,7 @@ export default defineComponent({
           page:1,
           limit: 10,
           startTime: new Date(datas.startTime).valueOf(),
-          entTime: new Date(datas.startTime).valueOf()+ 86400000 - 1 ,
+          endTime: new Date(datas.startTime).valueOf()+ 86400000 - 1 ,
         }
         onLoadIng(param)
         // 可以筛选了

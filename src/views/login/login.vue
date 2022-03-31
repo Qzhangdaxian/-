@@ -47,6 +47,8 @@ import store from "@/store";
 //   username: string;
 //   password: string;
 // }
+import storage from '@/model/storage'
+import { Toast } from "vant";
 export default defineComponent({
   name: "h-login",
   components: {
@@ -128,7 +130,14 @@ export default defineComponent({
               userMobile: data.userInfo.userMobile
             }
           });
-          console.log("success===>登陆成功");
+          //86400000
+          setInterval(()=>{
+            storage.removeAll();
+            router.push({
+              path:'/login'
+            });
+            Toast('Token已过期请重新登录')
+          }, 86400000)
         }
       });
     }

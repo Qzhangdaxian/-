@@ -24,7 +24,7 @@ export const orderService = {
     return get('/nature/order/getList', params);
   },
   storeList(params: any) {
-    return get('/store/queryList', params)
+    return get('/store/getList', params)
   },
 };
 

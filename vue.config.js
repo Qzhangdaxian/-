@@ -74,112 +74,112 @@ module.exports = defineConfig({
   },
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/webpack.md
-  // chainWebpack: (config) => {
-  //   config
-  //     .plugin('fork-ts-checker')
-  //     .tap((args) => {
-  //       const params = [...args];
-  //       params[0].typescript.configFile = path.join(__dirname, `/tsconfig.json`);
-  //       return params;
-  //     });
-  //   config.resolve
-  //     .alias
-  //     .set('@app', path.join(__dirname, process.env.VUE_APP_APP_PATH, '/'));
-  //   config.module.rule('file')
-  //     .test(/\.pdf$/)
-  //     .use('file-loader')
-  //     .loader('file-loader')
-  //     .tap((options) => ({
-  //       name: 'assets/[name].[hash:8].[ext]',
-  //     }))
-  //     .end();
-  // },
+  chainWebpack: (config) => {
+    config
+      .plugin('fork-ts-checker')
+      .tap((args) => {
+        const params = [...args];
+        params[0].typescript.configFile = path.join(__dirname, `/tsconfig.json`);
+        return params;
+      });
+    config.resolve
+      .alias
+      .set('@app', path.join(__dirname, process.env.VUE_APP_APP_PATH, '/'));
+    config.module.rule('file')
+      .test(/\.pdf$/)
+      .use('file-loader')
+      .loader('file-loader')
+      .tap((options) => ({
+        name: 'assets/[name].[hash:8].[ext]',
+      }))
+      .end();
+  },
 
-  // configureWebpack: (config) => {
-  //   if (process.env.NODE_ENV === 'production') {
-  //     // 为生产环境修改配置...
-  //     config.mode = 'production';
-  //     // 利用splitChunks将每个依赖包单独打包，在生产环境下配置
-  //     // 开启gzip压缩
-  //     config.plugins.push(new CompressionWebpackPlugin({
-  //       algorithm: 'gzip',
-  //       test: /\.ts$|\.html$|\.json$|\.css/,
-  //       threshold: 10240,
-  //       minRatio: 0.8,
-  //     }));
-  //     // 开启分离js
-  //     config.optimization = {
-  //       runtimeChunk: 'single',
-  //       splitChunks: {
-  //         chunks: 'all',
-  //         maxInitialRequests: Infinity,
-  //         minSize: 20000, // 依赖包超过20000bit将被单独打包
-  //         cacheGroups: {
-  //           vendor: {
-  //             test: /[\\/]node_modules[\\/]/,
-  //             // name(module) {
-  //             //   // get the name. E.g. node_modules/packageName/not/this/part.js
-  //             //   // or node_modules/packageName
-  //             //   const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-  //             //   // npm package names are URL-safe, but some servers don't like @ symbols
-  //             //   return `${packageName.replace('@', '')}`;
-  //             // },
-  //           },
-  //         },
-  //       },
-  //       minimizer: [
-  //         new TerserPlugin({
-  //           terserOptions: {
-  //             ecma: undefined,
-  //             warnings: false,
-  //             parse: {},
-  //             compress: {
-  //               drop_console: true,
-  //               drop_debugger: false,
-  //               pure_funcs: ['console.log'], // 移除console
-  //             },
-  //           },
-  //         }),
-  //       ],
-  //     };
-  //     // 取消webpack警告的性能提示
-  //     config.performance = {
-  //       hints: 'warning',
-  //       // 入口起点的最大体积
-  //       maxEntrypointSize: 50000000,
-  //       // 生成文件的最大体积
-  //       maxAssetSize: 30000000,
-  //       // 只给出 ts 文件的性能提示
-  //       assetFilter(assetFilename) {
-  //         return assetFilename.endsWith('.ts');
-  //       },
-  //     };
-  //   } else {
-  //     // 为开发环境修改配置...
-  //     config.mode = 'development';
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      // 为生产环境修改配置...
+      config.mode = 'production';
+      // 利用splitChunks将每个依赖包单独打包，在生产环境下配置
+      // 开启gzip压缩
+      config.plugins.push(new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: /\.ts$|\.html$|\.json$|\.css/,
+        threshold: 10240,
+        minRatio: 0.8,
+      }));
+      // 开启分离js
+      config.optimization = {
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: Infinity,
+          minSize: 20000, // 依赖包超过20000bit将被单独打包
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              // name(module) {
+              //   // get the name. E.g. node_modules/packageName/not/this/part.js
+              //   // or node_modules/packageName
+              //   const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              //   // npm package names are URL-safe, but some servers don't like @ symbols
+              //   return `${packageName.replace('@', '')}`;
+              // },
+            },
+          },
+        },
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              ecma: undefined,
+              warnings: false,
+              parse: {},
+              compress: {
+                drop_console: true,
+                drop_debugger: false,
+                pure_funcs: ['console.log'], // 移除console
+              },
+            },
+          }),
+        ],
+      };
+      // 取消webpack警告的性能提示
+      config.performance = {
+        hints: 'warning',
+        // 入口起点的最大体积
+        maxEntrypointSize: 50000000,
+        // 生成文件的最大体积
+        maxAssetSize: 30000000,
+        // 只给出 ts 文件的性能提示
+        assetFilter(assetFilename) {
+          return assetFilename.endsWith('.ts');
+        },
+      };
+    } else {
+      // 为开发环境修改配置...
+      config.mode = 'development';
 
-  //     config.optimization = {
-  //       runtimeChunk: 'single',
-  //       splitChunks: {
-  //         chunks: 'all',
-  //         maxInitialRequests: Infinity,
-  //         minSize: 20000, // 依赖包超过20000bit将被单独打包
-  //         cacheGroups: {
-  //           vendor: {
-  //             test: /[\\/]node_modules[\\/]/,
-  //             // name(module) {
-  //             //   // get the name. E.g. node_modules/packageName/not/this/part.js
-  //             //   // or node_modules/packageName
-  //             //   const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-  //             //   // npm package names are URL-safe, but some servers don't like @ symbols
-  //             //   return `${packageName.replace('@', '')}`;
-  //             // },
-  //           },
-  //         },
-  //       },
-  //     };
-  //   }
-  // },
+      config.optimization = {
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: Infinity,
+          minSize: 20000, // 依赖包超过20000bit将被单独打包
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              // name(module) {
+              //   // get the name. E.g. node_modules/packageName/not/this/part.js
+              //   // or node_modules/packageName
+              //   const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              //   // npm package names are URL-safe, but some servers don't like @ symbols
+              //   return `${packageName.replace('@', '')}`;
+              // },
+            },
+          },
+        },
+      };
+    }
+  },
 
 
 
