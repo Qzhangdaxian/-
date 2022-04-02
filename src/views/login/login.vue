@@ -49,6 +49,7 @@ import store from "@/store";
 // }
 import storage from '@/model/storage'
 import { Toast } from "vant";
+document.title = "登录";
 export default defineComponent({
   name: "h-login",
   components: {
@@ -63,7 +64,6 @@ export default defineComponent({
     // EyeInvisibleOutlined,
   },
   setup() {
-    document.title = "登录";
     const userName = ref<string>("");
     const passWord = ref<string>("");
     const router = useRouter()
@@ -125,6 +125,7 @@ export default defineComponent({
         } else {
           let data = res.data.data
           store.commit("set_token", data.token);
+          store.commit('setUserInfo', data.userMobile)
           router.push({
             path: "/",
             query: {

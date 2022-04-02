@@ -7,25 +7,22 @@
       </div>
       <p class="card_phone">
         <van-icon name="phone-circle" color="#FFFFFF" />
-        <span class="phone_num">手机号：{{res.userMobile}}</span>
+        <span class="phone_num">手机号：{{ res.userMobile }}</span>
       </p>
     </div>
     <div class="manage_list">
       <h3 class="manage_list_title"><span>//</span> 三大模块系统管理 <span>//</span></h3>
       <ul>
         <li @click="pathRouter('order')">
-          <i class="icon_left">
-          <van-icon :name="require('../../assets/home/order_icon.png')" /></i>
+          <i class="icon_left"> <van-icon :name="require('../../assets/home/order_icon.png')" /></i>
           <span class="text_right">订单管理</span>
         </li>
         <li class="li_center" @click="pathRouter('refund')">
-          <i class="icon_left">
-          <van-icon :name="require('../../assets/home/refund_icon.png')" /></i>
+          <i class="icon_left"> <van-icon :name="require('../../assets/home/refund_icon.png')" /></i>
           <span class="text_right">退款管理</span>
         </li>
         <li class="li_center" @click="pathRouter('performance')">
-          <i class="icon_left">
-          <van-icon :name="require('../../assets/home/pre_icon.png')" /></i>
+          <i class="icon_left"> <van-icon :name="require('../../assets/home/pre_icon.png')" /></i>
           <span class="text_right">业绩管理</span>
         </li>
       </ul>
@@ -36,10 +33,9 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 // import type { IconProps } from 'vant';
-import { Icon } from "vant";
+import { Icon, Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
-
-document.title = "自然约定|盈管理系统";
+import store from "@/store";
 
 export default defineComponent({
   name: "h-home",
@@ -52,27 +48,32 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     let res: any = ref(route.query);
+    if(!res.value.userMobile) {
+      Toast('token失效请重新登录');
+      router.push({
+        path: '/login'
+      })
+      store.commit("del_token");
+    }
 
     function pathRouter(routerName: string) {
       console.log(routerName);
       router.push({
         path: "/" + routerName,
-        query: route.query
+        query: route.query,
       });
     }
-    console.log(res)
+    // window.addEventListener("popstate", function () {
+    //   store.commit('del_token');
+    //   this.alert('1111')
+    //   return;
+    // });
     return {
       pathRouter,
-      res
+      res,
     };
   },
 });
-
-function getParticulars(arg0: {
-  categoryName: import("vue-router").LocationQueryValue | import("vue-router").LocationQueryValue[]; // 2 });
-}): any {
-  throw new Error("Function not implemented.");
-}
 </script>
 
 <style lang="scss">

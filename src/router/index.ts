@@ -8,22 +8,26 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/home/home.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
+      // title: '自然约定|盈管理系统'
     }
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('../views/login/login.vue'),
+    meta: {
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    }
   },
   {
     path: '/order',
     name: 'Order',
     component: () => import('../views/order/order.vue'),
-    children: [
-
-    ],
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
+      // title: '订单管理'
     }
   },
   {
@@ -33,6 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/record/record.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
   {
@@ -42,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/addOrder/add_order.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
   {
@@ -56,6 +62,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/refund/refund.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
   {
@@ -64,6 +71,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/addRefund/add_refund.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
   // 业绩管理
@@ -73,6 +81,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/performance/performance.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
   {
@@ -81,6 +90,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/orderDetail/orderDetail.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
   {
@@ -89,6 +99,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/payOrder/pay-order.vue'),
     meta: {
       requireAuth: true,
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
 ]
@@ -99,7 +110,7 @@ const router = createRouter({
   routes
 })
 if (storage.get("token")) {
-  store.commit("set_token", storage.get("token") );
+  store.commit("set_token", storage.get("token"));
 }
 router.beforeEach((to, from, next) => {
   // 判断要去的路由有没有requiresAu
