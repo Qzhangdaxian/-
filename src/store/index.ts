@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     // 存储token
     // token: storage.get('token') ? storage.get('token') : '',
     token: "",
-    userName: "" // 可选
+    userMobile: "" // 可选
   },
 
   getters : {
@@ -25,15 +25,14 @@ const store = new Vuex.Store({
     set_token(state, token) {
       state.token = token;
       storage.set('token', token);
-      console.log('store、localstorage保存token成功！');
     },
     del_token(state) {
       state.token = "";
       storage.remove("token");
     },
     // 可选
-    setUserInfo(state, userName) {
-      state.userName = userName;
+    setUserInfo(state, userMobile) {
+      state.userMobile = userMobile;
     }
   }
 })
