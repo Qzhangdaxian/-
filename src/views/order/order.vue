@@ -4,15 +4,14 @@
       <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @update:model-value="onSearch(value)" @clear="onClear" />
       <span @click="isShow" v-if="Number(type) == 3">筛选</span>
     </form>
-    <ListArr ref="child" :data="data" :list="list" :btnType="btnType" :finished="finished"
-     :onLoad="onLoadData" @page="onLoadData" :types="type"></ListArr>
+    <ListArr ref="child" :fatherMethod="fatherMethod" :data="data" :list="list" :btnType="btnType" :finished="finished" :onLoad="onLoadData" @page="onLoadData" :types="type"></ListArr>
 
     <div class="add_btn" v-if="Number(type) === 4">
       <van-button color="#919A74" @click="addOrder">
         <van-icon name="plus" />
       </van-button>
     </div>
-    <van-popup v-model:show="show" round position="bottom" >
+    <van-popup v-model:show="show" round position="bottom">
       <!--
       <div class="popup_top">
         <span>理发店/门店选择</span>
@@ -21,7 +20,7 @@
       <van-search v-model="values" shape="round" placeholder="请输入店铺名称搜索" @update:model-value="storeSearch(value)" @clear="onClear" />
       :showToolbar="false"
       -->
-      <van-picker title="理发店/门店选择" v-if="show" :columns="storeLists"  @confirm="onConfirm"  @change="onChange"/>
+      <van-picker title="理发店/门店选择" v-if="show" :columns="storeLists" @confirm="onConfirm" @change="onChange" />
     </van-popup>
   </div>
 </template>
@@ -217,6 +216,9 @@ export default defineComponent({
     const onChange = (val: string, index: number) => {
       // Toast(`当前值: ${val}, 当前索引: ${index}`);
     };
+    function fatherMethod() {
+        onLoadData([1, datas.state])
+    }
     return {
       value,
       ...toRefs(datas),
@@ -232,7 +234,8 @@ export default defineComponent({
       onConfirm,
       onCancel,
       onChange,
-      storeSearch
+      storeSearch,
+      fatherMethod
     };
   },
 });

@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
-      // title: '自然约定|盈管理系统'
+      title: '自然约定|盈管理系统'
     }
   },
   {
@@ -17,6 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: () => import('../views/login/login.vue'),
     meta: {
+      title: '登录',
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
   },
@@ -27,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
-      // title: '订单管理'
+      title: '订单管理'
     }
   },
   {
@@ -37,7 +38,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/record/record.vue'),
     meta: {
       requireAuth: true,
-      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
+      title: '补录'
     }
   },
   {
@@ -47,7 +49,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/addOrder/add_order.vue'),
     meta: {
       requireAuth: true,
-      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
+      title: '新订单申请'
     }
   },
   {
@@ -61,6 +64,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Refund',
     component: () => import('../views/refund/refund.vue'),
     meta: {
+      title: '退款管理',
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
@@ -70,6 +74,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'AddRefund',
     component: () => import('../views/addRefund/add_refund.vue'),
     meta: {
+      title: '退款申请',
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
@@ -80,6 +85,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Performance',
     component: () => import('../views/performance/performance.vue'),
     meta: {
+      title: '业绩管理',
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
@@ -89,6 +95,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'OrderDetail',
     component: () => import('../views/orderDetail/orderDetail.vue'),
     meta: {
+      title: '订单详情',
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
@@ -98,6 +105,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'PayOrder',
     component: () => import('../views/payOrder/pay-order.vue'),
     meta: {
+      title: '订单支付',
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     }
@@ -113,6 +121,21 @@ if (storage.get("token")) {
   store.commit("set_token", storage.get("token"));
 }
 router.beforeEach((to, from, next) => {
+  const title: any = to.meta.title
+  if (title) {
+    document.title = title
+    // 下面是关键的地方，匹配苹果设备
+    // if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
+      const i = document.createElement('iframe')
+      i.src = "//m.baidu.com/favicon.ico" // src要设置成一个实际存在的图片，最好是比较小的，如果不存在，在使用this.$router.go(-1)这种跳转时，会出现错误
+      i.style.display = "none"
+      i.onload = () => {
+        setTimeout(() => {
+          document.body.removeChild(i)
+        }, 0)
+      }
+    // }
+  }
   // 判断要去的路由有没有requiresAu
   // to.matched.some(r => r.meta.requireAuth) or to.meta.requiresAuth
   if (to.matched.some(r => r.meta.requireAuth)) {

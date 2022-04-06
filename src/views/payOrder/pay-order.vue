@@ -39,19 +39,19 @@
         <span class="span_btn" v-bind:class="{ bntActive: payNum === 2 }" @click="payType(2)">线上支付</span>
       </div>
     </div>
-      <div class="pcs" v-if="payNum === 1">
-        <van-nav-bar>
-          <template #left>
-            <span class="nav_text">当前自有库存数量</span>
-          </template>
-          <template #right>
-            <span class="nat_text_data">{{res.quota}}</span>
-          </template>
-        </van-nav-bar>
-        <div v-if="res.quota === 0">
-          <van-empty class="custom-image" :image="require('../../assets/addOrder/no-found.png')" description="给您配额的产品库存不足，请选择线上支付" />
-        </div>
+    <div class="pcs" v-if="payNum === 1">
+      <van-nav-bar>
+        <template #left>
+          <span class="nav_text">当前自有库存数量</span>
+        </template>
+        <template #right>
+          <span class="nat_text_data">{{ res.quota }}</span>
+        </template>
+      </van-nav-bar>
+      <div v-if="res.quota === 0">
+        <van-empty class="custom-image" :image="require('../../assets/addOrder/no-found.png')" description="给您配额的产品库存不足，请选择线上支付" />
       </div>
+    </div>
 
     <div class="pay_type-cash" v-if="payNum === 2">
       <div class="pay_type—code">
@@ -94,20 +94,20 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const imageArr = [require('../../assets/addOrder/pay_pic.png')];
+    const imageArr = [require("../../assets/addOrder/pay_pic.png")];
     let payNum = ref(1);
     let res: any = ref(route.query);
     const data = reactive({
       imgData: [] as any,
       productNoImg: [] as Array<any>,
-      isDis: false
+      isDis: false,
     });
     const dataSources = ref();
     const orderDetail = () => {
       orderService.orderDetail({ id: res.value.id }).then((res) => {
         if (res.data.success) {
           dataSources.value = res.data.data;
-          if(res.data.data.payMethod){
+          if (res.data.data.payMethod) {
             payNum.value = res.data.data.payMethod;
             data.productNoImg.push(res.data.data.voucherArray[0]);
             data.imgData.push(res.data.data.voucherArray[0].id);
@@ -120,16 +120,16 @@ export default defineComponent({
       data.isDis = true;
       const param = {
         id: Number(route.query.id),
-        voucher: payNum.value ==2? data.imgData.join(",") : null,
+        voucher: payNum.value == 2 ? data.imgData.join(",") : null,
         payMethod: payNum.value,
       };
       orderService.orderPay(param).then((res: any) => {
         if (res.data.success) {
           Toast("提交成功");
           history.back();
-        }else{
+        } else {
           data.isDis = false;
-          Toast("提交失败")
+          Toast("提交失败");
         }
       });
     };
@@ -143,14 +143,20 @@ export default defineComponent({
         .upload(fileContent)
         .then((res: any) => res.json())
         .then((res: any) => {
-          data.imgData.push(res.data.id);
-          console.log(data.imgData, res.data);
+          // data.imgData.push(res.data.id);
+          if (res.success) {
+            file.status = "done";
+            data.imgData.push(res.data.id);
+          } else {
+            file.status = "failed";
+            file.message = "上传失败...";
+          }
         });
     };
     const deteleImg: any = (file: any) => {
       console.log(file);
       data.productNoImg.forEach((item: any, index: number) => {
-        if (item.file&& item.file.name) {
+        if (item.file && item.file.name) {
           if (item.file.name === file.file.name) {
             data.productNoImg.splice(index, 1);
             let id = data.imgData.splice(index, 1);
@@ -179,7 +185,7 @@ export default defineComponent({
       payType,
       afterRead,
       onPay,
-      res
+      res,
     };
   },
 });

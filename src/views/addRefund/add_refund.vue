@@ -1,12 +1,15 @@
 <template>
   <div class="add_refund">
     <!-- 此处添加客户信息 -->
-    <h-detail :isDetail="false" :dataSources="dataSources"
-    :alopeciaImgArray="alopeciaImgArray"
+    <h-detail
+      :isDetail="false"
+      :dataSources="dataSources"
+      :alopeciaImgArray="alopeciaImgArray"
       :productNoImgArray="productNoImgArray"
       :refundHairImgArray="refundHairImgArray"
       :refundImgArray="refundImgArray"
-      :types="type"></h-detail>
+      :types="type"
+    ></h-detail>
     <!-- 门店上传退款信息 -->
     <van-form v-if="type == 4">
       <div class="add_refund-form">
@@ -32,7 +35,7 @@
         </van-cell-group>
         <h6 class="record_code model_state required">上传客户照片</h6>
         <div class="image-preview">
-          <van-image-preview :isdefault="true" :images="images"></van-image-preview>
+          <van-image-preview :isdefault="true" :images="imageArr"></van-image-preview>
         </div>
         <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
         <van-uploader v-model="productNoImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="3">
@@ -51,9 +54,7 @@
         <van-image-preview :isdefault="true" :images="images"></van-image-preview>
       </div>
       <p class="ARequired picTip">请按照上述示例图标准拍照上传</p>
-      <van-uploader v-model="refundImg" :after-read="afterReads"
-      :before-delete="deteleImgs"
-      :upload-icon="'back-top'" :max-count="3">
+      <van-uploader v-model="refundImg" :after-read="afterReads" :before-delete="deteleImgs" :upload-icon="'back-top'" :max-count="3">
         <van-icon :name="require('../../assets/addOrder/upload.png')" class="van-uploader-upload" />
         <p>点击上传</p>
       </van-uploader>
@@ -102,10 +103,10 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     let res: any = ref(route.query);
-    let alopeciaImgArray =ref([] as any)
-    let productNoImgArray =ref([] as any)
-    let refundHairImgArray =ref([] as any)
-    let refundImgArray =ref([] as any)
+    let alopeciaImgArray = ref([] as any);
+    let productNoImgArray = ref([] as any);
+    let refundHairImgArray = ref([] as any);
+    let refundImgArray = ref([] as any);
     let data = reactive({
       show: false,
       refundReason: "",
@@ -114,7 +115,8 @@ export default defineComponent({
       refundIdentity: "",
       showPicker: false,
       columns: ["无新生毛发生长", "有毛发生长但未达到预期", "其他因素不满意（选择此项请填写具体原因）"],
-      images: [require('../../assets/addOrder/destroy_one.png'), require('../../assets/addOrder/destroy_two.png'), require('../../assets/addOrder/destroy_three.png')],
+      imageArr: [require("../../assets/img/heard_one.png"), require("../../assets/img/heard_two.png"), require("../../assets/img/heard_three.png")],
+      images: [require("../../assets/addOrder/destroy_one.png"), require("../../assets/addOrder/destroy_two.png"), require("../../assets/addOrder/destroy_three.png")],
       result: "",
       pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
       patternPhone: /^1[3456789]\d{9}$/,
@@ -124,7 +126,7 @@ export default defineComponent({
       type: res.value.type,
       imgData: [] as any,
       productNoImg: [] as Array<any>,
-      imgDatas: [] as any
+      imgDatas: [] as any,
     });
     let dataSources = ref();
 
@@ -159,7 +161,7 @@ export default defineComponent({
               }
             });
           }
-          res.data.data.identity = res.data.data.identity.slice(0, 12) +'****';
+          res.data.data.identity = res.data.data.identity.slice(0, 12) + "****";
           dataSources.value = res.data.data;
         }
       });
@@ -183,17 +185,17 @@ export default defineComponent({
         refundPhone: data.refundPhone,
         refundIdentity: data.refundIdentity,
       };
-      if(data.refundReason.length == 0 || data.imgData.length == 0 || data.refundPhone.length == 0 || data.refundIdentity.length == 0){
-        Toast('带*号的是必填项');
+      if (data.refundReason.length == 0 || data.imgData.length == 0 || data.refundPhone.length == 0 || data.refundIdentity.length == 0) {
+        Toast("带*号的是必填项");
         return;
-      }else if(!data.patternPhone.test(data.refundPhone)){
+      } else if (!data.patternPhone.test(data.refundPhone)) {
         Toast("请填写正确的手机号");
-          return;
-      }else if(data.imgData.length != 3){
-        Toast('请添加三张客户图片')
+        return;
+      } else if (data.imgData.length != 3) {
+        Toast("请添加三张客户图片");
         return;
       }
-      if (dataSources.value.identity.substring(0,12) != data.refundIdentity.substring(0, 12)) {
+      if (dataSources.value.identity.substring(0, 12) != data.refundIdentity.substring(0, 12)) {
         data.show = true;
         return;
       }
@@ -207,14 +209,14 @@ export default defineComponent({
     const onSubmitDealer = () => {
       const param = {
         id: res.value.id,
-        refundImg: data.imgDatas.join(','),
+        refundImg: data.imgDatas.join(","),
       };
-      orderService.orderRefundRecord(param).then((res: any)=>{
-        if(res.data.success){
-          Toast('提交成功');
+      orderService.orderRefundRecord(param).then((res: any) => {
+        if (res.data.success) {
+          Toast("提交成功");
           history.back();
         }
-      })
+      });
       console.log("param==>", param);
     };
     const afterReads = (file: any) => {
@@ -223,7 +225,14 @@ export default defineComponent({
         .upload(fileContent)
         .then((res: any) => res.json())
         .then((res: any) => {
-          data.imgDatas.push(res.data.id);
+          // data.imgDatas.push(res.data.id);
+          if (res.success) {
+            file.status = "done";
+            data.imgDatas.push(res.data.id);
+          } else {
+            file.status = "failed";
+            file.message = "上传失败...";
+          }
         });
     };
     const deteleImgs: any = (file: any) => {
@@ -243,8 +252,13 @@ export default defineComponent({
         .upload(fileContent)
         .then((res: any) => res.json())
         .then((res: any) => {
-          data.imgData.push(res.data.id);
-          console.log(data.imgData, res.data);
+          if (res.success) {
+            file.status = "done";
+            data.imgData.push(res.data.id);
+          } else {
+            file.status = "failed";
+            file.message = "上传失败...";
+          }
         });
     };
     const deteleImg: any = (file: any) => {
@@ -262,6 +276,19 @@ export default defineComponent({
       console.log(active);
       data.show = false;
     };
+    function titleUpdate() {
+      let iframe = document.createElement("iframe");
+      //设置标题
+      document.title = "退款";
+      //加载空iframe
+      iframe.src = "/";
+      document.body.appendChild(iframe);
+      //刷新后移除iframe
+      setTimeout(function () {
+        document.body.removeChild(iframe);
+      }, 0);
+    }
+    titleUpdate();
     return {
       alopeciaImgArray,
       productNoImgArray,
@@ -276,7 +303,7 @@ export default defineComponent({
       dataSources,
       deteleImg,
       afterReads,
-      deteleImgs
+      deteleImgs,
     };
   },
 });

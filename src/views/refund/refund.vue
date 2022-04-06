@@ -18,6 +18,7 @@
       :onLoad="onLoadData"
       @page="onLoadData"
       :types="type"
+      :fatherMethod="fatherMethod"
     ></ListArr>
   </div>
 </template>
@@ -164,6 +165,9 @@ export default defineComponent({
       //   path: "/addOrder",
       // });
     }
+    function fatherMethod() {
+        onLoadData([1, datas.state])
+    }
     return {
       value,
       ...toRefs(datas),
@@ -174,7 +178,8 @@ export default defineComponent({
       onLoad,
       child,
       onLoadData,
-      type
+      type,
+      fatherMethod
     }
   }
 })

@@ -8,7 +8,7 @@
 
       </template>
       <template #right>
-        <span :style="{ color: color[dataSources.state] }">{{ CheckStatePipe(dataSources?.state) }}</span>
+        <span :style="{ color: color[dataSources?.state] }">{{ CheckStatePipe(dataSources?.state) }}</span>
       </template>
     </van-nav-bar>
     <van-divider :style="{ color: '#CBCBCB' }" />
@@ -40,8 +40,9 @@
       <template #left>
         <span class="nav_text">下单日期</span>
       </template>
-      <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSources?.createTime) || "暂无" }}</span>
+      <template #right >
+        <span class="nat_text_data" v-if="dataSources?.createTime">{{ dateFormat(dataSources?.createTime)}}</span>
+        <span class="nat_text_data">暂无</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -88,7 +89,8 @@
         <span class="nav_text">发货日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSources?.expressTime) || "暂无" }}</span>
+        <span class="nat_text_data" v-if="dataSources?.expressTime">{{ dateFormat(dataSources?.expressTime)}}</span>
+        <span class="nat_text_data">暂无</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -114,7 +116,7 @@
       <van-icon name="arrow-up" v-if="show" />
     </div>
   </div>
-  <div class="refund_text" v-if="isDetail">
+  <div class="refund_text" v-if="isDetail && dataSources?.refundReason">
     <div class="refund_cause">
       <van-nav-bar>
         <template #left>
@@ -128,7 +130,7 @@
         <van-image-preview :isdefault="true" :images="refundHairImgArray"></van-image-preview>
       </div>
     </div>
-    <div class="destroy">
+    <div class="destroy" v-if="refundImgArray?.lnegth >= 1">
       <van-nav-bar>
         <template #left>
           <span class="nav_text">销毁图片</span>
@@ -161,7 +163,7 @@ export default defineComponent({
     alopeciaImgArray: [],
     productNoImgArray: [],
     refundHairImgArray: [],
-    refundImgArray: []
+    refundImgArray: [] as any
   },
   setup(props) {
     console.log(props.alopeciaImgArray)

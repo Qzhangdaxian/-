@@ -137,7 +137,11 @@ export default defineComponent({
     // routerName: String,
     btnType: String,
     types: Number as any,
-    fefund: String
+    fefund: String,
+    fatherMethod: {
+        type: Function,
+        default: null
+      }
   },
   setup(props, context) {
     const route = useRoute();
@@ -214,6 +218,9 @@ export default defineComponent({
     const onRefresh = () => {
       // props.onLoad();
       setTimeout(() => {
+        if (props.fatherMethod) {
+          props.fatherMethod();
+        }
         Toast("刷新成功");
         loading.value = false;
       }, 1000);
@@ -230,12 +237,12 @@ export default defineComponent({
       // console.log(isLoding.value)
     };
     const onClick = (uerRouter: string, id: number,createTime: string) => {
-      if(uerRouter === 'addRefund'){
-        if( Number(new Date().valueOf()) - Number(createTime) !> 86400000 * 60 || Number(new Date().valueOf()) - Number(createTime) !< 86400000 * 60){
-          Toast('请在大于六十天小于九十天内退款');
-          return
-        }
-      }
+      // if(uerRouter === 'addRefund'){
+      //   if( Number(new Date().valueOf()) - Number(createTime) !> 86400000 * 60 || Number(new Date().valueOf()) - Number(createTime) !< 86400000 * 60){
+      //     Toast('请在大于六十天小于九十天内退款');
+      //     return
+      //   }
+      // }
       // isLoding.value = true;
       router.push({
         path: "/" + uerRouter,

@@ -2,12 +2,15 @@
   <div class="record">
     <!--
   -->
-    <h-detail :isDetail="false" :dataSources="dataSources"
+    <h-detail
+      :isDetail="false"
+      :dataSources="dataSources"
       :alopeciaImgArray="alopeciaImgArray"
       :productNoImgArray="productNoImgArray"
       :refundHairImgArray="refundHairImgArray"
       :refundImgArray="refundImgArray"
-      :types="type"></h-detail>
+      :types="type"
+    ></h-detail>
     <div class="record_form" v-if="Number(type) === 4">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
@@ -65,14 +68,13 @@ export default defineComponent({
     const index = ref(0);
     const arrowText = ref("展开");
     const productNo = ref("");
-    const images = [require('../../assets/addOrder/destroy_one.png'),
-    require('../../assets/addOrder/destroy_two.png'),require('../../assets/addOrder/destroy_three.png')];
-    const imageArr = [require('../../assets/addOrder/order_code.png')];
+    const images = [require("../../assets/addOrder/destroy_one.png"), require("../../assets/addOrder/destroy_two.png"), require("../../assets/addOrder/destroy_three.png")];
+    const imageArr = [require("../../assets/addOrder/order_code.png")];
     const dataSources = ref();
-    let alopeciaImgArray =ref([] as any)
-    let productNoImgArray =ref([] as any)
-    let refundHairImgArray =ref([] as any)
-    let refundImgArray =ref([] as any)
+    let alopeciaImgArray = ref([] as any);
+    let productNoImgArray = ref([] as any);
+    let refundHairImgArray = ref([] as any);
+    let refundImgArray = ref([] as any);
     const data = reactive({
       imgData: [] as any,
       productNoImg: [] as Array<any>,
@@ -110,7 +112,7 @@ export default defineComponent({
               }
             });
           }
-          res.data.data.identity = res.data.data.identity.slice(0, 12) +'****';
+          res.data.data.identity = res.data.data.identity.slice(0, 12) + "****";
           dataSources.value = res.data.data;
         }
       });
@@ -134,8 +136,15 @@ export default defineComponent({
         .upload(fileContent)
         .then((res: any) => res.json())
         .then((res: any) => {
-          data.imgData.push(res.data.id);
-          console.log(data.imgData, res.data);
+          if (res.success) {
+            file.status = "done";
+            data.imgData.push(res.data.id);
+          } else {
+            file.status = "failed";
+            file.message = "上传失败...";
+          }
+          // data.imgData.push(res.data.id);
+          // console.log(data.imgData, res.data);
         });
     };
     const deteleImg: any = (file: any) => {
@@ -164,7 +173,7 @@ export default defineComponent({
       alopeciaImgArray,
       productNoImgArray,
       refundHairImgArray,
-      refundImgArray
+      refundImgArray,
     };
   },
 });

@@ -31,11 +31,14 @@
       <van-list :offset="100" :finished="finished && list.length>0" finished-text="没有更多了" @load="onLoadIng">
         <van-cell v-for="item in list" :key="item.state">
           <van-swipe-cell>
-              <van-nav-bar :right-text="dateForState[Number(item?.state)]?.text">
+              <van-nav-bar >
                 <template #left>
                   <van-icon name="shop-o" />
                   <span class="storeName">{{ item?.storeName }}</span>
                   <van-icon name="arrow" />
+                </template>
+                <template #right>
+                  <span :style="{ color: dateForState[item.state].color }">{{ dateForState[Number(item?.state)]?.text }}</span>
                 </template>
               </van-nav-bar>
               <van-divider :style="{ color: '#CBCBCB' }" />
@@ -127,46 +130,57 @@ export default defineComponent({
          {
           text: "全部",
           value: 0,
+          color: "#8E8E8E"
         },
         {
           text: "已提交",
           value: 1,
+          color: "#E41818"
         },
         {
           text: "待审核",
           value: 2,
+          color: "#8E8E8E"
         },
         {
           text: "待发货",
           value: 3,
+          color: "#F9BB48"
         },
         {
           text: "已驳回",
           value: 4,
+          color: "#8E8E8E"
         },
         {
           text: "待补录",
           value: 5,
+          color:"#E41818"
         },
         {
           text: "已完成",
           value: 6,
+          color: "#8E8E8E"
         },
         {
           text: "退款待补录",
           value: 7,
+          color: "#E41818"
         },
         {
           text: "退款待审核",
           value: 8,
+          color: "#8E8E8E"
         },
         {
           text: "退款完成",
           value: 9,
+          color: "#8E8E8E"
         },
         {
           text: "退款失败",
           value: 10,
+          color: "#8E8E8E"
         },
       ],
       list: [] as any,
@@ -215,7 +229,7 @@ export default defineComponent({
     const onLoad = ref();
     const loading = ref(false);
     const onLoadIng = (param: any) => {
-      // datas.list = []
+      datas.list = []
       orderService.orderList(param).then(res=>{
         let length = 0;
         datas.total = res.data.count;
@@ -313,7 +327,7 @@ export default defineComponent({
           page:1,
           limit: 10,
           startTime: new Date(datas.startTime).valueOf(),
-          endTime: new Date(datas.startTime).valueOf()+ 86400000 - 1 ,
+          endTime: new Date(datas.endTime).valueOf()+ 86400000 - 1 ,
         }
         onLoadIng(param)
         // 可以筛选了
