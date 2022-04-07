@@ -138,7 +138,8 @@ export default defineComponent({
     };
     const afterRead = (file: any) => {
       let fileContent = file.file as File;
-      Toast("正在上传图片");
+      file.status = 'uploading';
+      file.message = '上传中...';
       orderService
         .upload(fileContent)
         .then((res: any) => res.json())
