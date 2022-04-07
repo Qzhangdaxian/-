@@ -59,7 +59,7 @@
         <p>点击上传</p>
       </van-uploader>
       <div class="submit_next">
-        <van-button color="#919A74" size="large" @click="onSubmitDealer">提交申请</van-button>
+        <van-button color="#919A74" size="large" :disabled="isDis" @click="onSubmitDealer">提交申请</van-button>
       </div>
     </div>
     <!-- </div> -->
@@ -127,6 +127,7 @@ export default defineComponent({
       imgData: [] as any,
       productNoImg: [] as Array<any>,
       imgDatas: [] as any,
+      isDis: false
     });
     let dataSources = ref();
 
@@ -209,17 +210,23 @@ export default defineComponent({
       });
     };
     const onSubmitDealer = () => {
-      const param = {
-        id: res.value.id,
-        refundImg: data.imgDatas.join(","),
-      };
-      orderService.orderRefundRecord(param).then((res: any) => {
-        if (res.data.success) {
-          Toast("提交成功");
-          history.back();
-        }
-      });
-      console.log("param==>", param);
+      data.isDis =true;
+      if(data.refundImg.length === 3){
+        const param = {
+          id: res.value.id,
+          refundImg: data.imgDatas.join(","),
+        };
+        orderService.orderRefundRecord(param).then((res: any) => {
+          if (res.data.success) {
+            Toast("提交成功");
+            data.isDis =false;
+            history.back();
+          }
+        });
+      }else{
+        Toast('请上三张传销毁图片');
+        data.isDis =false;
+      }
     };
     const afterReads = (file: any) => {
       let fileContent = file.file as File;
