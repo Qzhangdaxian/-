@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-
+document.title= '自然约定';
 export default defineComponent({
   name: "hsh-home",
   components: {},

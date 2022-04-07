@@ -6422,6 +6422,11 @@ vue-types@^3.0.0:
   dependencies:
     is-plain-object "3.0.1"
 
+vue-wechat-title@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.npmmirror.com/vue-wechat-title/-/vue-wechat-title-2.0.7.tgz#6ad4ca49fb2e7bcd0f1eed0a5fdcbe9461b2946b"
+  integrity sha512-qNkb56AWFHjOoGfW4lkstS4GC2W4YqVJYfnIUM73b/CBpMSOvcWSqtmb8ANa9owTKJr2dmBRmQV5K5YwrzbC5A==
+
 vue@^3.2.13:
   version "3.2.31"
   resolved "http://npm.huanshenghui.com/vue/-/vue-3.2.31.tgz#e0c49924335e9f188352816788a4cca10f817ce6"

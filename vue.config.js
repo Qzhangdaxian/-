@@ -24,11 +24,12 @@ module.exports = defineConfig({
     hot: true,
     // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/cli-service.md#配置代理
     proxy: {
-      '/api': {
+      '/sys': {
         target: process.env.VUE_APP_BASE_URL, // 代理服务器路径
+        ws: true, // 是否启用websockets
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '', // 去掉接口地址中的api字符串
+          '^/sys': '/', // 去掉接口地址中的api字符串
         },
       }
     },

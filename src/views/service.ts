@@ -56,12 +56,12 @@ export const orderService = {
     // return http(this.uploadPath, formData, 'post', 'multipart/form-data');
     const formData = new FormData();
     formData.set('file', file);
-    const request = new Request("http://192.168.2.67:8080/oss/file/upload", { method: 'POST', body: formData })
+    const request = new Request("http://ying.ziranyueding.com/api/oss/file/upload", { method: 'POST', body: formData })
     return fetch(request)
   },
 
   delete(id: string): any {
-    const request = new Request(`http://192.168.2.67:8080/oss/file/delete?id=${id}`, { method: 'POST', body: id })
+    const request = new Request(`http://ying.ziranyueding.com/api/oss/file/delete?id=${id}`, { method: 'POST', body: id })
     return fetch(request)
   }
 };

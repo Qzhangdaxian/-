@@ -35,8 +35,7 @@
         <div class="user_info add_order-form" v-if="active === 1">
           <h6 class="record_code required">脱发史</h6>
           <van-cell-group>
-            <van-field v-model="alopeciaHistory" is-link readonly name="picker"
-            :right-icon="'arrow-down'" placeholder="请选择" @click="showPicker = true" />
+            <van-field v-model="alopeciaHistory" is-link readonly name="picker" :right-icon="'arrow-down'" placeholder="请选择" @click="showPicker = true" />
             <van-popup v-model:show="showPicker" position="bottom">
               <van-picker :columns="columns" @confirm="onConfirm" @cancel="showPicker = false" />
             </van-popup>
@@ -78,7 +77,7 @@
             <p>点击上传</p>
           </van-uploader>
           <div class="submit_next">
-            <van-button color="#919A74" :disabled="((alopeciaImg.length< 3 || !Boolean(alopeciaState) || !Boolean(alopeciaHistory)) || !isDis)" size="large" @click="onSubmit">提交 </van-button>
+            <van-button color="#919A74" :disabled="imgData.length < 3 || !Boolean(alopeciaState) || !Boolean(alopeciaHistory) || isDis" size="large" @click="onSubmit">提交</van-button>
           </div>
         </div>
       </van-form>
@@ -143,7 +142,7 @@ export default defineComponent({
       pattern: /^1[3456789]\d{9}$/,
       alopeciaImg: [] as Array<any>,
       imgData: [] as any,
-      isDis: true,
+      isDis: false,
     });
     const onClickStep = (active: any, isNext: boolean) => {
       if (!data.userName && !data.age) {
@@ -203,13 +202,21 @@ export default defineComponent({
       // });
     };
     const afterRead = (file: any) => {
-      let fileContent = file.file as File
+      let fileContent = file.file as File;
+      file.status = 'uploading';
+      file.message = '上传中...';
       orderService.upload(fileContent).then(
             (res: any) => res.json()
         ).then(
             (res: any) => {
+              if(res.success){
+                file.status= 'done';
                 data.imgData.push(res.data.id);
-                console.log(data.imgData, res.data)
+              }else{
+                file.status= 'failed';
+                file.message= '上传失败...';
+              }
+
             }
         )
       // file.status = 'success';

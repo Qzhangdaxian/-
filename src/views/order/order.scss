@@ -13,9 +13,9 @@ body {
     display: flex;
     justify-content: space-around;
     justify-items: center;
+    padding-top: vw(15);
     .van-search{
-      width: 95%;
-      padding-top: vw(15);
+      width: 90%;
     }
     span{
       line-height: vw(54);

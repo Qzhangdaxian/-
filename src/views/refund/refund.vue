@@ -4,7 +4,7 @@
       <van-search
         v-model="value"
         shape="round"
-        placeholder="客户姓名/身份证/产品管理编号"
+        placeholder="客户姓名"
         @search="onSearch(value)"
         @clear="onClear"
       />
@@ -18,6 +18,7 @@
       :onLoad="onLoadData"
       @page="onLoadData"
       :types="type"
+      :fatherMethod="fatherMethod"
     ></ListArr>
   </div>
 </template>
@@ -100,6 +101,7 @@ export default defineComponent({
       console.log(child.value)
     }
     const onLoadData = (param:any) => {
+      datas.list= []
       datas.state = param[1];
       if (refreshing.value) {
         datas.list = [];
@@ -122,7 +124,6 @@ export default defineComponent({
         if(param[0] == 1 && param[2]){
           datas.list = [];
           datas.list.concat(res.data.data)
-          console.log(datas.list)
         }
         if(datas.length){
           datas.list = datas.list.concat(res.data.data);
@@ -164,6 +165,9 @@ export default defineComponent({
       //   path: "/addOrder",
       // });
     }
+    function fatherMethod() {
+        onLoadData([1, datas.state])
+    }
     return {
       value,
       ...toRefs(datas),
@@ -174,7 +178,8 @@ export default defineComponent({
       onLoad,
       child,
       onLoadData,
-      type
+      type,
+      fatherMethod
     }
   }
 })

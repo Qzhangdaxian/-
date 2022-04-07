@@ -2,12 +2,15 @@
   <div class="record">
     <!--
   -->
-    <h-detail :isDetail="false" :dataSources="dataSources"
+    <h-detail
+      :isDetail="false"
+      :dataSources="dataSources"
       :alopeciaImgArray="alopeciaImgArray"
       :productNoImgArray="productNoImgArray"
       :refundHairImgArray="refundHairImgArray"
       :refundImgArray="refundImgArray"
-      :types="type"></h-detail>
+      :types="type"
+    ></h-detail>
     <div class="record_form" v-if="Number(type) === 4">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
@@ -34,7 +37,7 @@
       </van-uploader>
     </div>
     <div class="btn_submit">
-      <van-button round color="#919A74" size="large" type="primary" @click="record">提交补录</van-button>
+      <van-button round color="#919A74" size="large" type="primary" @click="record" :disabled="isDis">提交补录</van-button>
     </div>
   </div>
 </template>
@@ -65,19 +68,19 @@ export default defineComponent({
     const index = ref(0);
     const arrowText = ref("展开");
     const productNo = ref("");
-    const images = [require('../../assets/addOrder/destroy_one.png'),
-    require('../../assets/addOrder/destroy_two.png'),require('../../assets/addOrder/destroy_three.png')];
-    const imageArr = [require('../../assets/addOrder/order_code.png')];
+    const images = [require("../../assets/addOrder/destroy_one.png"), require("../../assets/addOrder/destroy_two.png"), require("../../assets/addOrder/destroy_three.png")];
+    const imageArr = [require("../../assets/addOrder/order_code.png")];
     const dataSources = ref();
-    let alopeciaImgArray =ref([] as any)
-    let productNoImgArray =ref([] as any)
-    let refundHairImgArray =ref([] as any)
-    let refundImgArray =ref([] as any)
+    let alopeciaImgArray = ref([] as any);
+    let productNoImgArray = ref([] as any);
+    let refundHairImgArray = ref([] as any);
+    let refundImgArray = ref([] as any);
     const data = reactive({
       imgData: [] as any,
       productNoImg: [] as Array<any>,
       alopeciaImg: [] as Array<any>,
       type: route.query.type,
+      isDis: false
     });
     function getDetail() {
       orderService.orderDetail({ id: route.query.id }).then((res) => {
@@ -110,23 +113,32 @@ export default defineComponent({
               }
             });
           }
-          res.data.data.identity = res.data.data.identity.slice(0, 12) +'****';
+          if(res.data.data.identity){
+            res.data.data.identity = res.data.data.identity.slice(0, 12) + "****"
+          }
           dataSources.value = res.data.data;
         }
       });
     }
     getDetail();
     function record() {
-      const param = {
-        id: Number(route.query.id),
-        productNo: productNo.value,
-        productNoImg: data.imgData.join(","),
-      };
-      orderService.orderRecord(param).then((res: any) => {
-        if (res.data.success) {
-          history.back();
-        }
-      });
+      data.isDis =true;
+      if(productNo.value && data.imgData.length> 0){
+        const param = {
+          id: Number(route.query.id),
+          productNo: productNo.value,
+          productNoImg: data.imgData.join(","),
+        };
+        orderService.orderRecord(param).then((res: any) => {
+          if (res.data.success) {
+            history.back();
+            data.isDis =false;
+          }
+        });
+      }else{
+        Toast('请检查产品编号和图片是否填写上传');
+        data.isDis =false;
+      }
     }
     const afterRead = (file: any) => {
       let fileContent = file.file as File;
@@ -134,8 +146,15 @@ export default defineComponent({
         .upload(fileContent)
         .then((res: any) => res.json())
         .then((res: any) => {
-          data.imgData.push(res.data.id);
-          console.log(data.imgData, res.data);
+          if (res.success) {
+            file.status = "done";
+            data.imgData.push(res.data.id);
+          } else {
+            file.status = "failed";
+            file.message = "上传失败...";
+          }
+          // data.imgData.push(res.data.id);
+          // console.log(data.imgData, res.data);
         });
     };
     const deteleImg: any = (file: any) => {
@@ -164,7 +183,7 @@ export default defineComponent({
       alopeciaImgArray,
       productNoImgArray,
       refundHairImgArray,
-      refundImgArray
+      refundImgArray,
     };
   },
 });

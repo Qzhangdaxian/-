@@ -36,7 +36,7 @@ import { defineComponent, ref } from "vue";
 import { Icon, Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import store from "@/store";
-
+document.title = '订单列表';
 export default defineComponent({
   name: "h-home",
   components: {
@@ -48,8 +48,12 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     let res: any = ref(route.query);
+    var reg = /^(\d{3})\d{4}(\d{4})$/;
+    if(res.value.userMobile){
+      res.value.userMobile = res.value?.userMobile.replace(reg, "$1****$2");
+    }
     if(!res.value.userMobile) {
-      Toast('token失效请重新登录');
+      Toast('认证失败请重新登录');
       router.push({
         path: '/login'
       })
@@ -68,6 +72,19 @@ export default defineComponent({
     //   this.alert('1111')
     //   return;
     // });
+    function titleUpdate() {
+      let iframe = document.createElement("iframe");
+      //设置标题
+      document.title = '订单列表';
+      //加载空iframe
+      iframe.src = "/";
+      document.body.appendChild(iframe);
+      //刷新后移除iframe
+      setTimeout(function () {
+        document.body.removeChild(iframe);
+      }, 0);
+    }
+    titleUpdate();
     return {
       pathRouter,
       res,

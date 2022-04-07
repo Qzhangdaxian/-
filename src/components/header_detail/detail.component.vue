@@ -8,7 +8,7 @@
 
       </template>
       <template #right>
-        <span :style="{ color: color[dataSources.state] }">{{ CheckStatePipe(dataSources?.state) }}</span>
+        <span :style="{ color: color[dataSources?.state] }">{{ CheckStatePipe(dataSources?.state) }}</span>
       </template>
     </van-nav-bar>
     <van-divider :style="{ color: '#CBCBCB' }" />
@@ -18,6 +18,14 @@
       </template>
       <template #right>
         <span class="nat_text_data">{{ dataSources?.userName }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
+        <span class="nav_text">用户电话</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ phoneY(dataSources?.phone) }}</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -40,8 +48,9 @@
       <template #left>
         <span class="nav_text">下单日期</span>
       </template>
-      <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSources?.createTime) || "暂无" }}</span>
+      <template #right >
+        <span class="nat_text_data" v-if="dataSources?.createTime">{{ dateFormat(dataSources?.createTime)}}</span>
+        <span class="nat_text_data">暂无</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -88,7 +97,8 @@
         <span class="nav_text">发货日期</span>
       </template>
       <template #right>
-        <span class="nat_text_data">{{ dateFormat(dataSources?.expressTime) || "暂无" }}</span>
+        <span class="nat_text_data" v-if="dataSources?.expressTime">{{ dateFormat(dataSources?.expressTime)}}</span>
+        <span class="nat_text_data">暂无</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -114,7 +124,7 @@
       <van-icon name="arrow-up" v-if="show" />
     </div>
   </div>
-  <div class="refund_text" v-if="isDetail">
+  <div class="refund_text" v-if="isDetail && dataSources?.refundReason">
     <div class="refund_cause">
       <van-nav-bar>
         <template #left>
@@ -128,7 +138,8 @@
         <van-image-preview :isdefault="true" :images="refundHairImgArray"></van-image-preview>
       </div>
     </div>
-    <div class="destroy">
+    {{refundImgArray?.lnegth}}
+    <div class="destroy" v-if="refundImgArray?.lnegth >= 1">
       <van-nav-bar>
         <template #left>
           <span class="nav_text">销毁图片</span>
@@ -161,13 +172,23 @@ export default defineComponent({
     alopeciaImgArray: [],
     productNoImgArray: [],
     refundHairImgArray: [],
-    refundImgArray: []
+    refundImgArray: [] as any
   },
   setup(props) {
     console.log(props.alopeciaImgArray)
     let dataSource = ref({} as any);
     let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
+    var reg = /^(\d{3})\d{4}(\d{4})$/;
+
+    const phoneY = (userMobile: string)=>{
+      if(userMobile){
+        const phone = userMobile.replace(reg, "$1****$2");
+        return phone
+      }else{
+        return  ''
+      }
+    }
     const data = ref([
       {
         name: "全部",
@@ -303,6 +324,7 @@ export default defineComponent({
       arrowTogger,
       CheckStatePipe,
       dateFormat,
+      phoneY
     };
   },
 });

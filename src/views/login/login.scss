@@ -2,22 +2,37 @@
 @import '../../styles/function.scss';
 .login{
   height: 100vh;
-  background-image: url('../../assets/login/login_bg.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 0 17px;
+  // background-image: url('../../assets/login/login_bg.png');
+  // background-repeat: no-repeat;
+  // background-size: 100% auto;
+  display: flex;
+  // justify-content: center;
+  flex-direction: column;
+  &_passWord{
+    padding: 0 vw(17);
+    width: calc(100% - vw(34));
+    margin: vw(40) auto 0;
+    // position: absolute;
+    // bottom: vw(58);
+  }
   .login_logo{
-    width: 120px;
+    // position: absolute;
+    // top: vw(-30);
+    // left: 0;
+    width: 100%;
     height: auto;
-    margin-top: vw(134);
-    margin-bottom: vw(106);
+    margin-top: vw(-30);
+    // margin-right: vw(17);
+    // margin-top: vw(134);
+    // margin-bottom: vw(106);
   }
   .login_welcome{
-    font-size: 26px;
+    font-size: vw(22);
     line-height: 37px;
-    color: #FFFFFF;
+    color: #919A74;
     text-align: left;
-    margin-bottom: vw(40);
+    margin-bottom: vw(16);
+    font-weight: bold;
   }
   .error_tip{
     color: red;
@@ -30,9 +45,9 @@
     font-size: 16px;
     color: #FFFFFF;
     border-radius: 25px;
-    opacity: 0.69;
-    background-color: #788453;
-    margin-top: vw(65);
+    // opacity: 0.69;
+    background-color: #919A74;
+    margin-top: vw(45);
     outline: none;
     border: none;
   }
@@ -44,14 +59,14 @@
     height: auto;
     position: absolute;
     right: 9px;
-    color: #FFFFFF;
+    color: #999999;
     line-height: vw(38);
   }
   .form_input{
-    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    border-bottom: 1px solid #999999;
   }
    .ant-input::placeholder {
-     color: #FFFFFF;
+     color: #999999;
    }
   .error_input{
     border-bottom: 1px solid red;
@@ -62,32 +77,36 @@
  }
   .password-seeker {
     line-height: vw(30);
-
-    color: #FFFFFF;
+    color: #999999;
     outline: none !important;
   }
   .password-seeker .anticon{
-    color: #FFFFFF;
+    color: #999999;
   }
   .ant-input{
     height: vw(50);
-    color: #FFFFFF;
+    color: #999999;
   }
   .policy{
     display: flex;
     justify-content: start;
-    color: #FFFFFF;
+    color: #999999;
     margin-top: vw(32);
     a{
-      color: #FFFFFF;
-      border-bottom: 1px solid #FFFFFF;
+      color: #A9B28E;
+      border-bottom: 1px solid #A9B28E;
     }
     .check_circle{
-          border-radius: 50%;
+      border-radius: 50%;
       // width: 12px;
       margin-right: vw(5);
       // opacity: .6;
-      background-color: #FFFFFF;
+      color: #999999;
+    }
+    .checked_circle{
+      width: vw(12);
+      color: #A9B28E;
+      margin-right: vw(5);
     }
   }
   .policy_tip{
