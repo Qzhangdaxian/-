@@ -13,7 +13,8 @@
         <a-input-password v-model:value="passWord" :class="{ form_input: !isPasswordError, error_input: isPasswordError }" placeholder="请输入密码" @change="onChangs('passWord')" />
       </div>
       <div class="policy">
-        <check-circle-outlined :style="{ color: iconColor }" class="check_circle" @click="toggleSgree" />
+        <check-circle-outlined v-if="!isActive" class="check_circle" @click="toggleSgree" />
+        <van-icon name="checked" class="checked_circle" v-if="isActive" @click="toggleSgree"/>
         <span>我已阅读并同意<a href="javascript:;" @click="openTips">《使用协议和隐私政策概要》</a> </span>
       </div>
       <h-button class="log_in" :disabled="isDis" @click="login">登录</h-button>
@@ -46,6 +47,7 @@ import { InputPassword } from "ant-design-vue/lib/input";
 import { CheckCircleOutlined } from "@ant-design/icons-vue";
 import { LoginService } from "./login.service";
 import { useRouter } from "vue-router";
+import { Icon } from "vant";
 import store from "@/store";
 // interface FormState {
 //   username: string;
@@ -64,6 +66,7 @@ export default defineComponent({
     "a-input-password": InputPassword,
     // CheckCircleTwoTone,
     "check-circle-outlined": CheckCircleOutlined,
+    'van-icon': Icon
     // EyeOutlined,
     // EyeInvisibleOutlined,
   },
@@ -80,6 +83,7 @@ export default defineComponent({
       isPasswordError: false,
       isDis: false,
       isPassword: false,
+      isActive: true
     });
     function disChange() {
       if (canPasswordVisible.iconColor === "#919A74" && userName.value && passWord.value) {
@@ -90,12 +94,11 @@ export default defineComponent({
       // }
     }
     function toggleSgree() {
-      canPasswordVisible.iconColor === "#999999" ? (canPasswordVisible.iconColor = "#919A74") : (canPasswordVisible.iconColor = "#999999");
+      canPasswordVisible.isActive = !canPasswordVisible.isActive
       disChange();
     }
     function login() {
-      console.log(canPasswordVisible.iconColor);
-      if (canPasswordVisible.isDis) {
+      if (!canPasswordVisible.isActive) {
         Toast("请勾选使用协议和政策概要");
         return;
       }

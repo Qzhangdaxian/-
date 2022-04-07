@@ -182,8 +182,12 @@ export default defineComponent({
     var reg = /^(\d{3})\d{4}(\d{4})$/;
 
     const phoneY = (userMobile: string)=>{
-      const phone = userMobile.replace(reg, "$1****$2");
-      return phone
+      if(userMobile){
+        const phone = userMobile.replace(reg, "$1****$2");
+        return phone
+      }else{
+        return  ''
+      }
     }
     const data = ref([
       {

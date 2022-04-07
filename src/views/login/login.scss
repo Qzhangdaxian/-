@@ -93,8 +93,8 @@
     color: #999999;
     margin-top: vw(32);
     a{
-      color: #999999;
-      border-bottom: 1px solid #999999;
+      color: #A9B28E;
+      border-bottom: 1px solid #A9B28E;
     }
     .check_circle{
       border-radius: 50%;
@@ -102,6 +102,11 @@
       margin-right: vw(5);
       // opacity: .6;
       color: #999999;
+    }
+    .checked_circle{
+      width: vw(12);
+      color: #A9B28E;
+      margin-right: vw(5);
     }
   }
   .policy_tip{

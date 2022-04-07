@@ -53,7 +53,7 @@ export default defineComponent({
       res.value.userMobile = res.value?.userMobile.replace(reg, "$1****$2");
     }
     if(!res.value.userMobile) {
-      Toast('token失效请重新登录');
+      Toast('认证失败请重新登录');
       router.push({
         path: '/login'
       })
