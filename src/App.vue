@@ -3,48 +3,21 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-document.title= '自然约定';
+document.title = "自然约定";
 export default defineComponent({
   name: "hsh-home",
   components: {},
   setup() {
-    document.write('<meta name="viewport" content="width=100%,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">');
-    // window.onload = function () {
-    //   document.addEventListener("touchstart", function (event) {
-    //     if (event.touches.length > 1) {
-    //       event.preventDefault();
-    //     }
-    //   });
-    //   document.addEventListener("gesturestart", function (event) {
-    //     event.preventDefault();
-    //   });
-    // };
-    // ios
-    // document.addEventListener(
-    //   "mousewheel",
-    //   function (e: any) {
-    //     e = e || window.event;
-    //     // if ((e.wheelDelta && event.ctrlKey) || e.detail) {
-    //     //   event.preventDefault();
-    //     // }
-    //   },
-    //   {
-    //     capture: false,
-    //     passive: false,
-    //   }
-    // );
-    // document.addEventListener(
-    //   "keydown",
-    //   function (event) {
-    //     if (
-    //       (event.ctrlKey === true || event.metaKey === true) &&
-    //       (event.keyCode === 61 || event.keyCode === 107 || event.keyCode === 173 || event.keyCode === 109 || event.keyCode === 187 || event.keyCode === 189)
-    //     ) {
-    //       event.preventDefault();
-    //     }
-    //   },
-    //   false
-    // );
+    window.onload = function () {
+      document.addEventListener("touchstart", function (event) {
+        if (event.touches.length > 1) {
+          event.preventDefault();
+        }
+      });
+      document.addEventListener("gesturestart", function (event) {
+        event.preventDefault();
+      });
+    };
     return;
   },
 });
