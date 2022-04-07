@@ -1,7 +1,8 @@
 <template>
   <div class="order">
     <form action="/" class="order_form">
-      <van-search v-model="value" shape="round" placeholder="客户姓名/身份证/产品管理编号" @update:model-value="onSearch(value)" @clear="onClear" />
+    <!--update:model-value-->
+      <van-search v-model="value" shape="round" placeholder="客户姓名" @search="onSearch(value)" @clear="onClear" />
       <span @click="isShow" v-if="Number(type) == 3">筛选</span>
     </form>
     <ListArr ref="child" :fatherMethod="fatherMethod" :data="data" :list="list" :btnType="btnType" :finished="finished" :onLoad="onLoadData" @page="onLoadData" :types="type"></ListArr>
@@ -192,8 +193,8 @@ export default defineComponent({
         .then((res) => {
           if(res.data && res.data.data){
             res.data.data.forEach((item: any) => {
-              datas.dataSoures.push(item.id)
-              datas.storeLists.push(item.dealerName)
+              datas.dataSoures.push(item.id);
+              datas.storeLists.push(item.storeName);
             })
           }
         });

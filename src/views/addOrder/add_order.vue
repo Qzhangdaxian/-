@@ -77,7 +77,7 @@
             <p>点击上传</p>
           </van-uploader>
           <div class="submit_next">
-            <van-button color="#919A74" :disabled="imgData.length < 3 || !Boolean(alopeciaState) || !Boolean(alopeciaHistory) || !isDis" size="large" @click="onSubmit">提交</van-button>
+            <van-button color="#919A74" :disabled="imgData.length < 3 || !Boolean(alopeciaState) || !Boolean(alopeciaHistory) || isDis" size="large" @click="onSubmit">提交</van-button>
           </div>
         </div>
       </van-form>
@@ -142,7 +142,7 @@ export default defineComponent({
       pattern: /^1[3456789]\d{9}$/,
       alopeciaImg: [] as Array<any>,
       imgData: [] as any,
-      isDis: true,
+      isDis: false,
     });
     const onClickStep = (active: any, isNext: boolean) => {
       if (!data.userName && !data.age) {

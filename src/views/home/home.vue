@@ -48,6 +48,10 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     let res: any = ref(route.query);
+    var reg = /^(\d{3})\d{4}(\d{4})$/;
+    if(res.value.userMobile){
+      res.value.userMobile = res.value?.userMobile.replace(reg, "$1****$2");
+    }
     if(!res.value.userMobile) {
       Toast('token失效请重新登录');
       router.push({

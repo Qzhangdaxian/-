@@ -22,6 +22,14 @@
     </van-nav-bar>
     <van-nav-bar>
       <template #left>
+        <span class="nav_text">用户电话</span>
+      </template>
+      <template #right>
+        <span class="nat_text_data">{{ phoneY(dataSources?.phone) }}</span>
+      </template>
+    </van-nav-bar>
+    <van-nav-bar>
+      <template #left>
         <span class="nav_text">身份证号</span>
       </template>
       <template #right>
@@ -130,6 +138,7 @@
         <van-image-preview :isdefault="true" :images="refundHairImgArray"></van-image-preview>
       </div>
     </div>
+    {{refundImgArray?.lnegth}}
     <div class="destroy" v-if="refundImgArray?.lnegth >= 1">
       <van-nav-bar>
         <template #left>
@@ -170,6 +179,12 @@ export default defineComponent({
     let dataSource = ref({} as any);
     let alopeciaHistory = ["", "1-3年", "3-5年", "5-7年", "7-10年", "10年以上"];
     let alopeciaState = ["", "M型脱发", "口型脱发", "O型脱发", "地中海脱发"];
+    var reg = /^(\d{3})\d{4}(\d{4})$/;
+
+    const phoneY = (userMobile: string)=>{
+      const phone = userMobile.replace(reg, "$1****$2");
+      return phone
+    }
     const data = ref([
       {
         name: "全部",
@@ -305,6 +320,7 @@ export default defineComponent({
       arrowTogger,
       CheckStatePipe,
       dateFormat,
+      phoneY
     };
   },
 });

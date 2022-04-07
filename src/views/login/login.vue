@@ -1,20 +1,24 @@
 <template>
   <div class="login page-layout">
+    <!--
+    -->
     <div>
-      <img src="../../assets/login/login_logo.png" alt="" class="login_logo" />
+      <img src="../../assets/login/login_bg.png" alt="" class="login_logo" />
     </div>
-    <p class="login_welcome">欢迎登录盈管理系统</p>
-    <p class="error_tip" v-if="isPassword">请检查看账号/密码是否有误</p>
-    <a-input v-model:value="userName" :class="{ form_input: !isUernameError, error_input: isUernameError }" :bordered="false" type="text" placeholder="请输入账号" @change="onChangs('userName')" />
-    <div class="password-seeker">
-      <a-input-password v-model:value="passWord" :class="{ form_input: !isPasswordError, error_input: isPasswordError }" placeholder="请输入密码" @change="onChangs('passWord')" />
-    </div>
-    <div class="policy">
-      <check-circle-outlined :style="{ color: iconColor }" class="check_circle" @click="toggleSgree" />
-      <span>我已阅读并同意<a href="javascript:;" @click="openTips">《使用协议和隐私政策概要》</a> </span>
+    <div class="login_passWord">
+      <p class="login_welcome">欢迎登录盈管理系统</p>
+      <p class="error_tip" v-if="isPassword">请检查看账号/密码是否有误</p>
+      <a-input v-model:value="userName" :class="{ form_input: !isUernameError, error_input: isUernameError }" :bordered="false" type="text" placeholder="请输入账号" @change="onChangs('userName')" />
+      <div class="password-seeker">
+        <a-input-password v-model:value="passWord" :class="{ form_input: !isPasswordError, error_input: isPasswordError }" placeholder="请输入密码" @change="onChangs('passWord')" />
+      </div>
+      <div class="policy">
+        <check-circle-outlined :style="{ color: iconColor }" class="check_circle" @click="toggleSgree" />
+        <span>我已阅读并同意<a href="javascript:;" @click="openTips">《使用协议和隐私政策概要》</a> </span>
+      </div>
+      <h-button class="log_in" :disabled="isDis" @click="login">登录</h-button>
     </div>
     <!--:disabled="true"-->
-    <h-button class="log_in" :disabled="isDis"  @click="login">登录</h-button>
     <div class="policy_tip" v-if="tipsIsOpen">
       <div class="policy_shade"></div>
       <div class="policy_text">
@@ -41,13 +45,13 @@ import { Input, Button } from "ant-design-vue";
 import { InputPassword } from "ant-design-vue/lib/input";
 import { CheckCircleOutlined } from "@ant-design/icons-vue";
 import { LoginService } from "./login.service";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import store from "@/store";
 // interface FormState {
 //   username: string;
 //   password: string;
 // }
-import storage from '@/model/storage'
+import storage from "@/model/storage";
 import { Toast } from "vant";
 document.title = "登录";
 export default defineComponent({
@@ -66,11 +70,11 @@ export default defineComponent({
   setup() {
     const userName = ref<string>("");
     const passWord = ref<string>("");
-    const router = useRouter()
+    const router = useRouter();
     // let iconColor = ref<string>("#");
     let canPasswordVisible = reactive({
       isOpen: false,
-      iconColor: "#A9B28E",
+      iconColor: "#919A74",
       tipsIsOpen: false,
       isUernameError: false,
       isPasswordError: false,
@@ -78,7 +82,7 @@ export default defineComponent({
       isPassword: false,
     });
     function disChange() {
-      if (canPasswordVisible.iconColor === "#A9B28E" && userName.value && passWord.value) {
+      if (canPasswordVisible.iconColor === "#919A74" && userName.value && passWord.value) {
         canPasswordVisible.isDis = false;
       }
       // else {
@@ -86,15 +90,13 @@ export default defineComponent({
       // }
     }
     function toggleSgree() {
-      canPasswordVisible.iconColor === "#FFFFFF" ? (canPasswordVisible.iconColor = "#A9B28E") :
-       (canPasswordVisible.iconColor = "#FFFFFF");
+      canPasswordVisible.iconColor === "#999999" ? (canPasswordVisible.iconColor = "#919A74") : (canPasswordVisible.iconColor = "#999999");
       disChange();
     }
     function login() {
-
-      console.log(canPasswordVisible.iconColor)
+      console.log(canPasswordVisible.iconColor);
       if (canPasswordVisible.isDis) {
-        Toast('请勾选使用协议和政策概要')
+        Toast("请勾选使用协议和政策概要");
         return;
       }
       canPasswordVisible.isDis = true;
@@ -123,26 +125,26 @@ export default defineComponent({
           }
           canPasswordVisible.isPasswordError = true;
         } else {
-          let data = res.data.data
+          let data = res.data.data;
           store.commit("set_token", data.token);
-          store.commit('setUserInfo', data.userMobile)
+          store.commit("setUserInfo", data.userMobile);
           router.push({
             path: "/",
             query: {
               // 1：财务 2 运营 3 经销商 4 门店
               type: data.userInfo.type,
               userMobile: data.userInfo.userMobile,
-              quota: data.userInfo.quota
-            }
+              quota: data.userInfo.quota,
+            },
           });
           //86400000
-          setInterval(()=>{
+          setInterval(() => {
             storage.removeAll();
             router.push({
-              path:'/login'
+              path: "/login",
             });
-            Toast('Token已过期请重新登录')
-          }, 86400000)
+            Toast("认证失败请重新登录");
+          }, 86400000);
         }
       });
     }

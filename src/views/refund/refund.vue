@@ -4,7 +4,7 @@
       <van-search
         v-model="value"
         shape="round"
-        placeholder="客户姓名/身份证/产品管理编号"
+        placeholder="客户姓名"
         @search="onSearch(value)"
         @clear="onClear"
       />
@@ -101,6 +101,7 @@ export default defineComponent({
       console.log(child.value)
     }
     const onLoadData = (param:any) => {
+      datas.list= []
       datas.state = param[1];
       if (refreshing.value) {
         datas.list = [];
@@ -123,7 +124,6 @@ export default defineComponent({
         if(param[0] == 1 && param[2]){
           datas.list = [];
           datas.list.concat(res.data.data)
-          console.log(datas.list)
         }
         if(datas.length){
           datas.list = datas.list.concat(res.data.data);
