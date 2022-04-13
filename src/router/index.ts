@@ -9,7 +9,8 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requireAuth: true,
       content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
-      title: '自然约定|盈管理系统'
+      title: '自然约定|盈管理系统',
+      keywords: '自然约定, 头皮生态管理专家'
     }
   },
   {
@@ -18,7 +19,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/login/login.vue'),
     meta: {
       title: '登录',
-      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
+      keywords: '自然约定, 头皮生态管理专家'
     }
   },
   {
@@ -107,7 +109,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '订单支付',
       requireAuth: true,
-      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
     }
   },
 ]
