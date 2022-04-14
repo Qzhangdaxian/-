@@ -4,6 +4,9 @@ body{
   background-color: #F9F9F9;
 }
 .record{
+  &_form .image_preview {
+    padding: 0;
+  }
   // padding-top: vw(32);
   .van-uploader {
     width: vw(335);

@@ -1,7 +1,7 @@
 <template>
   <div class="record">
-    <!--
-  -->
+    <!---->
+
     <h-detail
       :isDetail="false"
       :dataSources="dataSources"
@@ -11,6 +11,7 @@
       :refundImgArray="refundImgArray"
       :types="type"
     ></h-detail>
+
     <div class="record_form" v-if="Number(type) === 4">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
@@ -28,7 +29,7 @@
     <div class="record_form" v-if="Number(type) === 3">
       <h6 class="record_code model_state required">上传销毁照片</h6>
       <div class="image-preview">
-        <van-image-preview :isdefault="false" :images="images"></van-image-preview>
+        <van-image-preview :isdefault="true" :images="images"></van-image-preview>
       </div>
       <p class="ARequired examples">请按照上述示例图标准拍照上传</p>
       <van-uploader v-model="alopeciaImg" :after-read="afterRead" :before-delete="deteleImg" :upload-icon="'back-top'" :max-count="1">
