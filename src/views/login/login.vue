@@ -66,7 +66,7 @@ export default defineComponent({
     "a-input-password": InputPassword,
     // CheckCircleTwoTone,
     "check-circle-outlined": CheckCircleOutlined,
-    'van-icon': Icon
+    'van-icon': Icon,
     // EyeOutlined,
     // EyeInvisibleOutlined,
   },

@@ -16,13 +16,13 @@
           <van-cell-group>
             <van-field v-model="userName" :rules="[{ required: true, message: '请填写客户姓名' }]" placeholder="请输入" />
           </van-cell-group>
-          <h6 class="record_code">身份证号</h6>
+          <h6 class="record_code">身份证号  <em>(为保护客户隐私信息，此处仅提供身份证前12位即可)</em></h6>
           <van-cell-group>
-            <van-field v-model="identity" placeholder="请输入客户身份证号钱前12位" />
+            <van-field v-model="identity"  type="number" maxlength="12"  placeholder="请输入客户身份证号前12位" />
           </van-cell-group>
           <h6 class="record_code">客户联系电话</h6>
           <van-cell-group>
-            <van-field v-model="phone" :length="11" :rules="[{ pattern: pattern, message: '手机号格式错误' }]" placeholder="请输入" />
+            <van-field v-model="phone" type="number" maxlength="11" :rules="[{ pattern: pattern, message: '手机号格式错误' }]" placeholder="请输入" />
           </van-cell-group>
           <h6 class="record_code required">年龄</h6>
           <van-cell-group>

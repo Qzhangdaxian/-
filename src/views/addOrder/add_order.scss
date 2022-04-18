@@ -69,7 +69,11 @@
       font-size: vw(16);
       color: #333333;
       margin-bottom: vw(9);
-
+      em{
+        font-style: normal;
+        font-size: vw(10);
+        color: #E41818;
+      }
     }
 
     .van-cell-group {
