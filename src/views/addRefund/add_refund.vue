@@ -27,11 +27,11 @@
 
         <h6 class="record_code required">身份证号</h6>
         <van-cell-group>
-          <van-field v-model="refundIdentity" :length="18" :rules="[{ pattern: pattern, message: '身份证号格式不对' }]" placeholder="请输入" />
+          <van-field v-model="refundIdentity" type="number" maxlength="18" :rules="[{ pattern: pattern, message: '身份证号格式不对' }]" placeholder="请输入" />
         </van-cell-group>
         <h6 class="record_code required">客户手机号</h6>
         <van-cell-group>
-          <van-field v-model="refundPhone" :length="11" :rules="[{ pattern: patternPhone, message: '手机号格式错误' }]" placeholder="请输入" />
+          <van-field v-model="refundPhone" type="number" maxlength="11" :rules="[{ pattern: patternPhone, message: '手机号格式错误' }]" placeholder="请输入" />
         </van-cell-group>
         <h6 class="record_code model_state required">上传客户照片</h6>
         <div class="image-preview">
@@ -190,6 +190,9 @@ export default defineComponent({
       };
       if (data.refundReason.length == 0 || data.imgData.length == 0 || data.refundPhone.length == 0 || data.refundIdentity.length == 0) {
         Toast("带*号的是必填项");
+        return;
+      } else if (!data.pattern.test(data.refundIdentity)) {
+        Toast("请填写正确的身份证号");
         return;
       } else if (!data.patternPhone.test(data.refundPhone)) {
         Toast("请填写正确的手机号");

@@ -15,7 +15,7 @@
     <div class="record_form" v-if="Number(type) === 4">
       <h6 class="record_code required">产品管理编号</h6>
       <van-cell-group>
-        <van-field v-model="productNo" placeholder="请输入" />
+        <van-field v-model="productNo" type="number" maxlength="16" placeholder="请输入" />
       </van-cell-group>
       <div class="imgs">
         <van-image-preview :isdefault="false" :images="imageArr"></van-image-preview>
@@ -130,6 +130,10 @@ export default defineComponent({
           productNo: productNo.value,
           productNoImg: data.imgData.join(","),
         };
+        if(productNo.value.length !== 16){
+          Toast('请输入十六位产品编码');
+          return
+        }
         orderService.orderRecord(param).then((res: any) => {
           if (res.data.success) {
             history.back();

@@ -162,6 +162,10 @@ export default defineComponent({
     const onNext = () => {
       if (data.userName && data.age) {
         // data.active = 1;
+        if(data.phone && data.identity.length !== 12){
+          Toast('请输入身份证前十二位号码');
+          return;
+        }
         if (data.phone && !data.pattern.test(data.phone)) {
           Toast("请填写正确的手机号");
           return;
