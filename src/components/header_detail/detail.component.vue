@@ -50,7 +50,7 @@
       </template>
       <template #right >
         <span class="nat_text_data" v-if="dataSources?.createTime">{{ dateFormat(dataSources?.createTime)}}</span>
-        <span class="nat_text_data">暂无</span>
+        <span class="nat_text_data"  v-if="!dataSources?.createTime">暂无</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
@@ -98,7 +98,7 @@
       </template>
       <template #right>
         <span class="nat_text_data" v-if="dataSources?.expressTime">{{ dateFormat(dataSources?.expressTime)}}</span>
-        <span class="nat_text_data">暂无</span>
+        <span class="nat_text_data" v-if="!dataSources?.expressTime">暂无</span>
       </template>
     </van-nav-bar>
     <van-nav-bar>
